@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
+  calendar_strip:
+    dependency: "direct main"
+    description:
+      name: calendar_strip
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   characters:
     dependency: transitive
     description:
@@ -103,7 +110,7 @@ packages:
     source: hosted
     version: "1.1.1"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"

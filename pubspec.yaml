@@ -30,9 +30,11 @@ dependencies:
   page_transition: ^1.1.7+5
   intl_phone_field: ^1.4.2
   cupertino_icons: ^1.0.0
+  calendar_strip: ^1.0.6
   map_launcher: ^1.1.2
   google_fonts: ^1.1.1
   pinput: ^0.2.6
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:

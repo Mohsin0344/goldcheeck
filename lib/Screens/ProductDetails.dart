@@ -1,15 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Models/AddToCart.dart';
+import 'package:gold/Screens/CartScreen.dart';
 import 'package:gold/SizeConfig.dart';
+import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
+
+import 'CustomDialog.dart';
 
 class ProductDetails extends StatefulWidget {
+  var name;
+  var image;
+  var description;
+  var price;
+  var accessToken;
+  var productID;
+  ProductDetails({
+    this.name,
+    this.image,
+    this.description,
+    this.price,
+    this.accessToken,
+    this.productID
+});
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  AddToCart _addToCart;
+  Future<AddToCart> addToCartNow() async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers:
+    {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    },
+        body:
+        {
+          "accessToken" : "${widget.accessToken}",
+          "action" : "cart/addToCart",
+          "id_product": "${widget.productID}",
+          "quantity" : "2"
+        });
+    if(response.statusCode == 200){
+      final String responseString = response.body;
+      // print(responseString.toString());
+      return addToCartFromJson(responseString);
+    }else{
+      print(response.statusCode);
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    print("At Product details xxxxxxxxxxxxx ${widget.accessToken}");
     return Material(
       child: SafeArea(
         child: Scaffold(
@@ -20,7 +63,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                height: SizeConfig.heightMultiplier * 8,
                child: Center(
                  child: Text(
-                   'Shampoo',
+                   '${widget.name}',
                    style: CustomFonts.googleBodyFont(
                      color: Colors.white,
                      fontSize: SizeConfig.textMultiplier * 4
@@ -42,11 +85,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                ),
                height: SizeConfig.heightMultiplier * 32,
                decoration: BoxDecoration(
-                   image: DecorationImage(
-                       image: AssetImage('images/face.jpg'),
-                       fit: BoxFit.cover
-                   )
+                   // image: DecorationImage(
+                   //     image: AssetImage('images/face.jpg'),
+                   //     fit: BoxFit.cover
+                   // )
                ),
+               child: Image.network(widget.image, fit: BoxFit.cover,),
              ),
              Padding(
                padding: EdgeInsets.only(
@@ -61,7 +105,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                        child: Container(
                          alignment: Alignment.centerLeft,
                          child: Text(
-                           'Shampoo',
+                           '${widget.name}',
                            style: CustomFonts.googleBodyFont(
                              color: Colors.white,
                              fontWeight: FontWeight.bold,
@@ -74,7 +118,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                        child: Container(
                          alignment: Alignment.centerLeft,
                          child: Text(
-                           r'$ 90.00',
+                           '\$ ${widget.price}',
                            style: CustomFonts.googleBodyFont(
                              color: Colors.white,
                              fontWeight: FontWeight.w400,
@@ -102,7 +146,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         // color: Colors.red,
                          alignment: Alignment.topLeft,
                          child: Text(
-                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                           " ${widget.description}",
                            style: CustomFonts.googleBodyFont(
                              color: Colors.white,
                              fontWeight: FontWeight.w200,
@@ -140,8 +184,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
                 color: Color(0xff00A9A5),
-                onPressed: (){
-
+                onPressed: () async{
+                  final AddToCart addToCart = await addToCartNow();
+                  setState(() {
+                    _addToCart = addToCart;
+                  });
+                  if (_addToCart.status == 1) {
+                    print('Product addded to cart successfuly aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                    Navigator.push(context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: CartScreen(accessToken: widget.accessToken)));
+                  }else {
+                    showDialog(context: context,
+                        builder: (BuildContext context){
+                          return CustomDialogBox(message: _addToCart.message,icon: Icons.error_outline,);
+                        }
+                    );
+                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),

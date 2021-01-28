@@ -561,14 +561,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
-
+import 'package:gold/Models/GetServiceList.dart';
 import 'package:gold/Screens/AppointmentDetailsScreen.dart';
 import 'package:gold/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'package:http/http.dart' as http;
 import 'CalendarScreen.dart';
 
 class AppointmentScreen extends StatefulWidget {
+  var accessToken;
+  AppointmentScreen({
+    this.accessToken
+});
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
@@ -579,10 +583,30 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   var padding = CustomSizes.padding;
   bool checked;
   List<bool> checkedIndex = [false,false];
-
+  GetServiceList _getServiceList;
+  Future<GetServiceList> getList() async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers:
+    {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    },
+        body:
+        {
+          "accessToken" : widget.accessToken,
+          "action" : "services/getServicesList"
+        });
+    if(response.statusCode == 200){
+      final String responseString = response.body;
+      print(responseString.toString());
+      return getServiceListFromJson(responseString);
+    }else{
+      print(response.statusCode);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('At appointment screen **************** ${widget.accessToken}');
     return  SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -913,150 +937,165 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 fit: FlexFit.loose,
                 child: Container(
                   height: SizeConfig.heightMultiplier * 85,
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.widthMultiplier * 1.5
-                    ),
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, index){
-                      checkedIndex.add(false);
-                      return Container(
-                        margin: EdgeInsets.only(
-                            bottom: padding
-                        ),
-                        height: height * 0.30,
-                        // width: width * 0.25,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(padding),
-                            color: Colors.black
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: Container(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                        flex: 80,
-                                        child: Container(
-                                          padding: EdgeInsets.all(
-                                              padding
-                                          ),
-                                          child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                      height: height * 0.08,
-                                                      margin: EdgeInsets.only(
-                                                          top: padding * 0.3,
-                                                          bottom: padding * 0.3,
-                                                          left: padding * 0.3,
-                                                          right: padding * 0.3
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(padding * 0.5),
-                                                        border:  Border.all(
-                                                          // color: Colors.grey,
-                                                          width: 1,
-                                                        ) ,
-                                                      ),
-                                                      child: Theme(
-                                                        data: ThemeData(unselectedWidgetColor: Colors.grey),
-                                                        child: Checkbox(
-                                                          value: checkedIndex[index],
-                                                          checkColor: Colors.white,
-                                                          activeColor: Color(0xff00A9A5),
-                                                          focusColor: Colors.grey,
-                                                          hoverColor: Colors.white,
-
-                                                          onChanged: (bool val){
-                                                            setState(() {
-                                                              checkedIndex[index] = val;
-                                                            });
-                                                          },
-                                                        ),
-                                                      )
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: padding
-                                                    ),
-                                                    alignment: Alignment.centerLeft,
-                                                    child: Text(
-                                                      'Haircut',
-                                                      style: CustomFonts.googleBodyFont(
-                                                          color: Colors.white
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      '30 minute',
-                                                      style: CustomFonts.googleBodyFont(
-                                                          color: Colors.grey
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Container(
-                                                    alignment: Alignment.centerRight,
-                                                    child: Text(
-                                                      '18.00 kd',
-                                                      style: CustomFonts.googleBodyFont(
-                                                        color: Color(0xff00A9A5),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]
-                                          ),
-                                        )
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: padding * 6
-                                          ),
-                                          color: Colors.white,
-                                        )
-                                    ),
-                                  ],
-                                ),
+                  child: FutureBuilder(
+                    future: getList(),
+                    builder: (BuildContext context,AsyncSnapshot<GetServiceList> snapshot){
+                      if(snapshot.hasData){
+                        return  ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.widthMultiplier * 1.5
+                          ),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.data.length,
+                          itemBuilder: (BuildContext context, index){
+                            checkedIndex.add(false);
+                            return Container(
+                              margin: EdgeInsets.only(
+                                  bottom: padding
                               ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Container(
-                                  margin: EdgeInsets.only(
-                                      top: padding,
-                                      left: padding * 6,
-                                      right: padding * 6
+                              height: height * 0.30,
+                              // width: width * 0.25,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(padding),
+                                  color: Colors.black
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 5,
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                              flex: 80,
+                                              child: Container(
+                                                padding: EdgeInsets.all(
+                                                    padding
+                                                ),
+                                                child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            height: height * 0.08,
+                                                            margin: EdgeInsets.only(
+                                                                top: padding * 0.3,
+                                                                bottom: padding * 0.3,
+                                                                left: padding * 0.3,
+                                                                right: padding * 0.3
+                                                            ),
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(padding * 0.5),
+                                                              border:  Border.all(
+                                                                // color: Colors.grey,
+                                                                width: 1,
+                                                              ) ,
+                                                            ),
+                                                            child: Theme(
+                                                              data: ThemeData(unselectedWidgetColor: Colors.grey),
+                                                              child: Checkbox(
+                                                                value: checkedIndex[index],
+                                                                checkColor: Colors.white,
+                                                                activeColor: Color(0xff00A9A5),
+                                                                focusColor: Colors.grey,
+                                                                hoverColor: Colors.white,
+
+                                                                onChanged: (bool val){
+                                                                  setState(() {
+                                                                    checkedIndex[index] = val;
+                                                                  });
+                                                                },
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 5,
+                                                        child: Container(
+                                                          padding: EdgeInsets.only(
+                                                              left: padding
+                                                          ),
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Text(
+                                                            "${snapshot.data.data[index].title}",
+                                                            style: CustomFonts.googleBodyFont(
+                                                                color: Colors.white
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Container(
+                                                          alignment: Alignment.center,
+                                                          child: Text(
+                                                            '${snapshot.data.data[index].timeConsuming} Minutes',
+                                                            style: CustomFonts.googleBodyFont(
+                                                                color: Colors.grey,
+                                                              fontSize: SizeConfig.textMultiplier * 2
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Container(
+                                                          alignment: Alignment.centerRight,
+                                                          child: Text(
+                                                            '\$ ${snapshot.data.data[index].charges}',
+                                                            style: CustomFonts.googleBodyFont(
+                                                              color: Color(0xff00A9A5),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]
+                                                ),
+                                              )
+                                          ),
+                                          Expanded(
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: padding * 6
+                                                ),
+                                                color: Colors.white,
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  child: Text(
-                                    'All haircuts include eyebrows, nose and ears groomed',
-                                    style: CustomFonts.googleBodyFont(
-                                      color: Colors.white.withOpacity(0.6),
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 16,
+                                  Expanded(
+                                    flex: 5,
+                                    child: Container(
+                                      alignment: Alignment.topLeft,
+                                        margin: EdgeInsets.only(
+                                            top: padding,
+                                            left: padding * 6,
+                                            right: padding * 6
+                                        ),
+                                        child: Text(
+                                          '${snapshot.data.data[index].fullDescription}',
+                                          style: CustomFonts.googleBodyFont(
+                                            color: Colors.white.withOpacity(0.6),
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        )
                                     ),
                                   )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      );
+                            );
+                          },
+                        );
+                      }else{
+                        return Center(
+                          child: CircularProgressIndicator()
+                        );
+                      }
                     },
                   ),
                 ),

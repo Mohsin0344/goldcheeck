@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Models/verificationOTP.dart';
 import 'package:gold/Screens/VerificationSuccessScreen.dart';
 import 'package:gold/SizeConfig.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:pinput/pin_put/pin_put_state.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
+
+import 'CustomDialog.dart';
 
 class PhoneVerification extends StatefulWidget {
-  var phoneNumber = '+923449996419';
-  PhoneVerification([this.phoneNumber]);
+  var mobileNumber;
+  var accessToken;
+  PhoneVerification({this.mobileNumber,
+  this.accessToken});
 
   @override
   _PhoneVerificationState createState() => _PhoneVerificationState();
@@ -28,8 +34,32 @@ class _PhoneVerificationState extends State<PhoneVerification> {
       color: Color(0xff00A9A5)
     ),
   );
+
+  VerificationOtp _verificationOTP;
+  Future<VerificationOtp> verifyOTP(String verificationCode) async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers:
+    {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    },
+        body:
+        {
+          "accessToken" : "${widget.accessToken}",
+          "action" : "customer/verificationOtp",
+          "mobileNumber" : "${widget.mobileNumber}",
+          "verificationCode" : verificationCode
+        });
+    if(response.statusCode == 200){
+      final String responseString = response.body;
+      print(responseString.toString());
+      return verificationOtpFromJson(responseString);
+    }else{
+      print(response.statusCode);
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    print("At Page Phone Verification ************${widget.accessToken}");
     return SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -123,7 +153,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                           ),
                           children: [
                             TextSpan(
-                              text: '    ${widget.phoneNumber}',
+                              text: '    ${widget.mobileNumber}',
                               style: CustomFonts.googleBodyFont(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -169,12 +199,23 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                         horizontal: padding * 2
                       ),
                       child: RaisedButton(
-                          onPressed: (){
-                            print('clicked');
-                            Navigator.push(context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: VerificationSuccess()));
+                          onPressed: () async{
+                            final VerificationOtp verificationOtp = await verifyOTP(_pinPutController.text);
+                            setState(() {
+                              _verificationOTP = verificationOtp;
+                            });
+                            if (_verificationOTP.status == 1) {
+                              Navigator.push(context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: VerificationSuccess(accessToken: widget.accessToken)));
+                            }else {
+                              showDialog(context: context,
+                                  builder: (BuildContext context){
+                                    return CustomDialogBox(message: _verificationOTP.message,icon: Icons.error_outline,);
+                                  }
+                              );
+                            }
                           },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(padding)

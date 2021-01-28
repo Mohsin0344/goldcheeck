@@ -4,6 +4,10 @@ import 'package:gold/Screens/PhoneVerification.dart';
 import 'package:gold/SizeConfig.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
+import 'package:gold/Models/createUserWithMobile.dart';
+
+import 'CustomDialog.dart';
 
 class LogInWitPhone extends StatefulWidget {
   @override
@@ -14,7 +18,28 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
   var height = SizeConfig.imageSizeMultiplier * 100;
   var width = SizeConfig.imageSizeMultiplier * 200;
   var padding = CustomSizes.padding;
-
+  TextEditingController phoneNumber = TextEditingController();
+  var pNumber;
+  CreateUserWithMobile _createUserWithMobile;
+  Future<CreateUserWithMobile> createUser(String mobileNumber) async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers:
+    {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    },
+        body:
+        {
+      "action" : "customer/createUserWithMobile",
+      "mobileNumber" : "$mobileNumber"
+    });
+    if(response.statusCode == 200){
+      final String responseString = response.body;
+      print(responseString.toString());
+      return createUserWithMobileFromJson(responseString);
+    }else{
+      print(response.statusCode);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -102,6 +127,7 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                               padding
                           ),
                           child: IntlPhoneField(
+                            controller: phoneNumber,
                             decoration: InputDecoration(
                                 labelText: 'Phone Number',
                                 border: OutlineInputBorder(
@@ -116,7 +142,11 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                             ),
                             onChanged: (phone) {
                               print(phone.completeNumber);
+                              setState(() {
+                                pNumber = phone.completeNumber;
+                              });
                             },
+
                           ),
                         ),
                       ),
@@ -148,12 +178,25 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                                 fontSize: 20
                             ),
                           ),
-                          onPressed: (){
-                            Navigator.push(context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: PhoneVerification()));
-                          },
+                          onPressed: () async {
+                            // print(" this is ---------- :$pNumber");
+                            final CreateUserWithMobile createuserwithmobile = await createUser(pNumber);
+                            setState(() {
+                              _createUserWithMobile = createuserwithmobile;
+                            });
+                            if (_createUserWithMobile.status == 1) {
+                              Navigator.push(context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: PhoneVerification(mobileNumber: pNumber, accessToken: _createUserWithMobile.data.accessToken,)));
+                            }else {
+                              showDialog(context: context,
+                                  builder: (BuildContext context){
+                                    return CustomDialogBox(message: _createUserWithMobile.message,icon: Icons.error_outline,);
+                                  }
+                              );
+                            }
+                          }
                         ),
                       ),
                     ),

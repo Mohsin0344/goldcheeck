@@ -7,6 +7,16 @@ import '../SizeConfig.dart';
 import 'ProductsScreen.dart';
 
 class HomeScreenView extends StatefulWidget {
+  var fullName;
+  int isVIP;
+  var walletCredit;
+  var accessToken;
+  HomeScreenView({
+    this.fullName,
+    this.isVIP,
+    this.walletCredit,
+    this.accessToken
+});
   @override
   _StateHomeScreenView createState() => _StateHomeScreenView();
 }
@@ -18,6 +28,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
 
   @override
   Widget build(BuildContext context) {
+    print("At home screen view ${widget.accessToken}");
     return ListView(
       children: [
         Container(
@@ -71,7 +82,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                 flex: 3,
                                 child: Container(
                                   child: Text(
-                                    'Jasem Dashti',
+                                    '${widget.fullName}',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -82,26 +93,29 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                 ),
                               ),
                               Expanded(
-                                child: Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(padding),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(padding),
-                                        border: Border.all(
-                                            color: Colors.white,
-                                            width: 0.3
+                                child: Visibility(
+                                  visible: widget.isVIP != 0 ? true:false,
+                                  child: Container(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(padding),
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 30,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(padding),
+                                          border: Border.all(
+                                              color: Colors.white,
+                                              width: 0.3
+                                          ),
+                                          color: Color(0xff2DB7B4),
                                         ),
-                                        color: Color(0xff2DB7B4),
-                                      ),
-                                      child: Text(
-                                        'VIP',
-                                        style: CustomFonts.googleBodyFont(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
+                                        child: Text(
+                                          'VIP',
+                                          style: CustomFonts.googleBodyFont(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -114,7 +128,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: Container(
+                        child: widget.isVIP!=0?Container(
                           alignment: Alignment.topLeft,
                           child: RichText(
                             text: TextSpan(
@@ -131,6 +145,14 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                       )
                                   )
                                 ]
+                            ),
+                          ),
+                        ): Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Upgrade to VIP',
+                            style: CustomFonts.googleBodyFont(
+                              color: Colors.white
                             ),
                           ),
                         ),
@@ -170,7 +192,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                             ),
                           ),
                           child: Text(
-                            'Loyalty credit:',
+                            'Wallet credit:',
                             style: CustomFonts.googleBodyFont(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -193,7 +215,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                             ),
                             child: RichText(
                               text: TextSpan(
-                                  text: '150',
+                                  text: '${widget.walletCredit}',
                                   style: CustomFonts.googleBodyFont(
                                       color: Color(0xff00A9A5),
                                       fontWeight: FontWeight.bold,
@@ -473,7 +495,9 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                     Navigator.push(context,
                                         PageTransition(
                                             type: PageTransitionType.rightToLeft,
-                                            child: ProductDetails()));
+                                            child: ProductDetails(
+                                              accessToken: widget.accessToken,
+                                            )));
                                   },
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(padding * 6)
@@ -529,7 +553,9 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                     Navigator.push(context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: ProductsScreen()));
+                            child: ProductsScreen(
+                              accessToken: widget.accessToken,
+                            )));
                   },
                   child: Container(
                     alignment: Alignment.centerRight,
@@ -567,7 +593,9 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                 Navigator.push(context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
-                        child: ProductDetails()));
+                        child: ProductDetails(
+                          accessToken: widget.accessToken,
+                        )));
               },
               child: Container(
                 padding: EdgeInsets.all(

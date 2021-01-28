@@ -7,6 +7,10 @@ import 'package:page_transition/page_transition.dart';
 import 'ProfileInfoScreen.dart';
 
 class VerificationSuccess extends StatefulWidget {
+  var accessToken;
+  VerificationSuccess({
+   this.accessToken
+});
   @override
   _VerificationSuccessState createState() => _VerificationSuccessState();
 }
@@ -17,6 +21,7 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
   var padding = CustomSizes.padding;
   @override
   Widget build(BuildContext context) {
+    print("At page Verification Success**********${widget.accessToken}");
     return  SafeArea(
       child: Scaffold(
         body: Container(
@@ -78,7 +83,7 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                     Navigator.push(context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: ProfileInfo()));
+                            child: ProfileInfo(accessToken: widget.accessToken,)));
                   },
                   color: Color(0xff00A9A5),
                   child: Text('Complete your Profile',

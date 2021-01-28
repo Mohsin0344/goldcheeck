@@ -1,3 +1,4 @@
+import 'package:calendar_strip/calendar_strip.dart';
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Screens/AppointmentDetailsScreen.dart';
@@ -13,6 +14,41 @@ class _CalendarScreenState extends State<CalendarScreen> {
   var height = SizeConfig.heightMultiplier * 50;
   var width = SizeConfig.widthMultiplier * 100;
   var padding = CustomSizes.padding;
+  DateTime startDate = DateTime.now().subtract(Duration(days: 2));
+  DateTime endDate = DateTime.now().add(Duration(days: 10));
+  DateTime selectedDate = DateTime.now().subtract(Duration(days: 0));
+  List<DateTime> markedDates = [
+    DateTime.now().subtract(Duration(days: 1)),
+    DateTime.now().subtract(Duration(days: 2)),
+    DateTime.now().add(Duration(days: 4))
+  ];
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  onSelect(data) {
+    print("Selected Date -> $data");
+  }
+
+  onWeekSelect(data) {
+    print("Selected week starting at -> $data");
+  }
+
+  _monthNameWidget(monthName) {
+    return Container(
+      child: Text(
+        monthName,
+        style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+      padding: EdgeInsets.only(top: 8, bottom: 4),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +323,58 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 top: padding
             ),
             height:  height * 1,
-            color: Color(0xff3B3F52),
+            // color: Color(0xff3B3F52),
+           //   color: Colors.white,
+            child:  Column(
+              children: [
+                Expanded(
+                  child: Container(
+                   child: CalendarStrip(
+                      startDate: startDate,
+                      endDate: endDate,
+                      selectedDate: selectedDate,
+                      onDateSelected: onSelect,
+                      onWeekSelected: onWeekSelect,
+                      dateTileBuilder: dateTileBuilder,
+                      iconColor: Colors.white,
+                      monthNameWidget: _monthNameWidget,
+                      //markedDates: markedDates,
+                      containerDecoration: BoxDecoration(color: Colors.black12),
+                      addSwipeGesture: true,
+                      containerHeight: 100,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Color(0xff3B3F52),
+                                width: 1
+                            )
+                        )
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: Center(
+                      child: Text('Time from API',
+                      style: CustomFonts.googleBodyFont(
+                        color: Colors.white
+                      ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xff3B3F52),
+                  width: 1
+                )
+              )
+            ),
           ),
           Container(
             height: height * 0.15,
@@ -438,6 +525,54 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       ),
     );
+  }
+  dateTileBuilder(
+      date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
+    bool isSelectedDate = date.compareTo(selectedDate) == 0;
+    Color fontColor = isDateOutOfRange ? Colors.white.withOpacity(0.3) : Colors.white;
+    TextStyle normalStyle =
+    TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+    TextStyle selectedStyle = TextStyle(
+        fontSize: 17, fontWeight: FontWeight.w800, color: Colors.white);
+    TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
+    List<Widget> _children = [
+      Text(dayName, style: dayNameStyle),
+      Text(date.day.toString(),
+          style: !isSelectedDate ? normalStyle : selectedStyle),
+    ];
+
+    if (isDateMarked == true) {
+      _children.add(getMarkedIndicatorWidget());
+    }
+
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 150),
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 5),
+      decoration: BoxDecoration(
+        color: !isSelectedDate ? Color(0xff3B3F52) : Color(0xff00A9A5),
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+       // shape: BoxShape.circle
+      ),
+      child: Column(
+        children: _children,
+      ),
+    );
+  }
+  getMarkedIndicatorWidget() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        margin: EdgeInsets.only(left: 1, right: 1),
+        width: 7,
+        height: 7,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+      ),
+      Container(
+        width: 7,
+        height: 7,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+      )
+    ]);
   }
 }
 

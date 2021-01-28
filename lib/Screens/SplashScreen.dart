@@ -129,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          'Sign up of Log in with:',
+                          'Sign up or Log in with:',
                           style: CustomFonts.googleBodyFont(
                               color: Colors.white.withOpacity(0.7)
                           ),

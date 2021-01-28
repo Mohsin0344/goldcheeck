@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Screens/HomeScreenView.dart';
 import 'package:gold/Screens/LocatioScreen.dart';
+import 'package:gold/Screens/ProfileScreen.dart';
 import 'package:gold/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -11,6 +12,16 @@ import 'ProductsScreen.dart';
 //import 'package:gold/Screens/test.dart';
 
 class HomeScreen extends StatefulWidget {
+  var fullName;
+  int isVIP;
+  var walletCredit;
+  var accessToken;
+  HomeScreen({
+    this.fullName,
+    this.isVIP,
+    this.walletCredit,
+    this.accessToken
+  });
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -268,19 +279,15 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
           children: <Widget>[
-            HomeScreenView(),
-            LocationScreen(),
-           CartScreen(),
-            Center(
-              child: Container(
-                child: Text('Design not available',
-                  style: CustomFonts.googleBodyFont(
-                      color: Colors.white,
-                      fontSize: 40
-                  ),
-                ),
-              ),
+            HomeScreenView(
+              fullName: widget.fullName,
+              isVIP: widget.isVIP,
+              walletCredit: widget.walletCredit,
+              accessToken: widget.accessToken,
             ),
+            LocationScreen(),
+            CartScreen(),
+            ProfileScreen(),
           ],
           //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
         ),
@@ -297,7 +304,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
-                        child: AppointmentScreen()));
+                        child: AppointmentScreen(
+                          accessToken: widget.accessToken,
+                        )));
               },
               child: Icon(
                 Icons.calendar_today_outlined,
