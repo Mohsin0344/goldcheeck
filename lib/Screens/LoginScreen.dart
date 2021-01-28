@@ -81,14 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    height: SizeConfig.heightMultiplier * 10,
-                    child: Text(
-                      'Logo here',
-                      style: CustomFonts.googleBodyFont(
-                          color: Colors.white,
-                          fontSize: SizeConfig.textMultiplier * 8
-                      ),
-                    ),
+                    height: SizeConfig.heightMultiplier * 20,
+                    child: Image.asset('images/logob.png')
                   ),
                   SizedBox(
                     height: SizeConfig.heightMultiplier * 10,
@@ -129,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_loginPresta.status == 1) {
                           showDialog(context: context,
                               builder: (BuildContext context){
-                                return CustomDialogBox(message: _loginPresta.message,icon: Icons.error_outline,);
+                                return CustomDialogBox(message: _loginPresta.message,icon: Icons.check,);
                               }
                           );
                           Navigator.push(context,
@@ -139,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fullName: _loginPresta.data.fullName,
                                     isVIP: _loginPresta.data.isVip,
                                     walletCredit: _loginPresta.data.walletCredit,
-                                    accessToken: widget.accessToken,
+                                    accessToken: _loginPresta.data.accessToken,
                                   )));
                         }else {
                           showDialog(context: context,
@@ -151,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       color: Color(0xff00A9A5),
                       child: Text(
-                        'Finish',
+                        'Login',
                         style: CustomFonts.googleBodyFont(
                             color: Colors.white,
                             fontSize: 20
@@ -209,8 +203,8 @@ class _LoginScreenState extends State<LoginScreen> {
               icon,
               color: Colors.grey,
             ),
-            labelText: '$labell',
-            labelStyle: CustomFonts.googleBodyFont(
+            hintText: '$labell',
+            hintStyle: CustomFonts.googleBodyFont(
                 color: Color(0xff00A9A5)
             )
         ),

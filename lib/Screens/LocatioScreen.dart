@@ -47,7 +47,7 @@ class LocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff272b33),
         body: Center(child: Builder(
           builder: (context) {
             return MaterialButton(

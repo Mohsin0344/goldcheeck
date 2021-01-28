@@ -171,7 +171,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
           height: height * 0.45,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(padding),
-            color: Color(0xffD4AF37),
+            color: Color(0xffddc654),
             // color: Colors.red
           ),
           child: Column(
@@ -379,7 +379,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                 height: height * 0.45,
                 width: width * 0.40,
                 decoration: BoxDecoration(
-                    color: Color(0xffD4AF37),
+                    color: Color(0xffddc654),
                     borderRadius: BorderRadius.circular(padding),
                     border: Border.all(
                         color: Colors.white,
@@ -495,7 +495,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                     Navigator.push(context,
                                         PageTransition(
                                             type: PageTransitionType.rightToLeft,
-                                            child: ProductDetails(
+                                            child: ProductsScreen(
                                               accessToken: widget.accessToken,
                                             )));
                                   },
@@ -593,7 +593,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                 Navigator.push(context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
-                        child: ProductDetails(
+                        child: ProductsScreen(
                           accessToken: widget.accessToken,
                         )));
               },

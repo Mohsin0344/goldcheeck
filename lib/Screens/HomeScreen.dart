@@ -286,7 +286,11 @@ class _HomeScreenState extends State<HomeScreen> {
               accessToken: widget.accessToken,
             ),
             LocationScreen(),
-            CartScreen(),
+            CartScreen(
+              context:this.context,
+
+              accessToken: widget.accessToken,
+            ),
             ProfileScreen(),
           ],
           //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.

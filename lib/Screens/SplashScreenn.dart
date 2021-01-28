@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Screens/HomeScreenView.dart';
 import 'package:gold/Screens/LoginInWithPhone.dart';
+import 'package:gold/Screens/LoginScreen.dart';
 import 'package:gold/Screens/ProfileInfoScreen.dart';
 import 'package:gold/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
@@ -9,12 +10,12 @@ import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
 
 
-class SplashScreen extends StatefulWidget {
+class SplashScreenn extends StatefulWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashScreennState createState() => _SplashScreennState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreennState extends State<SplashScreenn> {
   var height = SizeConfig.imageSizeMultiplier * 100;
   var width = SizeConfig.imageSizeMultiplier * 200;
   var padding = CustomSizes.padding;
@@ -34,8 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0xff2B2921),
-                          Color(0xffC1A035),
+                          Color(0xff272b33),
+                          Color(0xffddc654),
                         ]
                     )
                 ),
@@ -47,14 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         width: width,
                         //color: Colors.red,
                         alignment: Alignment.center,
-                        child: Text(
-                          'logo',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 60,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: Image.asset('images/logoy.png')
                       ),
                     ),
                     Expanded(
@@ -143,7 +137,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           Navigator.push(context,
                               PageTransition(
                                   type: PageTransitionType.rightToLeft,
-                                  child: ProfileInfo()));
+                                  child: LoginScreen()));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -236,53 +230,53 @@ class _SplashScreenState extends State<SplashScreen> {
                         },
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: HomeScreen()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: SizeConfig.isMobilePortrait ?
-                              padding * 5
-                                  :
-                                  padding * 30
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'Continue without Sign in',
-                                    style: CustomFonts.googleBodyFont(
-                                        color: Colors.white.withOpacity(0.7)
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: padding
-                                  ),
-                                  alignment: Alignment.centerLeft,
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.black.withOpacity(0.3),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   flex: 2,
+                    //   child: InkWell(
+                    //     onTap: (){
+                    //       Navigator.push(context,
+                    //           PageTransition(
+                    //               type: PageTransitionType.rightToLeft,
+                    //               child: HomeScreen()));
+                    //     },
+                    //     child: Container(
+                    //       margin: EdgeInsets.symmetric(
+                    //           horizontal: SizeConfig.isMobilePortrait ?
+                    //           padding * 5
+                    //               :
+                    //               padding * 30
+                    //       ),
+                    //       child: Row(
+                    //         children: [
+                    //           Expanded(
+                    //             flex: 3,
+                    //             child: Container(
+                    //               alignment: Alignment.centerRight,
+                    //               child: Text(
+                    //                 'Continue without Sign in',
+                    //                 style: CustomFonts.googleBodyFont(
+                    //                     color: Colors.white.withOpacity(0.7)
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Expanded(
+                    //             child: Container(
+                    //               padding: EdgeInsets.only(
+                    //                   left: padding
+                    //               ),
+                    //               alignment: Alignment.centerLeft,
+                    //               child: Icon(
+                    //                 Icons.arrow_forward,
+                    //                 color: Colors.black.withOpacity(0.3),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
 
                   ],
                 ),

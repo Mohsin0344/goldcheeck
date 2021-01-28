@@ -55,6 +55,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
               textAlign: TextAlign.center,
             ),
           ),
+          leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
         ),
         backgroundColor: Colors.black,
         body: Container(

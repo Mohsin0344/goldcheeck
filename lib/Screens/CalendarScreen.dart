@@ -399,7 +399,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   height: height * 0.18,
                   width: width * 0.40,
                   decoration: BoxDecoration(
-                      color: Color(0xffD4AF37),
+                      color: Color(0xffddc654),
                       borderRadius: BorderRadius.circular(padding)
                   ),
                   margin: EdgeInsets.only(

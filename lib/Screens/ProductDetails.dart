@@ -28,8 +28,9 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  int quantity = 1;
   AddToCart _addToCart;
-  Future<AddToCart> addToCartNow() async {
+  Future<AddToCart> addToCartNow(int quantityy) async {
     final String url = "http://15.185.204.189/webapi/server.php";
     final response = await http.post(url, headers:
     {
@@ -61,14 +62,45 @@ class _ProductDetailsState extends State<ProductDetails> {
            children: [
              Container(
                height: SizeConfig.heightMultiplier * 8,
-               child: Center(
-                 child: Text(
-                   '${widget.name}',
-                   style: CustomFonts.googleBodyFont(
-                     color: Colors.white,
-                     fontSize: SizeConfig.textMultiplier * 4
+               child: Row(
+                 children: [
+                   Expanded(
+                     child: InkWell(
+                       onTap: (){
+                         Navigator.pop(context);
+                       },
+                       child: Container(
+                         padding: EdgeInsets.only(
+                           left: SizeConfig.widthMultiplier * 2
+                         ),
+                         alignment: Alignment.centerLeft,
+                         child: Icon(
+                           Icons.arrow_back,
+                           color: Colors.white,
+                         ),
+                       ),
+                     ),
                    ),
-                 ),
+                   Expanded(
+                     flex: 5,
+                     child: Container(
+                       //color: Colors.red,
+                       margin: EdgeInsets.only(
+                         right: SizeConfig.widthMultiplier * 6
+                       ),
+                       alignment: Alignment.center,
+                       child: Text(
+                         '${widget.name}',
+                         style: CustomFonts.googleBodyFont(
+                             color: Colors.white,
+                             fontSize: SizeConfig.textMultiplier * 3.2
+                         ),
+                         overflow: TextOverflow.ellipsis,
+                         maxLines: 1,
+                       ),
+                     ),
+                   )
+                 ],
                ),
                decoration: BoxDecoration(
                  border: Border(
@@ -112,24 +144,107 @@ class _ProductDetailsState extends State<ProductDetails> {
                              fontSize: SizeConfig.textMultiplier * 4,
                            ),
                          ),
-                       ),
+                       )
                      ),
                      Expanded(
-                       child: Container(
-                         alignment: Alignment.centerLeft,
-                         child: Text(
-                           '\$ ${widget.price}',
-                           style: CustomFonts.googleBodyFont(
-                             color: Colors.white,
-                             fontWeight: FontWeight.w400,
-                             fontSize: SizeConfig.textMultiplier * 2.5,
+                       child: Row(
+                         children: [
+                           Expanded(
+                             flex: 2,
+                             child: Container(
+                               alignment: Alignment.centerLeft,
+                               child: Text(
+                                 '\$ ${widget.price}',
+                                 style: CustomFonts.googleBodyFont(
+                                   color: Colors.white,
+                                   fontWeight: FontWeight.w400,
+                                   fontSize: SizeConfig.textMultiplier * 2.5,
+                                 ),
+                               ),
+                             ),
                            ),
-                         ),
-                       ),
+                           Expanded(
+                             child: Container(
+                               decoration: BoxDecoration(
+                                 border: Border.all(
+                                   color: Colors.green,
+                                   width: 1
+                                 ),
+                                 borderRadius: BorderRadius.circular(20)
+                               ),
+                               child: Row(
+                                 children: [
+                                   Expanded(
+                                     child: Padding(
+                                       padding: EdgeInsets.all(4),
+                                       child: InkWell(
+                                         onTap: (){
+                                           setState(() {
+                                             quantity = quantity + 1;
+                                           });
+                                         },
+                                         child: Container(
+                                           alignment: Alignment.center,
+                                           decoration: BoxDecoration(
+                                             shape: BoxShape.circle,
+                                             color: Colors.green
+                                           ),
+                                           child: Icon(
+                                             Icons.add,
+                                             color: Colors.white,
+                                           ),
+                                         ),
+                                       ),
+                                     ),
+                                   ),
+                                   Expanded(
+                                     child: Container(
+                                       alignment: Alignment.center,
+                                       child: Text(
+                                         '$quantity',
+                                         style: CustomFonts.googleBodyFont(
+                                           color: Colors.white,
+                                           fontSize: SizeConfig.textMultiplier * 2.5
+                                         ),
+                                       ),
+                                     ),
+                                   ),
+                                   Expanded(
+                                     child: Padding(
+                                       padding: EdgeInsets.all(4),
+                                       child: InkWell(
+                                         onTap: (){
+                                         if(quantity> 1){
+                                           setState(() {
+
+                                             quantity = quantity - 1;
+                                           });
+                                         }
+                                         },
+                                         child: Container(
+                                           alignment: Alignment.center,
+                                           decoration: BoxDecoration(
+                                               shape: BoxShape.circle,
+                                               color: Colors.green
+                                           ),
+                                           child: Icon(
+                                             Icons.remove,
+                                             color: Colors.white,
+                                           ),
+                                         ),
+                                       ),
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                           )
+                         ],
+                       )
                      ),
                      Expanded(
                        child: Container(
-                         alignment: Alignment.centerLeft,
+                         alignment: Alignment.topLeft,
                          child: Text(
                            r'Description',
                            style: CustomFonts.googleBodyFont(
@@ -141,9 +256,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                        ),
                      ),
                      Expanded(
-                       flex: 8,
+                       flex: 6,
                        child: Container(
-                        // color: Colors.red,
                          alignment: Alignment.topLeft,
                          child: Text(
                            " ${widget.description}",
@@ -153,14 +267,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                              fontSize: SizeConfig.textMultiplier * 2.5,
                            ),
                            overflow: TextOverflow.ellipsis,
-                           maxLines: 13,
+                           maxLines: 5,
                          ),
                        ),
                      ),
                    ],
                  ),
                ),
-             )
+             ),
            ],
          ),
           bottomNavigationBar: Padding(
@@ -185,16 +299,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 color: Color(0xff00A9A5),
                 onPressed: () async{
-                  final AddToCart addToCart = await addToCartNow();
+                  final AddToCart addToCart = await addToCartNow(quantity);
                   setState(() {
                     _addToCart = addToCart;
                   });
                   if (_addToCart.status == 1) {
                     print('Product addded to cart successfuly aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                    Navigator.push(context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: CartScreen(accessToken: widget.accessToken)));
+                    CartScreen(accessToken: widget.accessToken);
+                    showDialog(context: context,
+                        builder: (BuildContext context){
+                          return CustomDialogBox(message: "Product added",icon: Icons.check,);
+                        }
+                    );
+                    // Navigator.push(context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.rightToLeft,
+                    //         child: CartScreen(accessToken: widget.accessToken)));
                   }else {
                     showDialog(context: context,
                         builder: (BuildContext context){

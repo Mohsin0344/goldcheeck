@@ -1,8 +1,8 @@
+// To parse this JSON data, do
+//
+//     final getCartDetails = getCartDetailsFromJson(jsonString);
+
 import 'dart:convert';
-
-GetCartDetails getCartDetailsFromJson(String str) => GetCartDetails.fromJson(json.decode(str));
-
-String getCartDetailsToJson(GetCartDetails data) => json.encode(data.toJson());
 
 class GetCartDetails {
   GetCartDetails({
@@ -14,6 +14,10 @@ class GetCartDetails {
   int status;
   String message;
   Data data;
+
+  factory GetCartDetails.fromRawJson(String str) => GetCartDetails.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory GetCartDetails.fromJson(Map<String, dynamic> json) => GetCartDetails(
     status: json["status"],
@@ -39,6 +43,10 @@ class Data {
   DateTime dateAdd;
   List<CartProduct> cartProducts;
 
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     idCart: json["id_cart"],
     dateAdd: DateTime.parse(json["date_add"]),
@@ -60,22 +68,29 @@ class CartProduct {
     this.descriptionShort,
     this.quantity,
     this.photoId,
+    this.photoUrl,
   });
 
   String idProduct;
   String name;
-  int price;
+  double price;
   String descriptionShort;
   int quantity;
   String photoId;
+  String photoUrl;
+
+  factory CartProduct.fromRawJson(String str) => CartProduct.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory CartProduct.fromJson(Map<String, dynamic> json) => CartProduct(
     idProduct: json["id_product"],
     name: json["name"],
-    price: json["price"],
+    price: json["price"].toDouble(),
     descriptionShort: json["description_short"],
     quantity: json["quantity"],
     photoId: json["photo_id"],
+    photoUrl: json["photoUrl"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +100,6 @@ class CartProduct {
     "description_short": descriptionShort,
     "quantity": quantity,
     "photo_id": photoId,
+    "photoUrl": photoUrl,
   };
 }
