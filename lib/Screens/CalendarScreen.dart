@@ -1,8 +1,8 @@
 import 'package:calendar_strip/calendar_strip.dart';
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/AppointmentDetailsScreen.dart';
-import 'package:gold/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -11,6 +11,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  var time=" ";
   var height = SizeConfig.heightMultiplier * 50;
   var width = SizeConfig.widthMultiplier * 100;
   var padding = CustomSizes.padding;
@@ -22,6 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     DateTime.now().subtract(Duration(days: 2)),
     DateTime.now().add(Duration(days: 4))
   ];
+
   @override
   void initState() {
     super.initState();
@@ -52,12 +54,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    final startTime = TimeOfDay(hour: 9, minute: 0);
+    final endTime = TimeOfDay(hour: 22, minute: 0);
+    final step = Duration(minutes: 30);
+    final times = getTimes(startTime, endTime, step)
+        .map((tod) => tod.format(context))
+        .toList();
+    return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           child: Icon(
@@ -68,33 +76,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
         title: Center(
           child: Text(
             'Book an appointment',
-            style: CustomFonts.googleHeaderFont(
-                color: Colors.white
-            ),
+            style: CustomFonts.googleHeaderFont(color: Colors.white),
           ),
         ),
       ),
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.only(
-                top: padding,
-                bottom: padding
-            ),
+            padding: EdgeInsets.only(top: padding, bottom: padding),
             height: height * 0.25,
-            margin: EdgeInsets.only(
-                top: padding,
-                left: padding,
-                right: padding
-            ),
+            margin:
+                EdgeInsets.only(top: padding, left: padding, right: padding),
             decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(
-                        color: Color(0xff3B3F52),
-                        width: 1
-                    )
-                )
-            ),
+                    bottom: BorderSide(color: Color(0xff3B3F52), width: 1))),
             child: Column(
               children: [
                 Expanded(
@@ -112,10 +107,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Text(
                                   '1',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white
-                                  ),
-                                )
-                            ),
+                                      color: Colors.grey),
+                                )),
                           ),
                           Expanded(
                               flex: 2,
@@ -138,8 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     )
                                   ],
                                 ),
-                              )
-                          ),
+                              )),
                           Expanded(
                             child: Container(
                                 alignment: Alignment.center,
@@ -150,10 +142,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Text(
                                   '2',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white
-                                  ),
-                                )
-                            ),
+                                      color: Colors.grey),
+                                )),
                           ),
                           Expanded(
                               flex: 2,
@@ -177,15 +167,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 colors: [
                                                   Color(0xff1D747B),
                                                   Color(0xff3ABCB8)
-                                                ]
-                                            )
-                                        ),
+                                                ])),
                                       ),
                                     )
                                   ],
                                 ),
-                              )
-                          ),
+                              )),
                           Expanded(
                             child: Container(
                                 alignment: Alignment.center,
@@ -196,10 +183,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Text(
                                   '3',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white
-                                  ),
-                                )
-                            ),
+                                      color: Colors.white),
+                                )),
                           ),
                           Expanded(
                               flex: 2,
@@ -220,8 +205,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     )
                                   ],
                                 ),
-                              )
-                          ),
+                              )),
                           Expanded(
                             child: Container(
                                 alignment: Alignment.center,
@@ -232,104 +216,75 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Text(
                                   '4',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white
-                                  ),
-                                )
-                            ),
+                                      color: Colors.grey),
+                                )),
                           ),
-
-
                         ],
                       ),
-                    )
-                ),
+                    )),
                 Expanded(
                   flex: 4,
                   child: Container(
-                      child: Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                                    alignment: Alignment.topLeft,
-                                    padding: EdgeInsets.only(
-                                        left: padding * 0.5
-                                    ),
-                                    child: Text(
-                                      'Login',
-                                      style: CustomFonts.googleBodyFont(
-                                          color: Colors.grey,
-                                        fontSize: SizeConfig.textMultiplier * 2
-                                      ),
-                                    )
-                                )
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Container(
-                                    alignment: Alignment.topCenter,
-                                    padding: EdgeInsets.only(
-                                        right: SizeConfig.widthMultiplier * 2
-                                    ),
-                                    child: Text(
-                                      'Choose Services',
-                                      style: CustomFonts.googleBodyFont(
-                                          color: Colors.grey,
-                                          fontSize: SizeConfig.textMultiplier * 1.8
-                                      ),
-                                    )
-                                )
-                            ),
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                    alignment: Alignment.topLeft,
-                                    padding: EdgeInsets.only(
-                                        right: padding
-                                    ),
-                                    child: Text(
-                                      'Pick Time',
-                                      style: CustomFonts.googleBodyFont(
-                                          color: Colors.white,
-                                          fontSize: SizeConfig.textMultiplier * 2
-                                      ),
-                                    )
-                                )
-                            ),
-                            Expanded(
-                                child: Container(
-                                    alignment: Alignment.topRight,
-                                    padding: EdgeInsets.only(
-                                        right: padding * 0
-                                    ),
-                                    child: Text(
-                                      'Payment',
-                                      style: CustomFonts.googleBodyFont(
-                                          color: Colors.grey,
-                                        fontSize: SizeConfig.textMultiplier * 1.8
-                                      ),
-                                    )
-                                )
-                            ),
-                          ]
-                      )
-                  ),
+                      child: Row(children: [
+                    Expanded(
+                        child: Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.only(left: padding * 0.5),
+                            child: Text(
+                              'Login',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.grey,
+                                  fontSize: SizeConfig.textMultiplier * 1.65),
+                            ))),
+                    Expanded(
+                        flex: 3,
+                        child: Container(
+                            alignment: Alignment.topCenter,
+                            padding: EdgeInsets.only(
+                                right: SizeConfig.widthMultiplier * 2),
+                            child: Text(
+                              'Choose Services',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.grey,
+                                  fontSize: SizeConfig.textMultiplier * 1.65),
+                            ))),
+                    Expanded(
+                        flex: 2,
+                        child: Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.only(right: padding),
+                            child: Text(
+                              'Pick Time',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.textMultiplier * 1.65),
+                            ))),
+                    Expanded(
+                        child: Container(
+                            alignment: Alignment.topRight,
+                            padding: EdgeInsets.only(right: padding * 0),
+                            child: Text(
+                              'Payment',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.grey,
+                                  fontSize: SizeConfig.textMultiplier * 1.8),
+                            ))),
+                  ])),
                 ),
               ],
             ),
           ),
           //////////////////////////////////////////////////////////////
           Container(
-            margin: EdgeInsets.only(
-                top: padding
-            ),
-            height:  height * 1,
+            margin: EdgeInsets.only(top: padding),
+            height: height * 1,
             // color: Color(0xff3B3F52),
-           //   color: Colors.white,
-            child:  Column(
+            //   color: Colors.white,
+            child: Column(
               children: [
                 Expanded(
                   child: Container(
-                   child: CalendarStrip(
+                    child: CalendarStrip(
                       startDate: startDate,
                       endDate: endDate,
                       selectedDate: selectedDate,
@@ -346,69 +301,66 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Color(0xff3B3F52),
-                                width: 1
-                            )
-                        )
-                    ),
+                                color: Color(0xff3B3F52), width: 1))),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Container(
-                    child: Center(
-                      child: Text('Time from API',
-                      style: CustomFonts.googleBodyFont(
-                        color: Colors.white
-                      ),
-                      ),
+                    child: ListView(
+                      children: [
+                        Container(
+                          height: 200,
+                          // child: GridView.builder(
+                          //   shrinkWrap: true,
+                          //   itemCount: times.length,
+                          //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          //       crossAxisCount: (SizeConfig.isMobilePortrait) ? 8 : 12),
+                          //   itemBuilder: (BuildContext context, int index) {
+                          //     return new Container(
+                          //       margin: EdgeInsets.all(10),
+                          //       color: Colors.red,
+                          //       child: Text('${time[index]}'),
+                          //     );
+                          //   },
+                          // ),
+                        ),
+                      ],
                     ),
                   ),
                 )
               ],
             ),
             decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xff3B3F52),
-                  width: 1
-                )
-              )
-            ),
+                border: Border(
+                    bottom: BorderSide(color: Color(0xff3B3F52), width: 1))),
           ),
           Container(
             height: height * 0.15,
             alignment: Alignment.center,
             child: Text(
               'Choose Stylist (Optional)',
-              style: CustomFonts.googleHeaderFont(
-                  color: Colors.white
-              ),
+              style: CustomFonts.googleHeaderFont(color: Colors.white),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(
-                vertical: padding
-            ),
+            padding: EdgeInsets.symmetric(vertical: padding),
             height: height * 0.25,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 4,
-              itemBuilder: (BuildContext context, index){
+              itemBuilder: (BuildContext context, index) {
                 return Container(
                   height: height * 0.18,
                   width: width * 0.40,
                   decoration: BoxDecoration(
                       color: Color(0xffddc654),
-                      borderRadius: BorderRadius.circular(padding)
-                  ),
-                  margin: EdgeInsets.only(
-                      left: padding
-                  ),
+                      borderRadius: BorderRadius.circular(padding)),
+                  margin: EdgeInsets.only(left: padding),
                   child: Row(
                     children: [
                       Expanded(
-                        flex:2,
+                        flex: 2,
                         child: Padding(
                           padding: EdgeInsets.all(padding * 0.5),
                           child: Container(
@@ -416,13 +368,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                     image: AssetImage('images/face.jpg'),
-                                    fit: BoxFit.cover
-                                ),
-                                border: Border.all(
-                                    color: Colors.white,
-                                    width: 1
-                                )
-                            ),
+                                    fit: BoxFit.cover),
+                                border:
+                                    Border.all(color: Colors.white, width: 1)),
                           ),
                         ),
                       ),
@@ -434,8 +382,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             'Christia Frank',
                             style: CustomFonts.googleHeaderFont(
                                 color: Colors.white,
-                              fontSize: SizeConfig.textMultiplier * 1.8
-                            ),
+                                fontSize: SizeConfig.textMultiplier * 1.8),
                           ),
                         ),
                       )
@@ -464,28 +411,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       children: [
                         TextSpan(
                           text: '   Total',
-                          style: CustomFonts.googleBodyFont(
-                              color: Colors.grey
-                          ),
+                          style: CustomFonts.googleBodyFont(color: Colors.grey),
                         )
-                      ]
-                  ),
+                      ]),
                 ),
               ),
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(
-                    padding
-                ),
+                padding: EdgeInsets.all(padding),
                 child: InkWell(
-                  onTap: (){
-                    Navigator.push(context,
+                  onTap: () {
+                    Navigator.push(
+                        context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: AppointmentDetails()
-                        )
-                    );
+                            child: AppointmentDetails()));
                   },
                   child: Container(
                       decoration: BoxDecoration(
@@ -501,8 +442,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: Text(
                                 'Next',
                                 style: CustomFonts.googleBodyFont(
-                                    color: Colors.white
-                                ),
+                                    color: Colors.white),
                               ),
                             ),
                           ),
@@ -512,12 +452,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 child: Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,
-                                )
-                            ),
+                                )),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ),
               ),
             ),
@@ -526,12 +464,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
+
   dateTileBuilder(
       date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
-    Color fontColor = isDateOutOfRange ? Colors.white.withOpacity(0.3) : Colors.white;
+    Color fontColor =
+        isDateOutOfRange ? Colors.white.withOpacity(0.3) : Colors.white;
     TextStyle normalStyle =
-    TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+        TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
     TextStyle selectedStyle = TextStyle(
         fontSize: 17, fontWeight: FontWeight.w800, color: Colors.white);
     TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
@@ -552,27 +492,43 @@ class _CalendarScreenState extends State<CalendarScreen> {
       decoration: BoxDecoration(
         color: !isSelectedDate ? Color(0xff3B3F52) : Color(0xff00A9A5),
         borderRadius: BorderRadius.all(Radius.circular(60)),
-       // shape: BoxShape.circle
+        // shape: BoxShape.circle
       ),
       child: Column(
         children: _children,
       ),
     );
   }
+
   getMarkedIndicatorWidget() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
         margin: EdgeInsets.only(left: 1, right: 1),
         width: 7,
         height: 7,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+        decoration:
+            BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
       ),
       Container(
         width: 7,
         height: 7,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+        decoration:
+            BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
       )
     ]);
   }
-}
+  Iterable<TimeOfDay> getTimes(TimeOfDay startTime, TimeOfDay endTime, Duration step) sync* {
+    var hour = startTime.hour;
+    var minute = startTime.minute;
 
+    do {
+      yield TimeOfDay(hour: hour, minute: minute);
+      minute += step.inMinutes;
+      while (minute >= 60) {
+        minute -= 60;
+        hour++;
+      }
+    } while (hour < endTime.hour ||
+        (hour == endTime.hour && minute <= endTime.minute));
+  }
+}

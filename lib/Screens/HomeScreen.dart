@@ -3,24 +3,29 @@ import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Screens/HomeScreenView.dart';
 import 'package:gold/Screens/LocatioScreen.dart';
 import 'package:gold/Screens/ProfileScreen.dart';
-import 'package:gold/SizeConfig.dart';
+import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
-
 import 'AppointmentScreen.dart';
 import 'CartScreen.dart';
 import 'ProductsScreen.dart';
-//import 'package:gold/Screens/test.dart';
+
 
 class HomeScreen extends StatefulWidget {
-  var fullName;
+  var firstName;
+  var lastName;
   int isVIP;
   var walletCredit;
   var accessToken;
+  var email;
+  var phoneNumber;
   HomeScreen({
-    this.fullName,
+    this.firstName,
+    this.lastName,
     this.isVIP,
     this.walletCredit,
-    this.accessToken
+    this.accessToken,
+    this.email,
+    this.phoneNumber
   });
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -280,45 +285,55 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           children: <Widget>[
             HomeScreenView(
-              fullName: widget.fullName,
+              fullName: widget.firstName+" "+ widget.lastName,
               isVIP: widget.isVIP,
               walletCredit: widget.walletCredit,
               accessToken: widget.accessToken,
             ),
             LocationScreen(),
             CartScreen(
+              firstName: widget.firstName,
+              lastName : widget.lastName,
               context:this.context,
-
               accessToken: widget.accessToken,
             ),
-            ProfileScreen(),
+            ProfileScreen(
+              accessToken: widget.accessToken,
+              firstName: widget.firstName,
+              lastName: widget.lastName,
+              email: widget.email,
+              phoneNumber: widget.phoneNumber,
+            ),
           ],
           //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
         ),
-        floatingActionButton: Container(
-          height: 65.0,
-          width: 65.0,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
-          ),
-          child: FittedBox(
-            child: FloatingActionButton(
-              onPressed: (){
-                Navigator.push(context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: AppointmentScreen(
-                          accessToken: widget.accessToken,
-                        )));
-              },
-              child: Icon(
-                Icons.calendar_today_outlined,
-                color: Colors.white,
-              ),
-              // elevation: 5.0,
-              backgroundColor: Color(0xff00A9A5),
+        floatingActionButton: InkWell(
+          onTap: (){
+                  Navigator.push(context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: AppointmentScreen(
+                            accessToken: widget.accessToken,
+                          )));
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+              bottom: SizeConfig.heightMultiplier * 2
             ),
+            height: 65.0,
+            width: 65.0,
+            decoration: BoxDecoration(
+              color: Color(0xff00A9A5),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: 3
+              )
+            ),
+                child: Icon(
+                  Icons.calendar_today_outlined,
+                  color: Colors.white,
+                ),
           ),
         ),
       ),

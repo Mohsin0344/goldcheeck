@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../SizeConfig.dart';
+import '../Constants/SizeConfig.dart';
 import 'HomeScreen.dart';
 import 'HomeScreenView.dart';
 
 class CustomDialogBox extends StatefulWidget {
   var icon;
   var message;
-  CustomDialogBox({
-    this.icon,
-    this.message
-});
+
+  CustomDialogBox({this.icon, this.message});
+
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
 }
@@ -29,7 +28,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       child: contentBox(context),
     );
   }
-  contentBox(context){
+
+  contentBox(context) {
     return Center(
       child: Container(
         child: Column(
@@ -39,16 +39,14 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             ),
             Expanded(
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
                   height: SizeConfig.heightMultiplier * 25,
-                  width: SizeConfig.heightMultiplier* 25,
+                  width: SizeConfig.heightMultiplier * 25,
                   decoration: BoxDecoration(
-                      color: Color(0xff00A9A5),
-                      shape: BoxShape.circle
-                  ),
+                      color: Color(0xff00A9A5), shape: BoxShape.circle),
                   child: Center(
                     child: Icon(
                       widget.icon,
@@ -62,14 +60,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             Expanded(
               child: Container(
                 alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.heightMultiplier * 2
-                ),
+                margin: EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
                 child: Text(
                   '${widget.message}',
                   style: GoogleFonts.robotoMono(
                       color: Color(0xff00A9A5),
-                      fontSize: SizeConfig.textMultiplier * 2.5
+                      fontSize: SizeConfig.textMultiplier * 2.5,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),

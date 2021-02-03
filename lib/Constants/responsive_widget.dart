@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gold/SizeConfig.dart';
+import 'file:///C:/Users/Dell/AndroidStudioProjects/gold/lib/Constants/SizeConfig.dart';
 
 
 class ResponsiveWidget extends StatelessWidget {

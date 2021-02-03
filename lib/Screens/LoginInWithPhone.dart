@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/PhoneVerification.dart';
-import 'package:gold/SizeConfig.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
@@ -21,25 +21,24 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
   TextEditingController phoneNumber = TextEditingController();
   var pNumber;
   CreateUserWithMobile _createUserWithMobile;
+
   Future<CreateUserWithMobile> createUser(String mobileNumber) async {
     final String url = "http://15.185.204.189/webapi/server.php";
-    final response = await http.post(url, headers:
-    {
+    final response = await http.post(url, headers: {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
-    },
-        body:
-        {
-      "action" : "customer/createUserWithMobile",
-      "mobileNumber" : "$mobileNumber"
+    }, body: {
+      "action": "customer/createUserWithMobile",
+      "mobileNumber": "$mobileNumber"
     });
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       final String responseString = response.body;
       print(responseString.toString());
       return createUserWithMobileFromJson(responseString);
-    }else{
+    } else {
       print(response.statusCode);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,24 +46,17 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
           resizeToAvoidBottomInset: false,
           body: Container(
             width: double.infinity,
-            padding: EdgeInsets.only(
-                left: padding,
-                right: padding
-            ),
+            padding: EdgeInsets.only(left: padding, right: padding),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xff2B2921),
-                      Color(0xffC1A035),
-                    ]
-                )
-            ),
+                  Color(0xff2B2921),
+                  Color(0xffC1A035),
+                ])),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: padding
-              ),
+              padding: EdgeInsets.symmetric(horizontal: padding),
               child: Container(
                 child: Column(
                   children: [
@@ -78,7 +70,7 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 child: InkWell(
-                                  onTap: (){
+                                  onTap: () {
                                     Navigator.pop(context);
                                   },
                                   child: Icon(
@@ -91,16 +83,12 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                             Expanded(
                               flex: 6,
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: padding * 2
-                                ),
+                                padding: EdgeInsets.only(left: padding * 2),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Enter your phone number',
                                   style: CustomFonts.googleHeaderFont(
-                                      color: Colors.white,
-                                      fontSize: 20
-                                  ),
+                                      color: Colors.white, fontSize: 20),
                                 ),
                               ),
                             ),
@@ -109,23 +97,19 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                       ),
                     ),
                     SizedBox(
-                     height: SizeConfig.heightMultiplier*10,
+                      height: SizeConfig.heightMultiplier * 10,
                     ),
                     Flexible(
                       fit: FlexFit.loose,
                       child: Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: padding * 2
-                        ),
+                        margin: EdgeInsets.symmetric(horizontal: padding * 2),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(padding),
                           color: Colors.white,
                         ),
                         height: height * 0.15,
                         child: Padding(
-                          padding: EdgeInsets.all(
-                              padding
-                          ),
+                          padding: EdgeInsets.all(padding),
                           child: IntlPhoneField(
                             controller: phoneNumber,
                             decoration: InputDecoration(
@@ -135,18 +119,15 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0xff00A9A5),
-                                      width: 1,
-                                    )
-                                )
-                            ),
+                                  color: Color(0xff00A9A5),
+                                  width: 1,
+                                ))),
                             onChanged: (phone) {
                               print(phone.completeNumber);
                               setState(() {
                                 pNumber = phone.completeNumber;
                               });
                             },
-
                           ),
                         ),
                       ),
@@ -157,47 +138,50 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                     Flexible(
                       fit: FlexFit.loose,
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: padding * 2
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: padding * 2),
                         height: height * 0.15,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          //color: Colors.green,
-                            borderRadius: BorderRadius.circular(padding)
-                        ),
+                            //color: Colors.green,
+                            borderRadius: BorderRadius.circular(padding)),
                         child: RaisedButton(
-                          color: Color(0xff00A9A5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(padding),
-                          ),
-                          child: Text(
-                            'Send Verification Code',
-                            style: CustomFonts.googleBodyFont(
-                                color: Colors.white,
-                                fontSize: 20
+                            color: Color(0xff00A9A5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(padding),
                             ),
-                          ),
-                          onPressed: () async {
-                            // print(" this is ---------- :$pNumber");
-                            final CreateUserWithMobile createuserwithmobile = await createUser(pNumber);
-                            setState(() {
-                              _createUserWithMobile = createuserwithmobile;
-                            });
-                            if (_createUserWithMobile.status == 1) {
-                              Navigator.push(context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: PhoneVerification(mobileNumber: pNumber, accessToken: _createUserWithMobile.data.accessToken,)));
-                            }else {
-                              showDialog(context: context,
-                                  builder: (BuildContext context){
-                                    return CustomDialogBox(message: _createUserWithMobile.message,icon: Icons.error_outline,);
-                                  }
-                              );
-                            }
-                          }
-                        ),
+                            child: Text(
+                              'Send Verification Code',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () async {
+                              // print(" this is ---------- :$pNumber");
+                              final CreateUserWithMobile createuserwithmobile =
+                                  await createUser(pNumber);
+                              setState(() {
+                                _createUserWithMobile = createuserwithmobile;
+                              });
+                              if (_createUserWithMobile.status == 1) {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: PhoneVerification(
+                                          mobileNumber: pNumber,
+                                          accessToken: _createUserWithMobile
+                                              .data.accessToken,
+                                        )));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomDialogBox(
+                                        message: _createUserWithMobile.message,
+                                        icon: Icons.error_outline,
+                                      );
+                                    });
+                              }
+                            }),
                       ),
                     ),
                     SizedBox(
@@ -206,20 +190,15 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                     Flexible(
                       fit: FlexFit.loose,
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: padding * 3
-                        ),
-                        margin: EdgeInsets.symmetric(
-                            horizontal: padding * 2
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: padding * 3),
+                        margin: EdgeInsets.symmetric(horizontal: padding * 2),
                         height: height * 0.25,
                         child: Text(
                           'We will send a code to your number. Standard data '
-                              'charges may apply.',
+                          'charges may apply.',
                           style: CustomFonts.googleBodyFont(
                               color: Colors.white.withOpacity(0.7),
-                              fontSize: 20
-                          ),
+                              fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                         ),
@@ -229,8 +208,7 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                 ),
               ),
             ),
-          )
-      ),
+          )),
     );
   }
 }

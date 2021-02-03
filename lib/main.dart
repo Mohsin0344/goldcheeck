@@ -1,30 +1,49 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:gold/Screens/CalendarScreen.dart';
+import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/HomeScreen.dart';
-import 'package:gold/Screens/LocatioScreen.dart';
 import 'package:gold/Screens/LoginScreen.dart';
 import 'package:gold/Screens/NewSplashScreen.dart';
-import 'package:gold/Screens/PhoneVerification.dart';
-import 'package:gold/Screens/ProductsScreen.dart';
-import 'package:gold/Screens/ProfileInfoScreen.dart';
-import 'package:gold/Screens/SplashScreenn.dart';
-import 'package:gold/SizeConfig.dart';
-import 'package:gold/test.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await App.init();
+  String status=  App.localStorage.getString("accessToken");
+  print("Shared prefrence accessToken is----> $status");
+  runApp(MyApp(
+    status: status,
+  ));
+}
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  var status;
+  var firstName;
+  var lastName;
+  MyApp({
+   this.status,
+    this.firstName,
+    this.lastName
+});
   @override
-  Widget build(BuildContext context) {
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context)  {
+    print("At main Build ${widget.status}");
+   // print(widget.firstName + widget.lastName);
     return LayoutBuilder(
       builder: (context, constraints) {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
             return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'السحر الدمشقي',
-              home: NewSplashScreen(),
+                debugShowCheckedModeBanner: false,
+                title: 'السحر الدمشقي',
+                home: widget.status==null? NewSplashScreen(): LoginScreen()
             );
           },
         );
