@@ -289,13 +289,17 @@ class _HomeScreenState extends State<HomeScreen> {
               isVIP: widget.isVIP,
               walletCredit: widget.walletCredit,
               accessToken: widget.accessToken,
+              myPage: _myPage,
             ),
-            LocationScreen(),
+            LocationScreen(
+              myPage: _myPage,
+            ),
             CartScreen(
               firstName: widget.firstName,
               lastName : widget.lastName,
               context:this.context,
               accessToken: widget.accessToken,
+              myPage: _myPage,
             ),
             ProfileScreen(
               accessToken: widget.accessToken,
@@ -303,6 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
               lastName: widget.lastName,
               email: widget.email,
               phoneNumber: widget.phoneNumber,
+              myPage: _myPage,
             ),
           ],
           //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.

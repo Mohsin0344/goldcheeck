@@ -5,6 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class LocationScreen extends StatelessWidget {
+  PageController myPage;
+  LocationScreen({
+   this.myPage
+});
   openMapsSheet(context) async {
     try {
       final title = "السحر الدمشقي";
@@ -44,41 +48,51 @@ class LocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return WillPopScope(
+      onWillPop: () => Future.sync(onWillPop),
+    child: Material(
         child: Scaffold(
-      backgroundColor: Color(0xff272b33),
-      body: Builder(
-        builder: (context) {
-          return MaterialButton(
-              onPressed: () => openMapsSheet(context),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('images/map.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ),
-                  // Expanded(
-                  //   child: Container(
-                  //     margin:
-                  //         EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
-                  //     child: Text(
-                  //       'Click on Maps to Get Direction',
-                  //       style: CustomFonts.googleBodyFont(
-                  //           color: Color(0xff00A9A5),
-                  //           fontSize: SizeConfig.textMultiplier * 3,
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ),
-                  // )
-                ],
-              ));
-        },
-      ),
-    ));
+          backgroundColor: Color(0xff272b33),
+          body: Builder(
+            builder: (context) {
+              return MaterialButton(
+                  onPressed: () => openMapsSheet(context),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('images/map.png'),
+                                  fit: BoxFit.cover)),
+                        ),
+                      ),
+                      // Expanded(
+                      //   child: Container(
+                      //     margin:
+                      //         EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
+                      //     child: Text(
+                      //       'Click on Maps to Get Direction',
+                      //       style: CustomFonts.googleBodyFont(
+                      //           color: Color(0xff00A9A5),
+                      //           fontSize: SizeConfig.textMultiplier * 3,
+                      //           fontWeight: FontWeight.bold),
+                      //     ),
+                      //   ),
+                      // )
+                    ],
+                  ));
+            },
+          ),
+        )),
+    );
+  }
+  bool onWillPop() {
+    myPage.previousPage(
+      duration: Duration(milliseconds: 200),
+      curve: Curves.linear,
+    );
+    return false;
   }
 }

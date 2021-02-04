@@ -55,7 +55,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
           appBar: AppBar(
             backgroundColor: Colors.black,
             title: Text(
-              'My Credit',
+              'Booking History',
               style: CustomFonts.googleBodyFont(color: Colors.white),
             ),
             centerTitle: true,
@@ -68,7 +68,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                   padding: EdgeInsets.only(
                       left: SizeConfig.widthMultiplier * 2,
                       right: SizeConfig.widthMultiplier * 2),
-                  itemCount: snapshot.data.data.length,
+                  itemCount: snapshot.data.data.bookings.length,
                   itemBuilder: (BuildContext context, index) {
                     return Container(
                       padding: EdgeInsets.only(
@@ -91,7 +91,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'Transaction ID',
+                                        'ID Bookings',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -103,7 +103,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        ' ',
+                                        '${_bookingHistory.data.bookings[index].idBookings} ',
                                         style: CustomFonts.googleBodyFont(
                                             color: Color(0xff00A9A5),
                                             fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'Customer ID',
+                                        'Booking Date',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -136,7 +136,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                         " ",
+                                         "${_bookingHistory.data.bookings[index].bookingDate} ",
                                         style: CustomFonts.googleBodyFont(
                                             color: Color(0xff00A9A5),
                                             fontWeight: FontWeight.bold,
@@ -157,7 +157,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'Transaction Date',
+                                        'Booking Time',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -169,73 +169,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        ' ',
-                                        style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize:
-                                            SizeConfig.textMultiplier *
-                                                2.5),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        'Credit',
-                                        style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
-                                            fontSize:
-                                            SizeConfig.textMultiplier *
-                                                2.5),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        ' ',
-                                        style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize:
-                                            SizeConfig.textMultiplier *
-                                                2.5),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        'Debit',
-                                        style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
-                                            fontSize:
-                                            SizeConfig.textMultiplier *
-                                                2.5),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        ' ',
+                                        '${_bookingHistory.data.bookings[index].bookingTime} ',
                                         style: CustomFonts.googleBodyFont(
                                             color: Color(0xff00A9A5),
                                             fontWeight: FontWeight.bold,
@@ -256,7 +190,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                     borderRadius: BorderRadius.circular(12)),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  ' ',
+                                  '${_bookingHistory.data.bookings[index].services[0].fullDescription} ',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

@@ -2,16 +2,85 @@ import 'package:calendar_strip/calendar_strip.dart';
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
+import 'package:gold/Models/BookingCreate.dart';
 import 'package:gold/Screens/AppointmentDetailsScreen.dart';
+import 'package:gold/Screens/CustomDialog.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
 
 class CalendarScreen extends StatefulWidget {
+  var accessToken;
+  var idServices;
+  var price;
+  CalendarScreen({
+   this.accessToken,
+   this.idServices,
+    this.price
+});
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
-
+var dateForAPI = "0";
+var timeForAPI= "0";
 class _CalendarScreenState extends State<CalendarScreen> {
-  var time=" ";
+  Color checkedColor = Color(0xff00A9A5);
+  Color simpleColor = Colors.transparent;
+  bool check=false;
+  int selectedIndex;
+  List<Color> options = [
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+  ];
+  BookingCreate _bookingCreate;
+  Future<BookingCreate> createBooking() async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers: {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    }, body: {
+      "accessToken": widget.accessToken,
+      "action": "booking/create",
+      "services[0]": "${widget.idServices}",
+      "date": "$dateForAPI",
+      "time": "${timeForAPI.substring(0,timeForAPI.indexOf(" "))}",
+    });
+    if (response.statusCode == 200) {
+      final String responseString = response.body;
+      // print(responseString.toString());
+      return BookingCreate.fromRawJson(responseString);
+    } else {
+      print(response.statusCode);
+    }
+  }
+  List<bool> _selections = List.generate(26, (_) => false);
+  Color color = Colors.transparent;
+  var counter = 0;
+  List<bool> isSelected = [false,false,false,];
+  final List<Color> colors = <Color>[Colors.transparent];
   var height = SizeConfig.heightMultiplier * 50;
   var width = SizeConfig.widthMultiplier * 100;
   var padding = CustomSizes.padding;
@@ -23,14 +92,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     DateTime.now().subtract(Duration(days: 2)),
     DateTime.now().add(Duration(days: 4))
   ];
-
   @override
   void initState() {
     super.initState();
   }
 
   onSelect(data) {
-    print("Selected Date -> $data");
+    String formattedDate=data.toString();
+    setState(() {
+      dateForAPI =formattedDate.substring(0,formattedDate.indexOf(" "));
+    });
   }
 
   onWeekSelect(data) {
@@ -54,12 +125,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("ID Services is      ${widget.idServices}");
+    print("Access Token      ${widget.accessToken}");
+    print(timeForAPI);
+    print(dateForAPI);
+    print(timeForAPI.substring(0,timeForAPI.indexOf(" ")));
     final startTime = TimeOfDay(hour: 9, minute: 0);
     final endTime = TimeOfDay(hour: 22, minute: 0);
     final step = Duration(minutes: 30);
     final times = getTimes(startTime, endTime, step)
         .map((tod) => tod.format(context))
         .toList();
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -293,7 +370,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       dateTileBuilder: dateTileBuilder,
                       iconColor: Colors.white,
                       monthNameWidget: _monthNameWidget,
-                      //markedDates: markedDates,
+                      markedDates: markedDates,
                       containerDecoration: BoxDecoration(color: Colors.black12),
                       addSwipeGesture: true,
                       containerHeight: 100,
@@ -307,25 +384,54 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Expanded(
                   flex: 2,
                   child: Container(
-                    child: ListView(
-                      children: [
-                        Container(
-                          height: 200,
-                          // child: GridView.builder(
-                          //   shrinkWrap: true,
-                          //   itemCount: times.length,
-                          //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          //       crossAxisCount: (SizeConfig.isMobilePortrait) ? 8 : 12),
-                          //   itemBuilder: (BuildContext context, int index) {
-                          //     return new Container(
-                          //       margin: EdgeInsets.all(10),
-                          //       color: Colors.red,
-                          //       child: Text('${time[index]}'),
-                          //     );
-                          //   },
-                          // ),
-                        ),
-                      ],
+                    child: GridView.builder(
+                      itemCount: times.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio:  width * 2/ height * 1.1,
+                          crossAxisCount: (SizeConfig.isMobilePortrait) ? 4 : 3),
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap:(){
+                            if(check==true){
+                              print('trueeeeeeeeeeeeeeeeeeeeeeeee');
+                              setState(() {
+                                selectedIndex=index;
+                                check=false;
+                                timeForAPI = times[index];
+                              });
+                            }
+                            else{
+                              print('falseeeeeeeeeeeeeeeeeeeeeeeeeee');
+                              setState(() {
+                                selectedIndex=200;
+                                check=true;
+                              });
+                            }
+                          },
+
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.heightMultiplier * 0.9,
+                              left: SizeConfig.widthMultiplier * 1.2
+                            ),
+                            decoration: BoxDecoration(
+                            color: check==true && selectedIndex==index?checkedColor:Colors.transparent,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1
+                              )
+                            ),
+                            child: Text('${times[index]}',
+                              style: CustomFonts.googleBodyFont(
+                                color: Colors.white
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 )
@@ -404,7 +510,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                      text: ' 30.00kd',
+                      text: '\$ ${widget.price}',
                       style: CustomFonts.googleBodyFont(
                         color: Color(0xff00A9A5),
                       ),
@@ -421,12 +527,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: Padding(
                 padding: EdgeInsets.all(padding),
                 child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: AppointmentDetails()));
+                  onTap: () async {
+                    final BookingCreate bookingCreate =
+                        await createBooking();
+                    setState(() {
+                      _bookingCreate = bookingCreate;
+                    });
+                    if (_bookingCreate.status == 1) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialogBox(
+                              message: "Booking Created Successfully",
+                              icon: Icons.error_outline,
+                            );
+                          });
+                      // Navigator.push(
+                      //     context,
+                      //     PageTransition(
+                      //         type: PageTransitionType.rightToLeft,
+                      //         child: AppointmentDetails()));
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialogBox(
+                              message: _bookingCreate.message,
+                              icon: Icons.error_outline,
+                            );
+                          });
+                    }
                   },
                   child: Container(
                       decoration: BoxDecoration(

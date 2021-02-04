@@ -18,13 +18,14 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
+  var idServices = "0";
   var height = SizeConfig.imageSizeMultiplier * 100;
   var width = SizeConfig.imageSizeMultiplier * 200;
   var padding = CustomSizes.padding;
-  bool checked;
-  List<bool> checkedIndex = [false, false];
+  List<String> totalPrice = ["0"];
+  double grandtotal = 0.0;
+  List<bool> checkedIndex = List<bool>();
   GetServiceList _getServiceList;
-
   Future<GetServiceList> getList() async {
     final String url = "http://15.185.204.189/webapi/server.php";
     final response = await http.post(url, headers: {
@@ -35,11 +36,29 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
-      print(responseString.toString());
+     // print(responseString.toString());
       return getServiceListFromJson(responseString);
     } else {
       print(response.statusCode);
     }
+  }
+  Future<void>fetchData() async{
+    checkedIndex.clear();
+    GetServiceList getServiceList = await getList();
+    _getServiceList = getServiceList;
+    for(int i=0;i<_getServiceList.data.length;i++){
+      checkedIndex.add(false);
+    }
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkedIndex.clear();
+    fetchData();
+
+    // checkedIndex = List<bool>.filled(_getServiceList.data.length, false);
   }
 
   @override
@@ -344,13 +363,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<GetServiceList> snapshot) {
                       if (snapshot.hasData) {
+                        // for(int i=0;i<snapshot.data.data.length;i++){
+                        //   checkedIndex.add(false);
+                        // }
+                        for (int i=0;i<snapshot.data.data.length;i++) {
+                          checkedIndex.add(false);
+                        }
                         return ListView.builder(
                           padding: EdgeInsets.symmetric(
                               horizontal: SizeConfig.widthMultiplier * 1.5),
                           shrinkWrap: true,
                           itemCount: snapshot.data.data.length,
                           itemBuilder: (BuildContext context, index) {
-                            checkedIndex.add(false);
+                             // checkedIndex.add(false);
                             return Container(
                               margin: EdgeInsets.only(bottom: padding),
                               height: height * 0.30,
@@ -399,8 +424,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                               unselectedWidgetColor:
                                                                   Colors.grey),
                                                           child: Checkbox(
-                                                            value: checkedIndex[
-                                                                index],
+                                                            value: checkedIndex[index],
                                                             checkColor:
                                                                 Colors.white,
                                                             activeColor: Color(
@@ -412,10 +436,18 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                             onChanged:
                                                                 (bool val) {
                                                               setState(() {
-                                                                checkedIndex[
-                                                                        index] =
-                                                                    val;
+                                                                checkedIndex[index] = val;
+                                                                idServices = snapshot.data.data[index].idServices;
                                                               });
+                                                              if(checkedIndex[index]== true){
+                                                                print('im here');
+                                                                totalPrice.add(snapshot.data.data[index].charges);
+                                                                grandtotal = grandtotal + int.parse(snapshot.data.data[index].charges).toDouble();
+
+                                                              }else{
+                                                                totalPrice[index]="0.0";
+                                                                grandtotal =grandtotal - int.parse(snapshot.data.data[index].charges).toDouble();
+                                                              }
                                                             },
                                                           ),
                                                         )),
@@ -437,7 +469,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 2,
+                                                    flex: 3,
                                                     child: Container(
                                                       alignment:
                                                           Alignment.center,
@@ -450,6 +482,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                 fontSize: SizeConfig
                                                                         .textMultiplier *
                                                                     1.8),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
                                                       ),
                                                     ),
                                                   ),
@@ -525,7 +559,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   alignment: Alignment.center,
                   child: RichText(
                     text: TextSpan(
-                        text: ' 30.00kd',
+                        text: '\$${grandtotal}',
                         style: CustomFonts.googleBodyFont(
                           color: Color(0xff00A9A5),
                         ),
@@ -548,7 +582,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: CalendarScreen()));
+                              child: CalendarScreen(
+                                accessToken: widget.accessToken,
+                                idServices: idServices,
+                                price : grandtotal
+                              )));
                     },
                     child: Container(
                         decoration: BoxDecoration(
