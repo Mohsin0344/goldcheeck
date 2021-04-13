@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
-import 'package:gold/Screens/HomeScreenView.dart';
 import 'package:gold/Screens/LoginInWithPhone.dart';
 import 'package:gold/Screens/LoginScreen.dart';
-import 'package:gold/Screens/ProfileInfoScreen.dart';
 import 'package:page_transition/page_transition.dart';
-
-import 'HomeScreen.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class SplashScreenn extends StatefulWidget {
   @override
@@ -54,14 +51,24 @@ class _SplashScreennState extends State<SplashScreenn> {
                   child: Container(
                     margin: EdgeInsets.only(left: padding * 4),
                     //color: Colors.black,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
+                    alignment:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?Alignment.centerLeft
+                        : Alignment.centerRight,
+                    child:  App.localStorage.getString("lang")=="en"?
+                    Text(
                       'Enhance your experience with',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.7),
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
+                    ):Text(
+                      'عزز تجربتك مع',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textDirection: TextDirection.rtl,
                     ),
                   ),
                 ),
@@ -70,12 +77,22 @@ class _SplashScreennState extends State<SplashScreenn> {
                   child: Container(
                     // color: Colors.red,
                     margin: EdgeInsets.only(left: padding * 4),
-                    alignment: Alignment.topLeft,
+                    alignment: App.localStorage.getString("lang") == "en"?Alignment.topLeft
+                    : Alignment.topRight,
                     // padding: EdgeInsets.only(
                     //   right: padding * 8
                     // ),
-                    child: Text(
+                    child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    Text(
                       'Ms damascus salon!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ):
+                    Text(
+                      '!صالون السيدة دمشق',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -91,20 +108,30 @@ class _SplashScreennState extends State<SplashScreenn> {
                       child: SizeConfig.isMobilePortrait
                           ? Column(
                               children: [
-                                listTile('Booking System'),
-                                listTile('Loyalty Points & Coupons'),
-                                listTile('View your History of your Haircut'),
-                                listTile('Product Shopping'),
-                                listTile('Get Direction'),
+                                App.localStorage.getString("lang") == "en" || App.localStorage.getString("lang") == null?
+                                listTile('Booking System') : listTile2("نظام الحجز"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Loyalty points & coupons') : listTile2("نقاط الولاء والقسائم"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('View your History of your Haircut') : listTile2("عرض تاريخ قص الشعر الخاص بك"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Product Shipping') : listTile2("شحن المنتج"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Get Direction') : listTile2("احصل على اتجاه"),
                               ],
                             )
                           : Row(
                               children: [
-                                listTile('Booking System'),
-                                listTile('Loyalty Points & Coupons'),
-                                listTile('View your History of your Haircut'),
-                                listTile('Product Shopping'),
-                                listTile('Get Direction'),
+                                App.localStorage.getString("lang") == "en" || App.localStorage.getString("lang") == null?
+                                listTile('Booking System') : listTile2("نظام الحجز"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Loyalty points & coupons') : listTile2("نقاط الولاء والقسائم"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('View your History of your Haircut') : listTile2("عرض تاريخ قص الشعر الخاص بك"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Product Shipping') : listTile2("شحن المنتج"),
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                listTile('Get Direction') : listTile2("احصل على اتجاه"),
                               ],
                             )),
                 ),
@@ -112,11 +139,16 @@ class _SplashScreennState extends State<SplashScreenn> {
                   flex: 2,
                   child: Container(
                     alignment: Alignment.center,
-                    child: Text(
+                    child:  App.localStorage.getString("lang") == "en" || App.localStorage.getString("lang") == null?
+                    Text(
                       'Sign up or Log in with:',
                       style: CustomFonts.googleBodyFont(
                           color: Colors.white.withOpacity(0.7)),
-                    ),
+                    ):Text(
+                      ':التسجيل أو تسجيل الدخول باستخدام',
+                      style: CustomFonts.googleBodyFont(
+                          color: Colors.white.withOpacity(0.7)),
+                    )
                   ),
                 ),
                 Expanded(
@@ -152,13 +184,21 @@ class _SplashScreennState extends State<SplashScreenn> {
                             child: Container(
                               alignment: Alignment.center,
                               padding: EdgeInsets.only(right: padding * 8),
-                              child: Text(
+                              child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              Text(
                                 'login',
                                 style: CustomFonts.googleBodyFont(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
-                              ),
+                              ):
+                              Text(
+                                'تسجيل الدخول',
+                                style: CustomFonts.googleBodyFont(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
                             ),
                           ),
                         ],
@@ -192,13 +232,21 @@ class _SplashScreennState extends State<SplashScreenn> {
                             child: Container(
                               alignment: Alignment.center,
                               padding: EdgeInsets.only(right: padding * 8),
-                              child: Text(
+                              child: App.localStorage.getString("lang") == "en" || App.localStorage.getString("lang") == null?
+                              Text(
                                 'Phone Number',
                                 style: CustomFonts.googleBodyFont(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
-                              ),
+                              ):
+                              Text(
+                                'رقم الهاتف',
+                                style: CustomFonts.googleBodyFont(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
                             ),
                           ),
                         ],
@@ -293,6 +341,34 @@ class _SplashScreennState extends State<SplashScreenn> {
           ),
         ],
       )),
+    );
+  }
+  Widget listTile2(String textt) {
+    return Expanded(
+      child: Container(
+          child: Row(
+            children: [
+              Expanded(
+                flex: SizeConfig.isMobilePortrait ? 30 : 30,
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(left: padding * 1.5),
+                  child: Text(
+                    '$textt',
+                    style: CustomFonts.googleBodyFont(
+                        color: Colors.white.withOpacity(0.7)),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey, width: 1)),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

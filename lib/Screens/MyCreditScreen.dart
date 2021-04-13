@@ -4,6 +4,7 @@ import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/MyCredit.dart';
 import 'package:http/http.dart' as http;
+import 'package:gold/Constants/Globals.dart';
 
 class MyCreditScreen extends StatefulWidget {
   var accessToken;
@@ -23,7 +24,8 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "transactions/myCredit"
+      "action": "transactions/myCredit",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;

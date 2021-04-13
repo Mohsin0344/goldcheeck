@@ -6,7 +6,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Models/createUserWithMobile.dart';
-
+import 'package:gold/Constants/Globals.dart';
 import 'CustomDialog.dart';
 
 class LogInWitPhone extends StatefulWidget {
@@ -28,7 +28,8 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "action": "customer/createUserWithMobile",
-      "mobileNumber": "$mobileNumber"
+      "mobileNumber": "$mobileNumber",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -85,16 +86,22 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                               child: Container(
                                 padding: EdgeInsets.only(left: padding * 2),
                                 alignment: Alignment.centerLeft,
-                                child: Text(
+                                child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                Text(
                                   'Enter your phone number',
                                   style: CustomFonts.googleHeaderFont(
                                       color: Colors.white, fontSize: 20),
-                                ),
+                                ):   Text(
+                                  'أدخل رقم هاتفك',
+                                  style: CustomFonts.googleHeaderFont(
+                                      color: Colors.white, fontSize: 20),
+                                )
                               ),
                             ),
                           ],
                         ),
                       ),
+
                     ),
                     SizedBox(
                       height: SizeConfig.heightMultiplier * 10,
@@ -113,7 +120,8 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                           child: IntlPhoneField(
                             controller: phoneNumber,
                             decoration: InputDecoration(
-                                labelText: 'Phone Number',
+                                labelText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                'Phone Number': 'رقم الهاتف',
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(),
                                 ),
@@ -149,8 +157,14 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(padding),
                             ),
-                            child: Text(
+                            child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                            Text(
                               'Send Verification Code',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.white, fontSize: 20),
+                            ):
+                            Text(
+                              'أرسل رمز التحقق',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.white, fontSize: 20),
                             ),
@@ -193,15 +207,24 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
                         padding: EdgeInsets.symmetric(horizontal: padding * 3),
                         margin: EdgeInsets.symmetric(horizontal: padding * 2),
                         height: height * 0.25,
-                        child: Text(
-                          'We will send a code to your number. Standard data '
-                          'charges may apply.',
+                        child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        Text(
+                          r'    We will send a code to your number. Standard data '
+                          'charges \t \t \t \t \t  \t \t \t \t  may apply.',
                           style: CustomFonts.googleBodyFont(
                               color: Colors.white.withOpacity(0.7),
                               fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
-                        ),
+                        ):   Text(
+                          r'سنرسل رمزًا إلى رقمك. قد يتم تطبيق رسوم البيانات القياسية.',
+                          style: CustomFonts.googleBodyFont(
+                              color: Colors.white.withOpacity(0.7),
+                              fontSize: 20),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          textAlign: TextAlign.right,
+                        )
                       ),
                     )
                   ],

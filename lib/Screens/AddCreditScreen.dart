@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gold/Constants/Calendar.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/AddCreditFromCreditCard.dart';
 import 'package:gold/Screens/CustomDialog.dart';
-import 'package:gold/Screens/GreetingsScreen.dart';
-
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class AddCreditFromCreditCardd extends StatefulWidget {
   var accessToken;
@@ -53,7 +49,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
         "cardHolderName": "$cardHolderName",
         "cardExpireMonth": "$cardExpireMonth",
         "cardExpireYear": "$cardExpireYear",
-        "cardCCV": "$cardCCV"
+        "cardCCV": "$cardCCV",
+        "lang": App.localStorage.getString("lang"),
       });
       if (response.statusCode == 200) {
         final String responseString = response.body;

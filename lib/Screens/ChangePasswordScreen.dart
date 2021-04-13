@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Models/UpdatePassword.dart';
-import 'package:gold/Screens/ProfileScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import '../Constants/SizeConfig.dart';
 import 'CustomDialog.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   var accessToken;
@@ -37,6 +36,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       "oldPassword": "$oldPassword",
       "newPassword": "$newPassword",
       "newConfirmPassword": "$newConfirmPassword",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -58,13 +58,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         backgroundColor: Colors.black,
         title: Container(
           padding: EdgeInsets.only(left: SizeConfig.widthMultiplier * 5),
-          child: Text(
+          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          Text(
             'Change Password',
             style: CustomFonts.googleHeaderFont(
                 color: Colors.white,
                 fontSize: SizeConfig.textMultiplier * 4,
                 fontWeight: FontWeight.bold),
-          ),
+          ):
+          Text(
+            'تغيير كلمة المرور',
+            style: CustomFonts.googleHeaderFont(
+                color: Colors.white,
+                fontSize: SizeConfig.textMultiplier * 4,
+                fontWeight: FontWeight.bold),
+          )
         ),
       ),
       body: Center(
@@ -73,11 +81,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             SizedBox(
               height: SizeConfig.heightMultiplier * 8,
             ),
-            textField('Old Password', Icons.lock, true,
+            textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?'Old Password':'كلمة المرور القديمة', Icons.lock, true,
                 controller: oldPassword),
-            textField('New Password', Icons.lock, true,
+            textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?'New Password':'كلمة المرور الجديدة', Icons.lock, true,
                 controller: newPassword),
-            textField('Confirm Password', Icons.lock, true,
+            textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?'Confirm Password':'تأكيد كلمة المرور'
+            , Icons.lock, true,
                 controller: newConfirmPassword),
           ],
         ),
@@ -119,8 +128,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   });
             }
           },
-          child: Text(
+          child:App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          Text(
             'Change Password',
+            style: CustomFonts.googleBodyFont(
+                color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
+          ):
+          Text(
+            'تغيير كلمة المرور',
             style: CustomFonts.googleBodyFont(
                 color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
           ),

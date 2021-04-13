@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/HomeScreen.dart';
-import 'package:gold/Screens/LoginScreen.dart';
 import 'package:gold/Screens/NewSplashScreen.dart';
 
 Future<void> main() async {
@@ -12,19 +9,16 @@ Future<void> main() async {
   await App.init();
   String status=  App.localStorage.getString("accessToken");
   print("Shared prefrence accessToken is----> $status");
-  runApp(MyApp(
-    status: status,
-  ));
+  print("language is -----------------> ${App.localStorage.getString("lang")}");
+  print("First Name is -----------------> ${App.localStorage.getString("firstName")}");
+  print("Last Name is -----------------> ${App.localStorage.getString("lastName")}");
+  runApp(MyApp(status: status,));
 }
 
 class MyApp extends StatefulWidget {
   var status;
-  var firstName;
-  var lastName;
   MyApp({
    this.status,
-    this.firstName,
-    this.lastName
 });
   @override
   _MyAppState createState() => _MyAppState();
@@ -43,7 +37,16 @@ class _MyAppState extends State<MyApp> {
             return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'السحر الدمشقي',
-                home: widget.status==null? NewSplashScreen(): LoginScreen()
+                home: widget.status==null? NewSplashScreen(): HomeScreen(
+                  firstName: App.localStorage.getString("firstName"),
+                  lastName: App.localStorage.getString("lastName"),
+                  isVIP: App.localStorage.getInt("isVIP"),
+                  walletCredit:
+                  App.localStorage.getInt("walletCredit"),
+                  accessToken: App.localStorage.getString('accessToken'),
+                  email: App.localStorage.getString("email"),
+                  phoneNumber: App.localStorage.getString("phoneNumber"),
+                )
             );
           },
         );

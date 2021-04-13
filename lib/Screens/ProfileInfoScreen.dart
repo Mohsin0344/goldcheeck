@@ -1,15 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
-import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/CompleteProfile.dart';
-import 'package:gold/Screens/AddressScreen.dart';
 import 'package:gold/Screens/CustomDialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
-import 'HomeScreen.dart';
 import 'LoginScreen.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class ProfileInfo extends StatefulWidget {
   var accessToken;
@@ -42,6 +40,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
       "lastName": "$lastName",
       "email": "$email",
       "password": "$password",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;

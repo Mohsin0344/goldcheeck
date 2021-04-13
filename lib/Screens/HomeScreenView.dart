@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Screens/AddCreditScreen.dart';
 import 'package:gold/Screens/BookingHistoryScreen.dart';
+import 'package:gold/Screens/HomeScreen.dart';
 import 'package:gold/Screens/MyCreditScreen.dart';
-import 'package:gold/Screens/ProductDetails.dart';
 import 'package:gold/Screens/ProductNavigationScreen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:recase/recase.dart';
 import '../Constants/SizeConfig.dart';
-import 'ProductsScreen.dart';
 
 class HomeScreenView extends StatefulWidget {
   var fullName;
@@ -45,6 +44,27 @@ class _StateHomeScreenView extends State<HomeScreenView> {
             child: Row(
               children: [
                 Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialogBoxx(
+                              message: "hello",
+                              icon: Icons.check,
+                            );
+                          });
+                    },
+                    child: Container(
+                      child: Icon(
+                        Icons.menu,
+                        color: Color(0xff2DB7B4),
+                      )
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: padding,
@@ -61,7 +81,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                   ),
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 8,
                   child: Container(
                     margin: EdgeInsets.only(right: padding * 3, top: padding * 2),
                     padding: EdgeInsets.only(left: padding * 1.5),
@@ -106,12 +126,22 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                                 color: Colors.white, width: 0.3),
                                             color: Color(0xff2DB7B4),
                                           ),
-                                          child: Text(
+                                          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                          Text(
                                             'VIP',
                                             style: CustomFonts.googleBodyFont(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                             ),
+                                          ):
+                                          Text(
+                                            'كبار الشخصيات',
+                                            style: CustomFonts.googleBodyFont(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: SizeConfig.textMultiplier * 0.7
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
@@ -128,10 +158,12 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                               ? Container(
                             alignment: Alignment.topLeft,
                             child: RichText(
-                              text: TextSpan(
+                              text:  TextSpan(
                                   text: 'Vip package Expires:',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
+                                      color: Colors.white,
+                                    fontSize: SizeConfig.textMultiplier * 1.5
+                                  ),
                                   children: [
                                     TextSpan(
                                       text: '  09 Mar 2020',
@@ -169,6 +201,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
               ],
             ),
           ),
+          App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
           Container(
             margin: EdgeInsets.symmetric(horizontal: padding * 2),
             height: height * 0.45,
@@ -258,8 +291,8 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                     child: Container(
                                         alignment: Alignment.bottomCenter,
                                         child: Image.asset(
-                                          'images/credit-card.png',
-                                          width: SizeConfig.widthMultiplier * 10,
+                                          'images/unnamed.png',
+                                          width: SizeConfig.widthMultiplier * 12,
                                         )),
                                   ),
                                   Expanded(
@@ -302,8 +335,8 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                     child: Container(
                                         alignment: Alignment.bottomCenter,
                                         child: Image.asset(
-                                          'images/creditcard.png',
-                                          width: SizeConfig.widthMultiplier * 10,
+                                          'images/unnamed (1).png',
+                                          width: SizeConfig.widthMultiplier * 12,
                                         )),
                                   ),
                                   Expanded(
@@ -347,8 +380,8 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                     child: Container(
                                         alignment: Alignment.bottomCenter,
                                         child: Image.asset(
-                                          'images/calendar.png',
-                                          width: SizeConfig.widthMultiplier * 10,
+                                          'images/unnamed (3).png',
+                                          width: SizeConfig.widthMultiplier * 14,
                                         )),
                                   ),
                                   Expanded(
@@ -357,6 +390,214 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                       alignment: Alignment.center,
                                       child: Text(
                                         'History Haircut',
+                                        style: CustomFonts.googleBodyFont(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ) : Container(
+            margin: EdgeInsets.symmetric(horizontal: padding * 2),
+            height: height * 0.45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(padding),
+              color: Color(0xffddc654),
+              // color: Colors.red
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.black, width: 1))),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: '${widget.walletCredit}',
+                                    style: CustomFonts.googleBodyFont(
+                                        color: Color(0xff00A9A5),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                    children: [
+                                      TextSpan(
+                                        text: '  ائتمان',
+                                        style: CustomFonts.googleBodyFont(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      )
+                                    ]),
+                              )),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(color: Colors.black, width: 1),
+                              ),
+                            ),
+                            child: Text(
+                              ':رصيد المحفظة',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                            alignment: Alignment.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: AddCreditFromCreditCardd(
+                                        accessToken: widget.accessToken,
+                                      )));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      right: BorderSide(
+                                          color: Colors.black, width: 1))),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Image.asset(
+                                          'images/unnamed (1).png',
+                                          width: SizeConfig.widthMultiplier * 12,
+                                        )),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'إضافة رصيد',
+                                        style: CustomFonts.googleBodyFont(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: MyCreditScreen(
+                                          accessToken: widget.accessToken)));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      right: BorderSide(
+                                          color: Colors.black, width: 1))),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Image.asset(
+                                          'images/unnamed.png',
+                                          width: SizeConfig.widthMultiplier * 12,
+                                        )),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'رصيدي',
+                                        style: CustomFonts.googleBodyFont(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: BookingHistoryScreen(
+                                        accessToken: widget.accessToken,
+                                      )));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      right: BorderSide(
+                                          color: Colors.black, width: 1))),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Image.asset(
+                                          'images/unnamed (3).png',
+                                          width: SizeConfig.widthMultiplier * 14,
+                                        )),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'قصة شعر التاريخ',
                                         style: CustomFonts.googleBodyFont(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
@@ -386,7 +627,8 @@ class _StateHomeScreenView extends State<HomeScreenView> {
               scrollDirection: Axis.horizontal,
               itemCount: 2,
               itemBuilder: (BuildContext context, index) {
-                return Container(
+                return  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                Container(
                   margin: EdgeInsets.only(left: padding * 2, top: padding * 2),
                   height: height * 0.45,
                   width: width * 0.40,
@@ -496,7 +738,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                               child: ProductNavigationScreen(
                                                 accessToken: widget.accessToken,
                                                 firstName: widget.fullName.split(" ")[0],
-                                                lastName: widget.fullName.spli(" ")[1],
+                                                lastName: widget.fullName.split(" ")[1],
                                               )));
                                     },
                                     shape: RoundedRectangleBorder(
@@ -509,6 +751,138 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                           fontSize:
                                           SizeConfig.textMultiplier * 1.5),
                                     ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ) :  Container(
+                  margin: EdgeInsets.only(left: padding * 2, top: padding * 2),
+                  height: height * 0.45,
+                  width: width * 0.40,
+                  decoration: BoxDecoration(
+                      color: Color(0xffddc654),
+                      borderRadius: BorderRadius.circular(padding),
+                      border: Border.all(color: Colors.white, width: 1)),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: padding,
+                              bottom: padding,
+                              left: padding,
+                              right: padding),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: Container(
+                                          padding:
+                                          EdgeInsets.only(top: padding * 2.5,),
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            'إيقاف ٪',
+                                            style: CustomFonts.googleHeaderFont(
+                                                color: Color(0xff2DB7B4),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 30),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'أي قصة شعر',
+                                              style: CustomFonts.googleHeaderFont(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 20),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '۰۵',
+                                    style: CustomFonts.googleHeaderFont(
+                                        color: Color(0xff2DB7B4),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 50),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(padding),
+                                bottomRight: Radius.circular(padding),
+                              ),
+                              color: Colors.grey),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: padding),
+                                  child: RaisedButton(
+                                    color: Color(0xff2DB7B4),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type:
+                                              PageTransitionType.rightToLeft,
+                                              child: ProductNavigationScreen(
+                                                accessToken: widget.accessToken,
+                                                firstName: widget.fullName.split(" ")[0],
+                                                lastName: widget.fullName.spli(" ")[1],
+                                              )));
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(padding * 6)),
+                                    child: Text(
+                                      'احجز الآن',
+                                      style: CustomFonts.googleBodyFont(
+                                          color: Colors.white,
+                                          fontSize:
+                                          SizeConfig.textMultiplier * 1.5),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  alignment: Alignment.centerRight,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: padding, vertical: padding),
+                                  child: Text(
+                                    'فقط لأعضاءكبار الشخصيات',
+                                    style: CustomFonts.googleBodyFont(
+                                        color: Colors.white, fontSize: SizeConfig.textMultiplier * 2.2),
                                   ),
                                 ),
                               ),
@@ -532,8 +906,16 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                   child: Container(
                     padding: EdgeInsets.only(left: padding * 4),
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    Text(
                       'Products',
+                      style: CustomFonts.googleHeaderFont(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                    ):
+                    Text(
+                      'منتجات',
                       style: CustomFonts.googleHeaderFont(
                           color: Colors.white,
                           fontSize: 22,
@@ -557,8 +939,15 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                     },
                     child: Container(
                       alignment: Alignment.centerRight,
-                      child: Text(
+                      child:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      Text(
                         'All Products',
+                        style: CustomFonts.googleBodyFont(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w300),
+                      ):Text(
+                        'جميع المنتجات',
                         style: CustomFonts.googleBodyFont(
                             color: Colors.white,
                             fontSize: 22,
@@ -614,7 +1003,8 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                             Color(0xffF0F0F0),
                           ]),
                       border: Border.all(color: Colors.white, width: 0.2)),
-                  child: Column(
+                  child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                  Column(
                     children: [
                       Expanded(
                         child: Container(
@@ -641,6 +1031,34 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                         ),
                       ),
                     ],
+                  ) :
+                  Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            'ال',
+                            style: CustomFonts.googleBodyFont(
+                                color: Colors.grey,
+                                fontSize: 18,
+                                letterSpacing: 1.5),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'أجواء الصيف',
+                            style: CustomFonts.googleBodyFont(
+                                color: Colors.black,
+                                fontSize: 18,
+                                letterSpacing: 1.5),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -658,3 +1076,196 @@ class _StateHomeScreenView extends State<HomeScreenView> {
     return false;
   }
 }
+class CustomDialogBoxx extends StatefulWidget {
+  var icon;
+  var message;
+
+  CustomDialogBoxx({this.icon, this.message});
+
+  @override
+  _CustomDialogBoxxState createState() => _CustomDialogBoxxState();
+}
+
+class _CustomDialogBoxxState extends State<CustomDialogBoxx> {
+  var textColor_1 = Colors.white;
+  var textColor_2 = Color(0xff00A9A5);
+  var selectedContainer = Color(0xff00A9A5);
+  var selectedContainer2 = Colors.transparent;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(App.localStorage.getString("lang")== "en"){
+      selectedContainer = Color(0xff00A9A5);
+      textColor_1 = Colors.white;
+      selectedContainer2 = Colors.transparent;
+      textColor_2 = Color(0xff00A9A5);
+    } else {
+      selectedContainer = Colors.transparent;
+      textColor_1 = Color(0xff00A9A5);
+      selectedContainer2 = Color(0xff00A9A5);
+      textColor_2 = Colors.white;
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: contentBox(context),
+    );
+  }
+
+  contentBox(context) {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.only(
+          top: SizeConfig.heightMultiplier * 2,
+          left: SizeConfig.widthMultiplier * 2,
+          right: SizeConfig.widthMultiplier * 2
+        ),
+        height: SizeConfig.heightMultiplier * 30,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12)
+        ),
+        child: Column(
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                height: SizeConfig.heightMultiplier * 4,
+                alignment: Alignment.topCenter,
+                child:Text(
+                  'Select Language',
+                  style: CustomFonts.googleBodyFont(
+                    fontWeight: FontWeight.bold,
+                    fontSize: SizeConfig.textMultiplier * 2.5,
+                    color: Color(0xff00A9A5),
+                  ),
+                ),
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                height: SizeConfig.heightMultiplier * 0.2,
+                color: Color(0xff00A9A5),
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Container(
+                alignment: Alignment.center,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap:() async{
+                          await App.init();
+                          await App.localStorage.setString("lang", "en");
+                          setState(() {
+                            selectedContainer = Color(0xff00A9A5);
+                            textColor_1 = Colors.white;
+                            selectedContainer2 = Colors.transparent;
+                            textColor_2 = Color(0xff00A9A5);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: selectedContainer
+                          ),
+                          alignment: Alignment.center,
+                        child: Text(
+                          'English',
+                          style: CustomFonts.googleBodyFont(
+                            color: textColor_1,
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizeConfig.textMultiplier * 3,
+                            fontStyle: FontStyle.italic
+                          ),
+                        ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async{
+                          await App.init();
+                          await App.localStorage.setString("lang", "ar");
+                        setState(() {
+                          selectedContainer = Colors.transparent;
+                          textColor_1 = Color(0xff00A9A5);
+                          selectedContainer2 = Color(0xff00A9A5);
+                          textColor_2 = Colors.white;
+                        });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: selectedContainer2
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'عربى',
+                            style: CustomFonts.googleBodyFont(
+                                color: textColor_2,
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.textMultiplier * 3,
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen(
+                    firstName: App.localStorage.getString("firstName"),
+                    lastName: App.localStorage.getString("lastName"),
+                    isVIP: App.localStorage.getInt("isVIP"),
+                    walletCredit:
+                    App.localStorage.getInt("walletCredit"),
+                    accessToken: App.localStorage.getString('accessToken'),
+                    email: App.localStorage.getString("email"),
+                    phoneNumber: App.localStorage.getString("phoneNumber"),
+                  )), (Route<dynamic> route) => false);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.heightMultiplier * 2
+                  ),
+                  width: SizeConfig.widthMultiplier * 20,
+                  decoration: BoxDecoration(
+                      color: Color(0xff00A9A5),
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'OK',
+                    style: CustomFonts.googleBodyFont(
+                      color: Color(0xffffffff),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+

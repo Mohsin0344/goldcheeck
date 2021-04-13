@@ -4,8 +4,8 @@ import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/GetCartDetails.dart';
 import 'package:gold/Screens/CartScreen.dart';
 import 'package:gold/Screens/ProductsScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
+import 'package:gold/Constants/Globals.dart';
 
 class ProductNavigationScreen extends StatefulWidget {
   var accessToken;
@@ -36,7 +36,8 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "cart/getCartDetail"
+      "action": "cart/getCartDetail",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -234,12 +235,15 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
               cartLength: cartLength,
               firstName: widget.firstName,
               lastName : widget.lastName,
+              myPage: _myPage,
             ),
             CartScreen(
               firstName: widget.firstName,
               lastName : widget.lastName,
               context:this.context,
               accessToken: widget.accessToken,
+              myPage: _myPage,
+              arrowValue: "0",
             ),
           ],
           //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.

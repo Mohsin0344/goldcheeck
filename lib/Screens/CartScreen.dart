@@ -5,15 +5,17 @@ import 'package:gold/Models/GetCartDetails.dart';
 import 'package:gold/Screens/AddressScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class CartScreen extends StatefulWidget {
   var firstName;
   var lastName;
   var accessToken;
   var context;
+  var arrowValue;
   PageController myPage;
   CartScreen({this.accessToken, this.context, this.firstName, this.lastName,
- this.myPage
+ this.myPage,this.arrowValue
   });
 
   @override
@@ -32,7 +34,8 @@ class _CartScreenState extends State<CartScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "cart/getCartDetail"
+      "action": "cart/getCartDetail",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -71,13 +74,50 @@ class _CartScreenState extends State<CartScreen> {
            Container(
              alignment: Alignment.center,
              height: height * 0.25,
-             child: Text(
-               'Cart',
-               style: CustomFonts.googleHeaderFont(
-                   color: Colors.white,
-                   fontSize: 30,
-                   fontWeight: FontWeight.bold),
-             ),
+             child:  Row(
+               children: [
+                 Expanded(
+                   flex: 2,
+                   child: InkWell(
+                     onTap: ()=> Navigator.pop(context),
+                     child: Visibility(
+                       visible: widget.arrowValue == "1"? true:false,
+                       child: Container(
+                         margin: EdgeInsets.only(
+                           left: SizeConfig.widthMultiplier
+                         ),
+                         alignment: Alignment.centerLeft,
+                         child: Icon(
+                           Icons.arrow_back,
+                           color: Colors.white,
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   flex: 3,
+                   child: Container(
+                     child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                     Text(
+                       'Cart',
+                       style: CustomFonts.googleHeaderFont(
+                           color: Colors.white,
+                           fontSize: 30,
+                           fontWeight: FontWeight.bold),
+                       textAlign: TextAlign.left,
+                     ):
+                     Text(
+                       'عربة التسوق',
+                       style: CustomFonts.googleHeaderFont(
+                           color: Colors.white,
+                           fontSize: 30,
+                           fontWeight: FontWeight.bold),
+                     ),
+                   )
+                 )
+               ],
+             )
            ),
            FutureBuilder(
              future: fetchData(),
@@ -87,7 +127,8 @@ class _CartScreenState extends State<CartScreen> {
                    padding: EdgeInsets.only(left: padding * 2),
                    margin: EdgeInsets.only(right: padding * 6),
                    child: RichText(
-                     text: TextSpan(
+                     text:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                     TextSpan(
                          text: '${snapshot.data.data.cartProducts.length}',
                          style: CustomFonts.googleHeaderFont(
                              color: Colors.white,
@@ -101,11 +142,27 @@ class _CartScreenState extends State<CartScreen> {
                                  fontSize: 28,
                                  fontWeight: FontWeight.w300),
                            )
+                         ]) :TextSpan(
+                         text: "العناصر في عربة التسوق الخاصة بك  ",
+                         style: CustomFonts.googleHeaderFont(
+                             color: Colors.white,
+                             fontSize: SizeConfig.textMultiplier * 2.5,
+                             fontWeight: FontWeight.w300),
+                         children: [
+                           TextSpan(
+                             text: '${snapshot.data.data.cartProducts.length}',
+                             style: CustomFonts.googleHeaderFont(
+                                 color: Colors.white,
+                                 fontSize: 28,
+                                 fontWeight: FontWeight.w300),
+                           )
                          ]),
                    ),
                  );
                } else {
-                 return Container(
+                 return
+                   App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                   Container(
                    padding: EdgeInsets.only(left: padding * 2),
                    margin: EdgeInsets.only(right: padding * 6),
                    child: RichText(
@@ -125,7 +182,43 @@ class _CartScreenState extends State<CartScreen> {
                            )
                          ]),
                    ),
-                 );
+                 ):
+                   Container(
+                     padding: EdgeInsets.only(left: padding * 2),
+                     margin: EdgeInsets.only(right: padding * 6),
+                     child: RichText(
+                       text:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                       TextSpan(
+                           text: '${snapshot.data.data.cartProducts.length}',
+                           style: CustomFonts.googleHeaderFont(
+                               color: Colors.white,
+                               fontSize: 30,
+                               fontWeight: FontWeight.w300),
+                           children: [
+                             TextSpan(
+                               text: ' Items into your Cart',
+                               style: CustomFonts.googleHeaderFont(
+                                   color: Colors.white,
+                                   fontSize: 28,
+                                   fontWeight: FontWeight.w300),
+                             )
+                           ]) :TextSpan(
+                           text: "العناصر في عربة التسوق الخاصة بك  ",
+                           style: CustomFonts.googleHeaderFont(
+                               color: Colors.white,
+                               fontSize: SizeConfig.textMultiplier * 2.5,
+                               fontWeight: FontWeight.w300),
+                           children: [
+                             TextSpan(
+                               text: '0',
+                               style: CustomFonts.googleHeaderFont(
+                                   color: Colors.white,
+                                   fontSize: 28,
+                                   fontWeight: FontWeight.w300),
+                             )
+                           ]),
+                     ),
+                   );
                }
              },
            ),
@@ -333,7 +426,8 @@ class _CartScreenState extends State<CartScreen> {
                              top: SizeConfig.heightMultiplier * 2,
                            ),
                            height: SizeConfig.heightMultiplier * 4,
-                           child: Row(
+                           child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                           Row(
                              children: [
                                Expanded(
                                  child: Container(
@@ -355,6 +449,30 @@ class _CartScreenState extends State<CartScreen> {
                                              fontSize:
                                              SizeConfig.textMultiplier * 3),
                                        )))
+                             ],
+                           ): Row(
+                             children: [
+                               Expanded(
+                                   child: Container(
+                                       alignment: Alignment.centerLeft,
+                                       child: Text(
+                                         '\$ $totalBill',
+                                         style: CustomFonts.googleBodyFont(
+                                             color:
+                                             Colors.yellow.withOpacity(0.8),
+                                             fontSize:
+                                             SizeConfig.textMultiplier * 3),
+                                       ))),
+                               Expanded(
+                                 child: Container(
+                                   alignment: Alignment.centerRight,
+                                     child: Text(
+                                       'مجموع',
+                                       style: CustomFonts.googleBodyFont(
+                                           color: Colors.white,
+                                           fontSize: SizeConfig.textMultiplier * 3),
+                                     )),
+                               ),
                              ],
                            ),
                          ),
@@ -395,15 +513,19 @@ class _CartScreenState extends State<CartScreen> {
                          decoration: BoxDecoration(
                              borderRadius: BorderRadius.circular(padding),
                              color: Color(0xff00A9A5)),
-                         child: Row(children: [
+                         child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                         Row(
+                             children: [
                            Expanded(
                                flex: 12,
                                child: Container(
                                  alignment: Alignment.center,
                                  child: Text('Proceed to Checkout',
                                      style: CustomFonts.googleBodyFont(
-                                         color: Colors.white, fontSize: 22)),
-                               )),
+                                         color: Colors.white, fontSize: 22)
+                                 ),
+                               )
+                           ),
                            Expanded(
                                flex: 2,
                                child: Container(
@@ -414,7 +536,29 @@ class _CartScreenState extends State<CartScreen> {
                                  child: Icon(Icons.arrow_forward,
                                      color: Colors.white),
                                )),
-                         ]),
+                         ]) : Row(
+                             children: [
+                               Expanded(
+                                   flex: 12,
+                                   child: Container(
+                                     alignment: Alignment.center,
+                                     child: Text('الشروع في الخروج',
+                                         style: CustomFonts.googleBodyFont(
+                                             color: Colors.white, fontSize: 22)
+                                     ),
+                                   )
+                               ),
+                               Expanded(
+                                   flex: 2,
+                                   child: Container(
+                                     decoration: BoxDecoration(
+                                         border: Border(
+                                             left: BorderSide(
+                                                 color: Colors.white, width: 0.5))),
+                                     child: Icon(Icons.arrow_forward,
+                                         color: Colors.white),
+                                   )),
+                             ]),
                        ),
                      );
                    } else {

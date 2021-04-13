@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/BookingCreate.dart';
-import 'package:gold/Screens/AppointmentDetailsScreen.dart';
 import 'package:gold/Screens/CustomDialog.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
+import 'package:gold/Constants/Globals.dart';
 
 class CalendarScreen extends StatefulWidget {
   var accessToken;
@@ -22,8 +21,12 @@ class CalendarScreen extends StatefulWidget {
 }
 var dateForAPI = "0";
 var timeForAPI= "0";
+Color checkedColor = Color(0xff00A9A5);
+var height = SizeConfig.heightMultiplier * 50;
+var width = SizeConfig.widthMultiplier * 100;
 class _CalendarScreenState extends State<CalendarScreen> {
-  Color checkedColor = Color(0xff00A9A5);
+
+
   Color simpleColor = Colors.transparent;
   bool check=false;
   int selectedIndex;
@@ -67,6 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       "services[0]": "${widget.idServices}",
       "date": "$dateForAPI",
       "time": "${timeForAPI.substring(0,timeForAPI.indexOf(" "))}",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -81,8 +85,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   var counter = 0;
   List<bool> isSelected = [false,false,false,];
   final List<Color> colors = <Color>[Colors.transparent];
-  var height = SizeConfig.heightMultiplier * 50;
-  var width = SizeConfig.widthMultiplier * 100;
+
   var padding = CustomSizes.padding;
   DateTime startDate = DateTime.now().subtract(Duration(days: 2));
   DateTime endDate = DateTime.now().add(Duration(days: 10));
@@ -99,9 +102,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   onSelect(data) {
     String formattedDate=data.toString();
-    setState(() {
-      dateForAPI =formattedDate.substring(0,formattedDate.indexOf(" "));
-    });
+    dateForAPI =formattedDate.substring(0,formattedDate.indexOf(" "));
+    // setState(() {
+    //   dateForAPI =formattedDate.substring(0,formattedDate.indexOf(" "));
+    // });
   }
 
   onWeekSelect(data) {
@@ -125,17 +129,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("ID Services is      ${widget.idServices}");
-    print("Access Token      ${widget.accessToken}");
-    print(timeForAPI);
+    // print(isSelected);
+    // print("ID Services is      ${widget.idServices}");
+    // print("Access Token      ${widget.accessToken}");
+    // print(timeForAPI);
     print(dateForAPI);
-    print(timeForAPI.substring(0,timeForAPI.indexOf(" ")));
-    final startTime = TimeOfDay(hour: 9, minute: 0);
-    final endTime = TimeOfDay(hour: 22, minute: 0);
-    final step = Duration(minutes: 30);
-    final times = getTimes(startTime, endTime, step)
-        .map((tod) => tod.format(context))
-        .toList();
+    // print(timeForAPI.substring(0,timeForAPI.indexOf(" ")));
+
+
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -361,80 +362,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    child: CalendarStrip(
-                      startDate: startDate,
-                      endDate: endDate,
-                      selectedDate: selectedDate,
-                      onDateSelected: onSelect,
-                      onWeekSelected: onWeekSelect,
-                      dateTileBuilder: dateTileBuilder,
-                      iconColor: Colors.white,
-                      monthNameWidget: _monthNameWidget,
-                      markedDates: markedDates,
-                      containerDecoration: BoxDecoration(color: Colors.black12),
-                      addSwipeGesture: true,
-                      containerHeight: 100,
-                    ),
+                    child:  Container(
+                        child: CalendarStrip(
+                          startDate: startDate,
+                          endDate: endDate,
+                          selectedDate: selectedDate,
+                          onDateSelected: onSelect,
+                          onWeekSelected: onWeekSelect,
+                          dateTileBuilder: dateTileBuilder,
+                          iconColor: Colors.white,
+                          monthNameWidget: _monthNameWidget,
+                          markedDates: markedDates,
+                          containerDecoration: BoxDecoration(color: Colors.black12),
+                          addSwipeGesture: true,
+                        )),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
                                 color: Color(0xff3B3F52), width: 1))),
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: GridView.builder(
-                      itemCount: times.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio:  width * 2/ height * 1.1,
-                          crossAxisCount: (SizeConfig.isMobilePortrait) ? 4 : 3),
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap:(){
-                            if(check==true){
-                              print('trueeeeeeeeeeeeeeeeeeeeeeeee');
-                              setState(() {
-                                selectedIndex=index;
-                                check=false;
-                                timeForAPI = times[index];
-                              });
-                            }
-                            else{
-                              print('falseeeeeeeeeeeeeeeeeeeeeeeeeee');
-                              setState(() {
-                                selectedIndex=200;
-                                check=true;
-                              });
-                            }
-                          },
-
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.heightMultiplier * 0.9,
-                              left: SizeConfig.widthMultiplier * 1.2
-                            ),
-                            decoration: BoxDecoration(
-                            color: check==true && selectedIndex==index?checkedColor:Colors.transparent,
-                              borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1
-                              )
-                            ),
-                            child: Text('${times[index]}',
-                              style: CustomFonts.googleBodyFont(
-                                color: Colors.white
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                )
+                TimrForAppointment()
               ],
             ),
             decoration: BoxDecoration(
@@ -539,7 +487,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           builder: (BuildContext context) {
                             return CustomDialogBox(
                               message: "Booking Created Successfully",
-                              icon: Icons.error_outline,
+                              icon: Icons.check,
                             );
                           });
                       // Navigator.push(
@@ -612,7 +560,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     ];
 
     if (isDateMarked == true) {
-      _children.add(getMarkedIndicatorWidget());
+      // _children.add(getMarkedIndicatorWidget());
     }
 
     return AnimatedContainer(
@@ -620,7 +568,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       alignment: Alignment.center,
       padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 5),
       decoration: BoxDecoration(
-        color: !isSelectedDate ? Color(0xff3B3F52) : Color(0xff00A9A5),
+        color: !isSelectedDate ? Color(0xff3B3F52) :  Color(0xff3ABCB8),
         borderRadius: BorderRadius.all(Radius.circular(60)),
         // shape: BoxShape.circle
       ),
@@ -647,18 +595,93 @@ class _CalendarScreenState extends State<CalendarScreen> {
       )
     ]);
   }
-  Iterable<TimeOfDay> getTimes(TimeOfDay startTime, TimeOfDay endTime, Duration step) sync* {
-    var hour = startTime.hour;
-    var minute = startTime.minute;
 
-    do {
-      yield TimeOfDay(hour: hour, minute: minute);
-      minute += step.inMinutes;
-      while (minute >= 60) {
-        minute -= 60;
-        hour++;
-      }
-    } while (hour < endTime.hour ||
-        (hour == endTime.hour && minute <= endTime.minute));
+
+}
+class TimrForAppointment extends StatefulWidget {
+  @override
+  _TimrForAppointmentState createState() => _TimrForAppointmentState();
+}
+Iterable<TimeOfDay> getTimes(TimeOfDay startTime, TimeOfDay endTime, Duration step) sync* {
+  var hour = startTime.hour;
+  var minute = startTime.minute;
+
+  do {
+    yield TimeOfDay(hour: hour, minute: minute);
+    minute += step.inMinutes;
+    while (minute >= 60) {
+      minute -= 60;
+      hour++;
+    }
+  } while (hour < endTime.hour ||
+      (hour == endTime.hour && minute <= endTime.minute));
+}
+final startTime = TimeOfDay(hour: 9, minute: 0);
+final endTime = TimeOfDay(hour: 22, minute: 0);
+final step = Duration(minutes: 30);
+class _TimrForAppointmentState extends State<TimrForAppointment> {
+  bool check=false;
+  int selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    final times = getTimes(startTime, endTime, step)
+        .map((tod) => tod.format(context))
+        .toList();
+    return Expanded(
+      flex: 2,
+      child: Container(
+        child: GridView.builder(
+          itemCount: times.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio:  width * 2/ height * 1.1,
+              crossAxisCount: (SizeConfig.isMobilePortrait) ? 4 : 3),
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+              onTap:(){
+                if(check==true){
+                  print('trueeeeeeeeeeeeeeeeeeeeeeeee');
+                  setState(() {
+                    selectedIndex=index;
+                    check=false;
+                    timeForAPI = times[index];
+                  });
+                }
+                else{
+                  print('falseeeeeeeeeeeeeeeeeeeeeeeeeee');
+                  setState(() {
+                    selectedIndex=200;
+                    check=true;
+                  });
+                }
+              },
+
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                    top: SizeConfig.heightMultiplier * 0.9,
+                    left: SizeConfig.widthMultiplier * 1.2
+                ),
+                decoration: BoxDecoration(
+                    color: selectedIndex==index?checkedColor:Colors.transparent,
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1
+                    )
+                ),
+                child: Text('${times[index]}',
+                  style: CustomFonts.googleBodyFont(
+                      color: Colors.white
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
+

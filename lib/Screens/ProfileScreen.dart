@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/LogOut.dart';
 import 'package:gold/Screens/CustomDialog.dart';
@@ -8,8 +9,6 @@ import 'package:gold/Screens/LoginScreen.dart';
 import 'package:gold/Screens/ProfileInfoScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'ChangePasswordScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -39,7 +38,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final String url = "http://15.185.204.189/webapi/server.php";
     final response = await http.post(url,
         headers: {"key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"},
-        body: {"accessToken": widget.accessToken, "action": "customer/logout"});
+        body: {"accessToken": widget.accessToken,
+          "action": "customer/logout",
+          "lang": App.localStorage.getString("lang"),
+        });
     if (response.statusCode == 200) {
       final String responseString = response.body;
       print(responseString.toString());
@@ -63,8 +65,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
          title: Container(
            alignment: Alignment.center,
            padding: EdgeInsets.only(right: SizeConfig.widthMultiplier * 10),
-           child: Text(
+           child:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+           Text(
              'Profile',
+             style: CustomFonts.googleHeaderFont(
+                 color: Colors.white,
+                 fontSize: SizeConfig.textMultiplier * 4,
+                 fontWeight: FontWeight.bold),
+           ):
+           Text(
+             'الملف الشخصي',
              style: CustomFonts.googleHeaderFont(
                  color: Colors.white,
                  fontSize: SizeConfig.textMultiplier * 4,
@@ -124,7 +134,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                        child: ChangePasswordScreen(
                            accessToken: widget.accessToken)));
              },
-             child: Container(
+             child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+             Container(
                height: SizeConfig.heightMultiplier * 9,
                child: Row(
                  children: [
@@ -163,6 +174,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                    )
                  ],
                ),
+             ) :
+             Container(
+               height: SizeConfig.heightMultiplier * 9,
+               child: Row(
+                 children: [
+                   Expanded(
+                     child: Container(
+                       margin: EdgeInsets.only(
+                         left: SizeConfig.widthMultiplier * 2
+                       ),
+                       alignment: Alignment.centerLeft,
+                       child: Icon(
+                         Icons.arrow_back_ios,
+                         color: Color(0xffD2D3D5),
+                       ),
+                     ),
+                   ),
+                   Expanded(
+                     flex: 4,
+                     child: Container(
+                       alignment: Alignment.centerRight,
+                       padding: EdgeInsets.only(
+                           right: SizeConfig.widthMultiplier * 0),
+                       child: Text(
+                         'تغيير كلمة المرور',
+                         style: CustomFonts.googleBodyFont(
+                             color: Color(0xffD2D3D5),
+                             fontSize: SizeConfig.textMultiplier * 2.5),
+                       ),
+                     ),
+                   ),
+                   Expanded(
+                     child: Container(
+                       alignment: Alignment.center,
+                       decoration: BoxDecoration(
+                           shape: BoxShape.circle, color: Color(0xff2A2E36)),
+                       child: Icon(
+                         Icons.lock,
+                         color: Color(0xff76777D),
+                       ),
+                     ),
+                   ),
+                 ],
+               ),
              ),
            ),
            SizedBox(
@@ -182,7 +237,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                          phoneNumber: widget.phoneNumber,
                        )));
              },
-             child: Container(
+             child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+             Container(
                height: SizeConfig.heightMultiplier * 9,
                child: Row(
                  children: [
@@ -192,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                        decoration: BoxDecoration(
                            shape: BoxShape.circle, color: Color(0xff2A2E36)),
                        child: Icon(
-                         Icons.settings_rounded,
+                         Icons.settings,
                          color: Color(0xff76777D),
                        ),
                      ),
@@ -219,6 +275,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                        ),
                      ),
                    )
+                 ],
+               ),
+             ) :
+             Container(
+               height: SizeConfig.heightMultiplier * 9,
+               child: Row(
+                 children: [
+                   Expanded(
+                     child: Container(
+                       margin: EdgeInsets.only(
+                           left: SizeConfig.widthMultiplier * 2
+                       ),
+                       alignment: Alignment.centerLeft,
+                       child: Icon(
+                         Icons.arrow_back_ios,
+                         color: Color(0xffD2D3D5),
+                       ),
+                     ),
+                   ),
+                   Expanded(
+                     flex: 4,
+                     child: Container(
+                       alignment: Alignment.centerRight,
+                       padding: EdgeInsets.only(
+                           right: SizeConfig.widthMultiplier * 3),
+                       child: Text(
+                         'تعديل الملف الشخصي',
+                         style: CustomFonts.googleBodyFont(
+                             color: Color(0xffD2D3D5),
+                             fontSize: SizeConfig.textMultiplier * 2.5),
+                       ),
+                     ),
+                   ),
+                   Expanded(
+                     child: Container(
+                       alignment: Alignment.center,
+                       decoration: BoxDecoration(
+                           shape: BoxShape.circle, color: Color(0xff2A2E36)),
+                       child: Icon(
+                         Icons.settings,
+                         color: Color(0xff76777D),
+                       ),
+                     ),
+                   ),
                  ],
                ),
              ),
@@ -249,8 +349,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                            icon: Icons.check,
                          );
                        });
-                   // SharedPreferences prefs = await SharedPreferences.getInstance();
-                   // prefs?.setBool("isLoggedIn", false);
+                   await App.init();
+                   await App.localStorage.remove("accessToken");
                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginScreen()), (Route<dynamic> route) => false);
                  } else {
                    showDialog(
@@ -263,7 +363,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                        });
                  }
                },
-               child: Container(
+               child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+               Container(
                  height: SizeConfig.heightMultiplier * 9,
                  child: Row(
                    children: [
@@ -300,6 +401,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                          ),
                        ),
                      )
+                   ],
+                 ),
+               ) :
+               Container(
+                 height: SizeConfig.heightMultiplier * 9,
+                 child: Row(
+                   children: [
+                     Expanded(
+                       child: Container(
+                         margin: EdgeInsets.only(
+                             left: SizeConfig.widthMultiplier * 2
+                         ),
+                         alignment: Alignment.centerLeft,
+                         child: Icon(
+                           Icons.arrow_back_ios,
+                           color: Color(0xffD2D3D5),
+                         ),
+                       ),
+                     ),
+                     Expanded(
+                       flex: 4,
+                       child: Container(
+                         alignment: Alignment.centerRight,
+                         padding: EdgeInsets.only(
+                             right: SizeConfig.widthMultiplier * 3),
+                         child: Text(
+                           'تسجيل خروج',
+                           style: CustomFonts.googleBodyFont(
+                               color: Color(0xffD2D3D5),
+                               fontSize: SizeConfig.textMultiplier * 2.5),
+                         ),
+                       ),
+                     ),
+                     Expanded(
+                       child: Container(
+                         alignment: Alignment.center,
+                         decoration: BoxDecoration(
+                             shape: BoxShape.circle, color: Color(0xff2A2E36)),
+                         child: Icon(
+                           Icons.logout,
+                           color: Color(0xff76777D),
+                         ),
+                       ),
+                     ),
                    ],
                  ),
                ),

@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
-import 'package:gold/Models/CompleteProfile.dart';
 import 'package:gold/Models/LoginPresta.dart';
-import 'package:gold/Screens/AddressScreen.dart';
 import 'package:gold/Screens/CustomDialog.dart';
-import 'package:gold/Screens/HomeScreenView.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'HomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       "action": "customer/loginPresta",
       "email": "$email",
       "password": "$password",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -84,21 +80,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     margin:
-                        EdgeInsets.only(left: SizeConfig.widthMultiplier * 9),
-                    child: Text(
+                        EdgeInsets.only(left: SizeConfig.widthMultiplier * 9,
+                        right: SizeConfig.widthMultiplier * 9
+                        ),
+                    child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    Text(
                       'Login',
                       style: CustomFonts.googleBodyFont(
                           color: Colors.white,
                           fontSize: SizeConfig.textMultiplier * 4,
                           fontWeight: FontWeight.w800),
                       textAlign: TextAlign.left,
+                    ):   Text(
+                      'تسجيل الدخول',
+                      style: CustomFonts.googleBodyFont(
+                          color: Colors.white,
+                          fontSize: SizeConfig.textMultiplier * 4,
+                          fontWeight: FontWeight.w800),
+                      textAlign: TextAlign.right,
                     ),
                   ),
                   SizedBox(
                     height: SizeConfig.heightMultiplier * 2,
                   ),
-                  textField('Email', Icons.mail_outline_outlined, false, email),
-                  textField('Password', Icons.lock, true, password),
+                  textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?'Email':'البريد الإلكتروني', Icons.mail_outline_outlined, false, email),
+                  textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?'Password':'كلمه السر', Icons.lock, true, password),
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: SizeConfig.widthMultiplier * 8,
@@ -116,6 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_loginPresta.status == 1) {
                           App.localStorage.setString("accessToken",
                               _loginPresta.data.accessToken);
+                          App.localStorage.setString("firstName", _loginPresta.data.firstname);
+                          App.localStorage.setString("lastName", _loginPresta.data.lastname);
+                          App.localStorage.setInt("isVIP", _loginPresta.data.isVip);
+                          App.localStorage.setInt("walletCredit", _loginPresta.data.walletCredit);
+                          App.localStorage.setString("email", _loginPresta.data.email);
+                          App.localStorage.setString("phoneNumber", _loginPresta.data.mobileNumber);
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -130,14 +142,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 PageTransition(
                                     type: PageTransitionType.rightToLeft,
                                     child: HomeScreen(
-                                      firstName: _loginPresta.data.firstname,
-                                      lastName: _loginPresta.data.lastname,
-                                      isVIP: _loginPresta.data.isVip,
+                                      firstName: App.localStorage.getString("firstName"),
+                                      lastName: App.localStorage.getString("lastName"),
+                                      isVIP: App.localStorage.getInt("isVIP"),
                                       walletCredit:
-                                      _loginPresta.data.walletCredit,
+                                      App.localStorage.getInt("walletCredit"),
                                       accessToken: App.localStorage.getString('accessToken'),
-                                      email: _loginPresta.data.email,
-                                      phoneNumber: _loginPresta.data.mobileNumber,
+                                      email: App.localStorage.getString("email"),
+                                      phoneNumber: App.localStorage.getString("phoneNumber"),
                                     )));
                           }
                         } else {
@@ -152,11 +164,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       color: Color(0xff00A9A5),
-                      child: Text(
+                      child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      Text(
                         'Login',
                         style: CustomFonts.googleBodyFont(
                             color: Colors.white, fontSize: 20),
-                      ),
+                      ):
+                      Text(
+                        'تسجيل الدخول',
+                        style: CustomFonts.googleBodyFont(
+                            color: Colors.white, fontSize: 20),
+                      ) ,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(padding)),
                     ),

@@ -6,8 +6,8 @@ import 'package:gold/Models/GetCartDetails.dart';
 import 'package:gold/Screens/CartScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
-
 import 'CustomDialog.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class ProductDetails extends StatefulWidget {
   var name;
@@ -45,7 +45,8 @@ class _ProductDetailsState extends State<ProductDetails> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "cart/getCartDetail"
+      "action": "cart/getCartDetail",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -77,7 +78,8 @@ class _ProductDetailsState extends State<ProductDetails> {
       "accessToken": "${widget.accessToken}",
       "action": "cart/addToCart",
       "id_product": "${widget.productID}",
-      "quantity": "$quantityy"
+      "quantity": "$quantityy",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -163,6 +165,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                       lastName : widget.lastName,
                                                       context: this.context,
                                                       accessToken: widget.accessToken,
+                                                      arrowValue: "1",
                                                     ),
 
                                                 ));

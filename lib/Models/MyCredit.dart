@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final myCredit = myCreditFromJson(jsonString);
-
 import 'dart:convert';
 
 class MyCredit {

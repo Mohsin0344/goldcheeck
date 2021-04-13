@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final getAddressList = getAddressListFromJson(jsonString);
-
 import 'dart:convert';
 
 class GetAddressList {

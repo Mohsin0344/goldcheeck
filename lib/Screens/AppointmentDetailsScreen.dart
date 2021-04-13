@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
-
-
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Screens/PaymentScree.dart';
 

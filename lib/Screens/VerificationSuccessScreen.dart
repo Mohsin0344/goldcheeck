@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
-
 import 'ProfileInfoScreen.dart';
 
 class VerificationSuccess extends StatefulWidget {

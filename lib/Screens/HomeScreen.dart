@@ -7,8 +7,6 @@ import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'AppointmentScreen.dart';
 import 'CartScreen.dart';
-import 'ProductsScreen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   var firstName;
@@ -300,6 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context:this.context,
               accessToken: widget.accessToken,
               myPage: _myPage,
+              arrowValue: "0",
             ),
             ProfileScreen(
               accessToken: widget.accessToken,

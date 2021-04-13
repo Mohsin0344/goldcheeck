@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/BookingHistory.dart';
-import 'package:gold/Models/MyCredit.dart';
 import 'package:http/http.dart' as http;
+import 'package:gold/Constants/Globals.dart';
 
 class BookingHistoryScreen extends StatefulWidget {
   var accessToken;
@@ -23,7 +23,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "booking/getCustomerBookingHistory"
+      "action": "booking/getCustomerBookingHistory",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;

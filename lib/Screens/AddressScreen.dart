@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
-import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/CreateAddress.dart';
 import 'package:gold/Models/GetAddressList.dart';
@@ -8,6 +7,7 @@ import 'package:gold/Screens/CustomDialog.dart';
 import 'package:gold/Screens/DeliveryTypeScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class AddressScreen extends StatefulWidget {
   var firstName;
@@ -33,7 +33,8 @@ class _AddressScreenState extends State<AddressScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": "${widget.accessToken}",
-      "action": "address/getAddressList"
+      "action": "address/getAddressList",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -212,6 +213,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 lastName: widget.lastName,
                                 accessToken: widget.accessToken,
                                 idCart: widget.idCart,
+                                totalBill: widget.totalBill,
                               )));
                     },
                     child: Text(
@@ -268,7 +270,8 @@ class _AddressNotAvailableState extends State<AddressNotAvailable> {
       "lastname": "${widget.lastName}",
       "address1": "$address1",
       "postcode": "$postCode",
-      "city": "$city"
+      "city": "$city",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -447,7 +450,8 @@ Future<CreateAddress> createAddressNow(
     "lastname": "$lastName",
     "address1": "$address1",
     "postcode": "$postCode",
-    "city": "$city"
+    "city": "$city",
+    "lang": App.localStorage.getString("lang"),
   });
   if (response.statusCode == 200) {
     final String responseString = response.body;

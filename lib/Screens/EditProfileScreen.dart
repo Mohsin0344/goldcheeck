@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Models/EditProfile.dart';
-import 'package:gold/Screens/ProfileScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import '../Constants/SizeConfig.dart';
 import 'CustomDialog.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class EditProfileScreen extends StatefulWidget {
   var firstName;
@@ -45,7 +44,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       "action": "customer/updateUser",
       "firstname": "$firstName",
       "lastname": "$lastName",
-      "mobileNumber": "$mobileNumber"
+      "mobileNumber": "$mobileNumber",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -67,8 +67,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: Colors.black,
         title: Container(
           padding: EdgeInsets.only(left: SizeConfig.widthMultiplier * 12),
-          child: Text(
+          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          Text(
             'Edit Profile',
+            style: CustomFonts.googleHeaderFont(
+                color: Colors.white,
+                fontSize: SizeConfig.textMultiplier * 4,
+                fontWeight: FontWeight.bold),
+          ):
+          Text(
+            'تعديل الملف الشخصي',
             style: CustomFonts.googleHeaderFont(
                 color: Colors.white,
                 fontSize: SizeConfig.textMultiplier * 4,
@@ -129,8 +137,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   });
             }
           },
-          child: Text(
+          child:App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          Text(
             'Update',
+            style: CustomFonts.googleBodyFont(
+                color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
+          ):   Text(
+            'تحديث',
             style: CustomFonts.googleBodyFont(
                 color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
           ),

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/GetServiceList.dart';
-import 'package:gold/Screens/AppointmentDetailsScreen.dart';
+import 'package:gold/Screens/CustomDialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'CalendarScreen.dart';
+import 'package:gold/Constants/Globals.dart';
 
 class AppointmentScreen extends StatefulWidget {
   var accessToken;
@@ -32,7 +33,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
     }, body: {
       "accessToken": widget.accessToken,
-      "action": "services/getServicesList"
+      "action": "services/getServicesList",
+      "lang": App.localStorage.getString("lang"),
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -578,15 +580,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   padding: EdgeInsets.all(padding),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: CalendarScreen(
-                                accessToken: widget.accessToken,
-                                idServices: idServices,
-                                price : grandtotal
-                              )));
+                   if(grandtotal>0){
+                     Navigator.push(
+                         context,
+                         PageTransition(
+                             type: PageTransitionType.rightToLeft,
+                             child: CalendarScreen(
+                                 accessToken: widget.accessToken,
+                                 idServices: idServices,
+                                 price : grandtotal
+                             )));
+                   }else{
+                     showDialog(
+                         context: context,
+                         builder: (BuildContext context) {
+                           return CustomDialogBox(
+                             message: "Please Select atleast one Service",
+                             icon: Icons.error_outline,
+                           );
+                         });
+                   }
                     },
                     child: Container(
                         decoration: BoxDecoration(
