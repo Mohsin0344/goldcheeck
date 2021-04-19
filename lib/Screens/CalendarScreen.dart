@@ -1,11 +1,13 @@
-import 'package:calendar_strip/calendar_strip.dart';
+import 'package:calendar_strip/calendar_strip.dart' as calendarr;
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/BookingCreate.dart';
+import 'package:gold/Screens/AppointmentDetailsScreen.dart';
 import 'package:gold/Screens/CustomDialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CalendarScreen extends StatefulWidget {
   var accessToken;
@@ -132,7 +134,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // print(isSelected);
     // print("ID Services is      ${widget.idServices}");
     // print("Access Token      ${widget.accessToken}");
-    // print(timeForAPI);
+    print(timeForAPI);
     print(dateForAPI);
     // print(timeForAPI.substring(0,timeForAPI.indexOf(" ")));
 
@@ -153,8 +155,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         title: Center(
           child: Text(
-            'Book an appointment',
-            style: CustomFonts.googleHeaderFont(color: Colors.white),
+            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+            'Book an appointment':'احجز موعدًا',
+            style: CustomFonts.googleHeaderFont(
+                color: Colors.white,
+              height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                  1.5:1.0
+            ),
           ),
         ),
       ),
@@ -309,8 +316,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(left: padding * 0.5),
                             child: Text(
-                              'Login',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Login' : 'تسجيل الدخول',
                               style: CustomFonts.googleBodyFont(
+                                height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  1.5:1.0,
                                   color: Colors.grey,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
                             ))),
@@ -321,8 +331,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             padding: EdgeInsets.only(
                                 right: SizeConfig.widthMultiplier * 2),
                             child: Text(
-                              'Choose Services',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Choose Services' : 'اختر الخدمات',
                               style: CustomFonts.googleBodyFont(
+                                height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  1.5:1.0,
                                   color: Colors.grey,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
                             ))),
@@ -332,7 +345,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(right: padding),
                             child: Text(
-                              'Pick Time',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Pick Time': 'اختر وقت',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.white,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
@@ -342,7 +356,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             alignment: Alignment.topRight,
                             padding: EdgeInsets.only(right: padding * 0),
                             child: Text(
-                              'Payment',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Payment' : 'دفع',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.grey,
                                   fontSize: SizeConfig.textMultiplier * 1.8),
@@ -363,7 +378,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Expanded(
                   child: Container(
                     child:  Container(
-                        child: CalendarStrip(
+                        child: calendarr.CalendarStrip(
                           startDate: startDate,
                           endDate: endDate,
                           selectedDate: selectedDate,
@@ -393,7 +408,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
             height: height * 0.15,
             alignment: Alignment.center,
             child: Text(
-              'Choose Stylist (Optional)',
+              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+              'Choose Stylist (Optional)' : 'اختر المصمم (اختياري)',
               style: CustomFonts.googleHeaderFont(color: Colors.white),
             ),
           ),
@@ -433,7 +449,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            'Christia Frank',
+                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                            'Christia Frank' : 'كريستيا فرانك',
                             style: CustomFonts.googleHeaderFont(
                                 color: Colors.white,
                                 fontSize: SizeConfig.textMultiplier * 1.8),
@@ -464,7 +481,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ),
                       children: [
                         TextSpan(
-                          text: '   Total',
+                          text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                          '   Total': 'مجموع   ',
                           style: CustomFonts.googleBodyFont(color: Colors.grey),
                         )
                       ]),
@@ -476,31 +494,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: EdgeInsets.all(padding),
                 child: InkWell(
                   onTap: () async {
-                    final BookingCreate bookingCreate =
-                        await createBooking();
-                    setState(() {
-                      _bookingCreate = bookingCreate;
-                    });
-                    if (_bookingCreate.status == 1) {
+                    if (dateForAPI != '0' && timeForAPI != '0') {
+                      final BookingCreate bookingCreate =
+                      await createBooking();
+                      setState(() {
+                        _bookingCreate = bookingCreate;
+                      });
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return CustomDialogBox(
-                              message: "Booking Created Successfully",
+                              message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              "Booking Created Successfully" : 'تم إنشاء الحجز بنجاح',
                               icon: Icons.check,
                             );
                           });
-                      // Navigator.push(
-                      //     context,
-                      //     PageTransition(
-                      //         type: PageTransitionType.rightToLeft,
-                      //         child: AppointmentDetails()));
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: AppointmentDetails(
+                                date: dateForAPI,
+                                time: timeForAPI,
+                                price: widget.price,
+                                idCart: _bookingCreate.data.idCart,
+                                accessToken: widget.accessToken,
+                              )));
                     } else {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return CustomDialogBox(
-                              message: _bookingCreate.message,
+                              message: 'Please select date and time',
                               icon: Icons.error_outline,
                             );
                           });
@@ -518,7 +544,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             child: Container(
                               alignment: Alignment.center,
                               child: Text(
-                                'Next',
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                'Next' : 'التالي',
                                 style: CustomFonts.googleBodyFont(
                                     color: Colors.white),
                               ),

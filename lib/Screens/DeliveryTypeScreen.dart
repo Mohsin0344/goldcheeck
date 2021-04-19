@@ -6,6 +6,8 @@ import 'package:gold/Models/CreateOrderWithCreditCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Screens/HomeScreen.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:gold/Screens/WebviewPayment.dart';
 
 class DeliveryTypeScreen extends StatefulWidget {
   var idCart;
@@ -90,8 +92,11 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            'Select Delivery Type',
+            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+            'Select Delivery Type' : 'حدد نوع التسليم',
                 style: CustomFonts.googleBodyFont(
+                  height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    0.0:1.0,
               color: Colors.white
           ),
           ),
@@ -134,8 +139,11 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Cash On Delivery',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Cash On Delivery': 'الدفع عند الاستلام',
                                   style: CustomFonts.googleBodyFont(
+                                    height:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      0.0:1.0,
                                       color: Colors.white),
                                 ),
                               )),
@@ -181,7 +189,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                               child: Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Self Pick Up',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Self Pick Up': 'النفس التقاط',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white),
                                 ),
@@ -258,7 +267,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Card Number',
+                                  hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Card Number': 'رقم البطاقة',
                                   suffixIcon: Icon(
                                     Icons.credit_card,
                                     color: Colors.grey,
@@ -284,7 +294,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: 'Card Name',
+                                  hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Card Name': 'اسم البطاقة',
                                   suffixIcon: Icon(
                                     Icons.account_box,
                                     color: Colors.grey,
@@ -316,7 +327,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                           decoration: InputDecoration(
                                             filled: true,
                                             fillColor: Colors.white,
-                                            hintText: 'MM',
+                                            hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                            'MM': 'شهر',
                                             suffixIcon: Icon(
                                               Icons.calendar_today,
                                               color: Colors.grey,
@@ -343,7 +355,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
-                                          hintText: 'YY',
+                                          hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                          'YY': 'عام',
                                           suffixIcon: Icon(
                                             Icons.calendar_today,
                                             color: Colors.grey,
@@ -406,11 +419,19 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                   Expanded(
                                       flex: 6,
                                       child: Container(
-                                        child: Text(
+                                        child:App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        Text(
                                           'Your Payment information is safe with '
                                               'us. We use ssecure transmission and'
                                               'encrypted storage',
                                           style: CustomFonts.googleBodyFont(
+                                              color: Colors.grey),
+                                        ):
+                                        Text(
+                                          'معلومات الدفع الخاصة بك في أمان معنا. نحن نستخدم النقل الآمن والتخزين المشفر',
+                                          style: CustomFonts.googleBodyFont(
+                                            height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                              0.0:1.0,
                                               color: Colors.grey),
                                         ),
                                       )),
@@ -451,7 +472,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return CustomDialogBoxxx(
-                                message: "Order Placed Successfully",
+                                message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                "Order Placed Successfully" : 'تم تقديم الطلب بنجاح',
                                 icon: Icons.check,
                               );
                             });
@@ -466,34 +488,43 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                             });
                       }
                     },
-                    child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(padding),
-                          color: Color(0xff00A9A5),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Confirm Order',
-                                  style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: WebviewPayment(
+                          accessToken: widget.accessToken,
+                          idCart: widget.idCart,
+                        )));
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(padding),
+                            color: Color(0xff00A9A5),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Confirm Order': 'أكد الطلب',
+                                    style: CustomFonts.googleBodyFont(
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        )),
+                              Expanded(
+                                child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ],
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -518,7 +549,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return CustomDialogBoxxx(
-                                message: "Order Placed Successfully",
+                                message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                "Order Placed Successfully" : 'تم تقديم الطلب بنجاح',
                                 icon: Icons.check,
                               );
                             });
@@ -544,9 +576,16 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                               flex: 4,
                               child: Container(
                                 alignment: Alignment.center,
-                                child: Text(
+                                child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                Text(
                                   'Confirm Cash on Delivery',
                                   style: CustomFonts.googleBodyFont(
+                                      color: Colors.white),
+                                ):   Text(
+                                  'تأكيد الدفع عند الاستلام',
+                                  style: CustomFonts.googleBodyFont(
+                                    height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      0.0:1.0,
                                       color: Colors.white),
                                 ),
                               ),

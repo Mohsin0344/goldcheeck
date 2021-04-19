@@ -123,7 +123,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Book an appointment',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Book an appointment' : 'حجز موعد',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white,
                                         fontSize: 22,
@@ -295,8 +296,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           padding: EdgeInsets.only(
                                               left: padding * 0.5),
                                           child: Text(
-                                            'Login',
+                                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                            'Login': 'تسجيل الدخول',
                                             style: CustomFonts.googleBodyFont(
+                                              height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                                1.5:1.0,
                                                 color: Colors.grey,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
@@ -311,8 +315,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                   SizeConfig.widthMultiplier *
                                                       2),
                                           child: Text(
-                                            'Choose Services',
+                                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                            'Choose Services': 'اختر الخدمات',
                                             style: CustomFonts.googleBodyFont(
+                                              height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                                1.5:1.0,
                                                 color: Colors.white,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
@@ -325,8 +332,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           padding:
                                               EdgeInsets.only(right: padding),
                                           child: Text(
-                                            'Pick Time',
+                                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                            'Pick Time': 'اختر وقت',
                                             style: CustomFonts.googleBodyFont(
+                                                height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                                1.5:1.0,
                                                 color: Colors.grey,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
@@ -338,7 +348,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           padding: EdgeInsets.only(
                                               right: padding * 0),
                                           child: Text(
-                                            'Payment',
+                                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                            'Payment': 'دفع',
                                             style: CustomFonts.googleBodyFont(
                                                 color: Colors.grey,
                                                 fontSize:
@@ -476,7 +487,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                       alignment:
                                                           Alignment.center,
                                                       child: Text(
-                                                        '${snapshot.data.data[index].timeConsuming} Minutes',
+                                                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                                        '${snapshot.data.data[index].timeConsuming} Minutes': '${snapshot.data.data[index].timeConsuming} الدقائق ',
                                                         style: CustomFonts
                                                             .googleBodyFont(
                                                                 color:
@@ -567,7 +579,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         ),
                         children: [
                           TextSpan(
-                            text: '   Total',
+                            text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                            '   Total' : 'مجموع   ',
                             style:
                                 CustomFonts.googleBodyFont(color: Colors.grey),
                           )
@@ -595,7 +608,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                          context: context,
                          builder: (BuildContext context) {
                            return CustomDialogBox(
-                             message: "Please Select atleast one Service",
+                             message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                             "Please Select atleast one Service" : 'يرجى تحديد خدمة واحدة على الأقل',
                              icon: Icons.error_outline,
                            );
                          });
@@ -613,7 +627,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               child: Container(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Next',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Next' : 'التالي',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white),
                                 ),

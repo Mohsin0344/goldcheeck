@@ -56,7 +56,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
           appBar: AppBar(
             backgroundColor: Colors.black,
             title: Text(
-              'Booking History',
+              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+              'Booking History': 'سجل الحجز',
               style: CustomFonts.googleBodyFont(color: Colors.white),
             ),
             centerTitle: true,
@@ -92,7 +93,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'ID Bookings',
+                                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        'ID Bookings' : 'حجوزات الهوية',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -125,7 +127,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'Booking Date',
+                                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        'Booking Date': 'تاريخ الحجز',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -158,7 +161,8 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        'Booking Time',
+                                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        'Booking Time': 'وقت الحجز',
                                         style: CustomFonts.googleBodyFont(
                                             color: Colors.white,
                                             fontSize:
@@ -207,8 +211,11 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
               } else {
                 return Center(
                   child: Text(
-                    'No Haircuts Yet',
+                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    'No Haircuts Yet': 'لا تسريحات الشعر بعد',
                     style: CustomFonts.googleBodyFont(
+                      height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        1.5:1.0,
                         color: Colors.white,
                         fontSize: SizeConfig.textMultiplier * 4),
                   ),

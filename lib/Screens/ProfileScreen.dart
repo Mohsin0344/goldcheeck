@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/LogOut.dart';
+import 'package:gold/Models/UpdateProfileModel.dart';
 import 'package:gold/Screens/CustomDialog.dart';
 import 'package:gold/Screens/EditProfileScreen.dart';
 import 'package:gold/Screens/LoginScreen.dart';
 import 'package:gold/Screens/ProfileInfoScreen.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'ChangePasswordScreen.dart';
@@ -33,6 +37,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   LogOut _logOut;
+  File _image;
+  final picker = ImagePicker();
+  var _path;
 
   Future<LogOut> signOut() async {
     final String url = "http://15.185.204.189/webapi/server.php";
@@ -51,6 +58,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<UpdateProfile> updateProfilePhoto(File pic) async {
+    var headers = {
+      'key': '542A9M87SDKL2M728WQIMC4DSQLU9LL3',
+      'Cookie': 'PHPSESSID=ogie09t8iq6476t0uu6p4gvn8n'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('http://15.185.204.189/webapi/server.php'));
+    request.fields.addAll({
+      'action': 'customer/updateProfilePhoto',
+      'accessToken': 'T3VpZVJUMmcwSzE3ZFBVOStYUXQ5dGRzTXN1dkYraDJWWXJQOFV1b3Q3K3Z4anZRazFjNTIzZkpvQlNoZFRLdQ=='
+    });
+    request.files.add(await http.MultipartFile.fromPath('name', pic.path));
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(
@@ -61,10 +91,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
      child: Scaffold(
        backgroundColor: Colors.black,
        appBar: AppBar(
+         centerTitle: true,
          backgroundColor: Colors.black,
          title: Container(
-           alignment: Alignment.center,
-           padding: EdgeInsets.only(right: SizeConfig.widthMultiplier * 10),
            child:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
            Text(
              'Profile',
@@ -94,20 +123,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
              decoration: BoxDecoration(
                  color: Color(0xff2F3541),
                  borderRadius: BorderRadius.circular(20)),
-             child: Column(
+             child: Stack(
                children: [
-                 Expanded(
-                   flex: 3,
-                   child: Container(
-                     decoration: BoxDecoration(
-                         shape: BoxShape.circle,
-                         image: DecorationImage(
-                           image: AssetImage('images/face.jpg'),
-                         )),
+                 Container(
+                   height: SizeConfig.heightMultiplier * 20,
+                   decoration: BoxDecoration(
+                       shape: BoxShape.circle,
+                       image: DecorationImage(
+                         image: AssetImage('images/face.jpg'),
+                       )),
+                 ),
+                 Positioned(
+                   right: 120,
+                   top: 100,
+                   child: Align(
+                     alignment: Alignment.centerRight,
+                     child: Container(
+                       decoration: BoxDecoration(
+                           shape: BoxShape.circle,
+                           color: Color(0xff00A9A5)
+                       ),
+                       child: InkWell(
+                         onTap: () async {
+                           await _pickImageFromGallery();
+                         },
+                         child: Icon(
+                           Icons.add,
+                           color: Colors.white,
+                         ),
+                       ),
+                     ),
                    ),
                  ),
-                 Expanded(
-                   flex: 2,
+                 Align(
+                   alignment: Alignment.bottomCenter,
                    child: Container(
                      padding:
                      EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
@@ -462,5 +511,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       curve: Curves.linear,
     );
     return false;
+  }
+  _pickImageFromGallery() async {
+    PickedFile pickedFile = await picker.getImage(source: ImageSource.gallery, imageQuality: 100);
+
+    File image = File(pickedFile.path);
+    print('image parh ********************************************************************************** $image');
+    await updateProfilePhoto(image);
+    // setState(() {
+    //   _image = image;
+    //   _path = pickedFile.path;
+    // });
   }
 }

@@ -1,11 +1,11 @@
 // To parse this JSON data, do
 //
-//     final bookingCreate = bookingCreateFromJson(jsonString);
+//     final updateProfile = updateProfileFromJson(jsonString);
 
 import 'dart:convert';
 
-class BookingCreate {
-  BookingCreate({
+class UpdateProfile {
+  UpdateProfile({
     this.status,
     this.message,
     this.data,
@@ -15,11 +15,11 @@ class BookingCreate {
   String message;
   Data data;
 
-  factory BookingCreate.fromRawJson(String str) => BookingCreate.fromJson(json.decode(str));
+  factory UpdateProfile.fromRawJson(String str) => UpdateProfile.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory BookingCreate.fromJson(Map<String, dynamic> json) => BookingCreate(
+  factory UpdateProfile.fromJson(Map<String, dynamic> json) => UpdateProfile(
     status: json["status"],
     message: json["message"],
     data: Data.fromJson(json["data"]),
@@ -34,20 +34,24 @@ class BookingCreate {
 
 class Data {
   Data({
-    this.idCart,
+    this.profilePhoto,
+    this.id,
   });
 
-  String idCart;
+  String profilePhoto;
+  String id;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    idCart: json["id_cart"],
+    profilePhoto: json["profilePhoto"],
+    id: json["id"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id_cart": idCart,
+    "profilePhoto": profilePhoto,
+    "id": id,
   };
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'ProfileInfoScreen.dart';
@@ -47,7 +48,8 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.heightMultiplier * 4),
                   child: Text(
-                    'Your Phone Number is',
+                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    'Your Phone Number is' : 'رقم هاتفك هو',
                     style: CustomFonts.googleBodyFont(
                         color: Colors.white,
                         fontSize: SizeConfig.textMultiplier * 3,
@@ -57,7 +59,8 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.heightMultiplier),
                   child: Text(
-                    'Verified!',
+                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    'Verified!' : 'تم التحقق!',
                     style: CustomFonts.googleBodyFont(
                         color: Color(0xff00A9A5),
                         fontSize: SizeConfig.textMultiplier * 3.5,
@@ -80,7 +83,8 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                     },
                     color: Color(0xff00A9A5),
                     child: Text(
-                      'Complete your Profile',
+                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Complete your Profile' : 'أكمل ملفك الشخصي',
                       style: CustomFonts.googleBodyFont(
                           color: Colors.white,
                           fontSize: SizeConfig.textMultiplier * 2,

@@ -8,6 +8,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await App.init();
   String status=  App.localStorage.getString("accessToken");
+  if(App.localStorage.getString('lang')== null){
+    await App.init();
+    await App.localStorage.setString("lang", "en");
+  }
   print("Shared prefrence accessToken is----> $status");
   print("language is -----------------> ${App.localStorage.getString("lang")}");
   print("First Name is -----------------> ${App.localStorage.getString("firstName")}");

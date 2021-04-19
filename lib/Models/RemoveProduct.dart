@@ -1,11 +1,11 @@
 // To parse this JSON data, do
 //
-//     final bookingCreate = bookingCreateFromJson(jsonString);
+//     final removeProduct = removeProductFromJson(jsonString);
 
 import 'dart:convert';
 
-class BookingCreate {
-  BookingCreate({
+class RemoveProduct {
+  RemoveProduct({
     this.status,
     this.message,
     this.data,
@@ -15,11 +15,11 @@ class BookingCreate {
   String message;
   Data data;
 
-  factory BookingCreate.fromRawJson(String str) => BookingCreate.fromJson(json.decode(str));
+  factory RemoveProduct.fromRawJson(String str) => RemoveProduct.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory BookingCreate.fromJson(Map<String, dynamic> json) => BookingCreate(
+  factory RemoveProduct.fromJson(Map<String, dynamic> json) => RemoveProduct(
     status: json["status"],
     message: json["message"],
     data: Data.fromJson(json["data"]),
@@ -33,21 +33,15 @@ class BookingCreate {
 }
 
 class Data {
-  Data({
-    this.idCart,
-  });
-
-  String idCart;
+  Data();
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    idCart: json["id_cart"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id_cart": idCart,
   };
 }

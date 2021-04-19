@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Screens/PaymentScree.dart';
 
 class AppointmentDetails extends StatefulWidget {
+  var time;
+  var price;
+  var date;
+  var idCart;
+  var accessToken;
+  AppointmentDetails({this.price,this.time,this.date,this.idCart,this.accessToken});
   @override
   _AppointmentDetailsState createState() => _AppointmentDetailsState();
 }
@@ -20,13 +27,17 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Center(
-          child: Text(
-            'Book an appointment',
-            style: CustomFonts.googleBodyFont(color: Colors.white),
-          ),
+        centerTitle: true,
+        title: Text(
+          App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          'Book an appointment': 'احجز موعدًا',
+          style: CustomFonts.googleBodyFont(color: Colors.white),
         ),
-        leading: Icon(Icons.arrow_back, color: Colors.white),
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back, color: Colors.white)),
       ),
       body: ListView(
         children: [
@@ -192,8 +203,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                     padding:
                                         EdgeInsets.only(left: padding * 0.5),
                                     child: Text(
-                                      'Login',
+                                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      'Login': 'تسجيل الدخول',
                                       style: CustomFonts.googleBodyFont(
+                                        height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null? 1.5:1.0,
                                           color: Colors.grey,
                                           fontSize:
                                               SizeConfig.textMultiplier * 1.65),
@@ -205,8 +218,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                     padding: EdgeInsets.only(
                                         right: SizeConfig.widthMultiplier * 2),
                                     child: Text(
-                                      'Choose Services',
+                                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      'Choose Services': 'اختر الخدمات',
                                       style: CustomFonts.googleBodyFont(
+                                        height:   App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null? 1.5:1.0,
                                           color: Colors.grey,
                                           fontSize:
                                               SizeConfig.textMultiplier * 1.65),
@@ -217,8 +232,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                     alignment: Alignment.topLeft,
                                     padding: EdgeInsets.only(right: padding),
                                     child: Text(
-                                      'Pick Time',
+                                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      'Pick Time':'اختر وقت',
                                       style: CustomFonts.googleBodyFont(
+                                        height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null? 1.5:1.0,
                                           color: Colors.grey,
                                           fontSize:
                                               SizeConfig.textMultiplier * 1.65),
@@ -229,7 +246,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                     padding:
                                         EdgeInsets.only(right: padding * 0),
                                     child: Text(
-                                      'Summary',
+                                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      'Summary': 'ملخص',
                                       style: CustomFonts.googleBodyFont(
                                           color: Colors.white,
                                           fontSize:
@@ -258,8 +276,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
               height: height * 0.12,
               width: width,
               child: Text(
-                'Appointment Details',
+                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                'Appointment Details': 'تفاصيل الموعد',
                 style: CustomFonts.googleBodyFont(
+                  height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null? 1.5:1.0,
                     color: Colors.grey, fontSize: 20),
               ),
             ),
@@ -284,7 +304,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Time:',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Time:':'زمن',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.white),
                             ),
@@ -295,12 +316,12 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             child: RichText(
                               text: TextSpan(
-                                  text: '11:am',
+                                  text: '${widget.time}',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white),
                                   children: [
                                     TextSpan(
-                                      text: '   28 Jun 2018',
+                                      text: '   ${widget.date}',
                                       style: CustomFonts.googleBodyFont(
                                           color: Colors.white),
                                     )
@@ -317,7 +338,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Change',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Change' : 'يتغيرون',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white,
                                         fontSize:
@@ -359,7 +381,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Service',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Service' : 'الخدمات',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.white),
                             ),
@@ -370,7 +393,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             child: RichText(
                               text: TextSpan(
-                                  text: 'Haircut Plus',
+                                  text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Haircut Plus': 'حلاقة بلس',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white),
                                   children: [
@@ -392,7 +416,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Change',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Change': 'يتغيرون',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white,
                                         fontSize:
@@ -429,7 +454,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Stylist:',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Stylist:' : 'حلاق:',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.white),
                             ),
@@ -440,7 +466,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Container(
                             child: RichText(
                               text: TextSpan(
-                                  text: 'Carla',
+                                  text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Carla' : 'كارلا',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white),
                                   children: [
@@ -462,7 +489,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    'Change',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Change': 'يتغيرون',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white,
                                         fontSize:
@@ -504,7 +532,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
               height: height * 0.12,
               width: width,
               child: Text(
-                'Payment details',
+                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                'Payment details': 'بيانات الدفع',
                 style: CustomFonts.googleBodyFont(
                     color: Colors.grey, fontSize: 20),
               ),
@@ -528,7 +557,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                             child: Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'upper payment fee',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'upper payment fee' : 'رسوم الدفع العلوي',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white.withOpacity(0.7),
                                       fontSize: 18),
@@ -559,7 +589,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                             child: Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Use in app credit',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Use in app credit' : 'استخدم في رصيد التطبيق',
                                   style: CustomFonts.googleBodyFont(
                                       color: Colors.white.withOpacity(0.7),
                                       fontSize: 18),
@@ -571,7 +602,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                         child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              '-13 credit',
+                              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              '-13 credit': '-13 رصيد',
                               style: CustomFonts.googleBodyFont(
                                 color: Color(0xff00A9A5),
                               ),
@@ -593,13 +625,14 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                      text: ' 30.00kd',
+                      text: '\$ ${widget.price}',
                       style: CustomFonts.googleBodyFont(
                         color: Color(0xff00A9A5),
                       ),
                       children: [
                         TextSpan(
-                          text: '   Total',
+                          text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                          '   Total' : 'مجموع   ',
                           style: CustomFonts.googleBodyFont(color: Colors.grey),
                         )
                       ]),
@@ -615,7 +648,12 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                         context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: PaymentScreen()));
+                            child: PaymentScreen(
+                              accessToken: widget.accessToken,
+                              idCart: widget.idCart,
+                              price: widget.price,
+
+                            )));
                   },
                   child: Container(
                       decoration: BoxDecoration(
@@ -629,7 +667,8 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                             child: Container(
                               alignment: Alignment.center,
                               child: Text(
-                                'Next',
+                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                'Next' : 'التالي',
                                 style: CustomFonts.googleBodyFont(
                                     color: Colors.white),
                               ),

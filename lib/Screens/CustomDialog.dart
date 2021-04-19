@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Screens/HomeScreen.dart';
 import '../Constants/SizeConfig.dart';
 
 class CustomDialogBox extends StatefulWidget {
   var icon;
   var message;
+  var check;
 
-  CustomDialogBox({this.icon, this.message});
+  CustomDialogBox({this.icon, this.message,this.check});
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
@@ -61,7 +64,17 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               fit: FlexFit.loose,
               child: InkWell(
                 onTap: (){
-                  Navigator.pop(context);
+                  if(widget.check == null) Navigator.pop(context);
+                  else  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen(
+                    firstName: App.localStorage.getString("firstName"),
+                    lastName: App.localStorage.getString("lastName"),
+                    isVIP: App.localStorage.getInt("isVIP"),
+                    walletCredit:
+                    App.localStorage.getInt("walletCredit"),
+                    accessToken: App.localStorage.getString('accessToken'),
+                    email: App.localStorage.getString("email"),
+                    phoneNumber: App.localStorage.getString("phoneNumber"),
+                  )), (Route<dynamic> route) => false);
                 },
                 child: Container(
                   width: SizeConfig.widthMultiplier * 20,

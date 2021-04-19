@@ -127,14 +127,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                         margin: EdgeInsets.only(
                             left: SizeConfig.widthMultiplier * 10),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        Text(
                           'Product Details',
                           style: CustomFonts.googleBodyFont(
                               color: Colors.white,
                               fontSize: SizeConfig.textMultiplier * 3.2),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                        ),
+                        ):   Text(
+                          'تفاصيل المنتج',
+                          style: CustomFonts.googleBodyFont(
+                              color: Colors.white,
+                              fontSize: SizeConfig.textMultiplier * 3.2),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        )
+                        ,
                       ),
                     ),
                     Expanded(
@@ -342,8 +351,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                       Expanded(
                         child: Container(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                          Text(
                             r'Description',
+                            style: CustomFonts.googleBodyFont(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: SizeConfig.textMultiplier * 2.5,
+                            ),
+                          ):
+                          Text(
+                            r'وصف',
                             style: CustomFonts.googleBodyFont(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
@@ -385,8 +403,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                   color: Color(0xff00A9A5),
                   borderRadius: BorderRadius.circular(8.0)),
               child: RaisedButton(
-                child: Text(
+                child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                Text(
                   'Add to Cart',
+                  style: CustomFonts.googleBodyFont(
+                      color: Colors.white,
+                      fontSize: SizeConfig.textMultiplier * 2),
+                ):
+                Text(
+                  'أضف إلى السلة',
                   style: CustomFonts.googleBodyFont(
                       color: Colors.white,
                       fontSize: SizeConfig.textMultiplier * 2),

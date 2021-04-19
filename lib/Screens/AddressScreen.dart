@@ -290,8 +290,15 @@ class _AddressNotAvailableState extends State<AddressNotAvailable> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(
+          title: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          Text(
             'Shipping Details',
+            style: CustomFonts.googleBodyFont(
+                color: Colors.white, fontSize: SizeConfig.heightMultiplier * 4),
+            textAlign: TextAlign.center,
+          ):
+          Text(
+            'تفاصيل الشحن',
             style: CustomFonts.googleBodyFont(
                 color: Colors.white, fontSize: SizeConfig.heightMultiplier * 4),
             textAlign: TextAlign.center,
@@ -318,17 +325,22 @@ class _AddressNotAvailableState extends State<AddressNotAvailable> {
               children: [
                 textField('${widget.firstName}', Icons.person, val: true),
                 textField('${widget.lastName}', Icons.person, val: true),
-                textField('Address', Icons.home_filled,
+                textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                'Address':'عنوان', Icons.home_filled,
                     controller: addressTitle),
-                textField('Address 2', Icons.home_filled, controller: address1),
+                textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                'Address 2': 'العنوان 2', Icons.home_filled, controller: address1),
                 Row(
                   children: [
                     Expanded(
-                      child: textField('City', Icons.add_business_sharp,
+                      child: textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'City': 'مدينة', Icons.add_business_sharp,
                           controller: city),
                     ),
                     Expanded(
-                      child: textField('Post Code', Icons.mail_outline,
+                      child: textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Post Code': 'الرمز البريدي',
+                          Icons.mail_outline,
                           controller: postCode),
                     )
                   ],
@@ -359,7 +371,8 @@ class _AddressNotAvailableState extends State<AddressNotAvailable> {
                     context: context,
                     builder: (BuildContext context) {
                       return CustomDialogBox(
-                        message: "Address Added Successfully",
+                        message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        "Address Added Successfully" : 'تمت إضافة العنوان بنجاح',
                         icon: Icons.check,
                       );
                     });
@@ -386,7 +399,8 @@ class _AddressNotAvailableState extends State<AddressNotAvailable> {
               }
             },
             child: Text(
-              'Confirm',
+              App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+              'Confirm' :'تؤكد',
               style: CustomFonts.googleBodyFont(
                   color: Colors.white, fontSize: SizeConfig.textMultiplier * 4),
             ),

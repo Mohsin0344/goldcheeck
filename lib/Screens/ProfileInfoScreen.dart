@@ -90,7 +90,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     margin:
                         EdgeInsets.only(left: SizeConfig.widthMultiplier * 9),
                     child: Text(
-                      'Sign Up',
+                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Sign Up' : 'اشتراك',
                       style: CustomFonts.googleBodyFont(
                           color: Colors.white,
                           fontSize: SizeConfig.textMultiplier * 4,
@@ -102,10 +103,13 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     height: SizeConfig.heightMultiplier * 2,
                   ),
                   textField(
-                      'First Name', Icons.supervisor_account, false, firstName),
+                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'First Name': 'الاسم الأول', Icons.supervisor_account, false, firstName),
                   textField(
-                      'Last Name', Icons.supervisor_account, false, lastName),
-                  textField('Email', Icons.mail_outline_outlined, false, email),
+                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Last Name': 'الكنية', Icons.supervisor_account, false, lastName),
+                  textField(App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                  'Email': 'البريد الإلكتروني', Icons.mail_outline_outlined, false, email),
                   textField('Password', Icons.lock, true, password),
                   SizedBox(
                     height: SizeConfig.heightMultiplier * 2,
@@ -119,13 +123,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         Expanded(
                           child: RichText(
                             text: TextSpan(
-                                text: 'Already a member?',
+                                text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                'Already a member?' : 'عضوا فعلا؟',
                                 style: CustomFonts.googleBodyFont(
                                     color: Colors.white,
                                     fontSize: SizeConfig.textMultiplier * 2.5),
                                 children: [
                                   TextSpan(
-                                      text: '  Login',
+                                      text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      '  Login' : 'تسجيل الدخول  ',
                                       style: CustomFonts.googleBodyFont(
                                         color: Color(0xff00A9A5),
                                       ),
@@ -191,7 +197,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       },
                       color: Color(0xff00A9A5),
                       child: Text(
-                        'Finish',
+                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        'Finish': 'ينهي',
                         style: CustomFonts.googleBodyFont(
                             color: Colors.white, fontSize: 20),
                       ),

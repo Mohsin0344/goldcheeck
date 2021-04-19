@@ -56,8 +56,12 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
           backgroundColor: Colors.black,
           appBar: AppBar(
             backgroundColor: Colors.black,
-            title: Text(
+            title: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+            Text(
               'My Credit',
+              style: CustomFonts.googleBodyFont(color: Colors.white),
+            ):Text(
+              'رصيدي',
               style: CustomFonts.googleBodyFont(color: Colors.white),
             ),
             centerTitle: true,

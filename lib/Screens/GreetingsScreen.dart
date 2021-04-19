@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Constants/Constants.dart';
+import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
@@ -50,7 +51,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                     flex: 3,
                     child: Container(
                       child: Text(
-                        'Thank You for choosing us!',
+                        App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        'Thank You for choosing us!': 'شكرا لك لاختيارنا!',
                         style: CustomFonts.googleBodyFont(
                             color: Colors.white, fontSize: 30),
                       ),
@@ -64,8 +66,11 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                   top: padding * 2, left: padding * 2, right: padding),
               height: height * 0.12,
               child: Text(
-                'Booking Details',
+                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                'Booking Details' : 'تفاصيل الحجز',
                 style: CustomFonts.googleBodyFont(
+                  height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                    0.0:1.0,
                     color: Colors.grey, fontSize: 20),
               ),
             ),
@@ -96,7 +101,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                           Expanded(
                             child: Container(
                                 child: Text(
-                              'Time',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Time': 'زمن',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.grey),
                             )),
@@ -119,9 +125,17 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                                 Expanded(
                                   child: Container(
                                     alignment: Alignment.topLeft,
-                                    child: Text(
+                                    child:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    Text(
                                       '50 Minute From Now',
                                       style: CustomFonts.googleBodyFont(
+                                          color: Color(0xff00A9A5)),
+                                    ):
+                                    Text(
+                                      '50 دقيقة من الآن',
+                                      style: CustomFonts.googleBodyFont(
+                                        height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                          0.0:1.0,
                                           color: Color(0xff00A9A5)),
                                     ),
                                   ),
@@ -148,7 +162,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                           Expanded(
                             child: Container(
                                 child: Text(
-                              'Service',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Service': 'الخدمات',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.grey),
                             )),
@@ -162,7 +177,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                                     child: Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'Haircut, Beard Plus',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Haircut, Beard Plus' : 'قص الشعر ، بيرد بلس',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white),
                                   ),
@@ -189,7 +205,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                           Expanded(
                             child: Container(
                                 child: Text(
-                              'Stylist',
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'Stylist': 'حلاق',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.grey),
                             )),
@@ -203,7 +220,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                                     child: Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'Caria',
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Caria' : 'كاريا',
                                     style: CustomFonts.googleBodyFont(
                                         color: Colors.white),
                                   ),
@@ -232,7 +250,8 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                   top: padding * 2, left: padding * 2, right: padding * 2),
               child: RaisedButton(
                 child: Text(
-                  'Finish',
+                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                  'Finish' : 'ينهي',
                   style: CustomFonts.googleBodyFont(
                       color: Colors.white, fontSize: 18),
                 ),
@@ -241,11 +260,16 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                   borderRadius: BorderRadius.circular(padding),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: HomeScreen()));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen(
+                    firstName: App.localStorage.getString("firstName"),
+                    lastName: App.localStorage.getString("lastName"),
+                    isVIP: App.localStorage.getInt("isVIP"),
+                    walletCredit:
+                    App.localStorage.getInt("walletCredit"),
+                    accessToken: App.localStorage.getString('accessToken'),
+                    email: App.localStorage.getString("email"),
+                    phoneNumber: App.localStorage.getString("phoneNumber"),
+                  )), (Route<dynamic> route) => false);
                 },
               ),
             )

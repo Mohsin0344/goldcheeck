@@ -29,21 +29,31 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginPresta _loginPresta;
 
   Future<LoginPresta> loginProfile(String email, String password) async {
+    print("i am In");
     final String url = "http://15.185.204.189/webapi/server.php";
-    final response = await http.post(url, headers: {
-      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
-    }, body: {
-      "action": "customer/loginPresta",
-      "email": "$email",
-      "password": "$password",
-      "lang": App.localStorage.getString("lang"),
-    });
-    if (response.statusCode == 200) {
-      final String responseString = response.body;
-      print(responseString.toString());
-      return LoginPresta.fromRawJson(responseString);
-    } else {
+    try{
+      print("api hit");
+      final response = await http.post(url, headers: {
+        "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+      }, body: {
+        "action": "customer/loginPresta",
+        "email": "$email",
+        "password": "$password",
+        //"lang": App.localStorage.getString("lang"),
+      });
       print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        final String responseString = response.body;
+        print(responseString.toString());
+        return LoginPresta.fromRawJson(responseString);
+      } else {
+        print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx${response.statusCode}');
+      }
+
+    }
+    catch(e){
+      print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${e.toString()}');
     }
   }
 

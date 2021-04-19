@@ -3,9 +3,9 @@ import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/GetProducts.dart';
 import 'package:gold/Screens/ProductDetails.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProductsScreen extends StatefulWidget {
   var accessToken;

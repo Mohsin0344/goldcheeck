@@ -599,6 +599,7 @@ class _StateHomeScreenView extends State<HomeScreenView> {
                                       child: Text(
                                         'قصة شعر التاريخ',
                                         style: CustomFonts.googleBodyFont(
+                                          height: 1.0,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
@@ -1140,7 +1141,7 @@ class _CustomDialogBoxxState extends State<CustomDialogBoxx> {
               child: Container(
                 height: SizeConfig.heightMultiplier * 4,
                 alignment: Alignment.topCenter,
-                child:Text(
+                child: Text(
                   'Select Language',
                   style: CustomFonts.googleBodyFont(
                     fontWeight: FontWeight.bold,

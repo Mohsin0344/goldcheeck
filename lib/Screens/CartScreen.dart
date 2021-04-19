@@ -3,9 +3,11 @@ import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/GetCartDetails.dart';
 import 'package:gold/Screens/AddressScreen.dart';
+import 'package:gold/Screens/CustomDialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Models/RemoveProduct.dart';
 
 class CartScreen extends StatefulWidget {
   var firstName;
@@ -23,6 +25,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  RemoveProduct _removeProduct;
   var height = SizeConfig.imageSizeMultiplier * 100;
   var width = SizeConfig.imageSizeMultiplier * 200;
   var padding = CustomSizes.padding;
@@ -41,6 +44,25 @@ class _CartScreenState extends State<CartScreen> {
       final String responseString = response.body;
       // print(responseString.toString());
       return GetCartDetails.fromRawJson(responseString);
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  Future<RemoveProduct> removeProduct({var idProduct, var idCart}) async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers: {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    }, body: {
+      "accessToken": widget.accessToken,
+      "action": "cart/removeProductFromCart",
+      'id_product': '$idProduct',
+      'id_cart' : '$idCart'
+    });
+    if (response.statusCode == 200) {
+      final String responseString = response.body;
+      // print(responseString.toString());
+      return RemoveProduct.fromRawJson(responseString);
     } else {
       print(response.statusCode);
     }
@@ -289,11 +311,48 @@ class _CartScreenState extends State<CartScreen> {
                                                ),
                                              ),
                                              Expanded(
-                                               child: Container(
-                                                   child: Icon(
-                                                     Icons.close,
-                                                     color: Colors.white,
-                                                   )),
+                                               child: InkWell(
+                                                 onTap: () async{
+                                                   print(_getCartDetails.data.cartProducts[index].idProduct);
+                                                   final RemoveProduct remooveProduct = await removeProduct(idCart: _getCartDetails.data.idCart,
+                                                     idProduct: _getCartDetails.data.cartProducts[index].idProduct
+                                                   );
+                                                   setState(() {
+                                                     _removeProduct = remooveProduct;
+                                                   });
+                                                   if (_removeProduct.status == 1) {
+                                                     print(
+                                                         'Product addded to cart successfuly aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                                                     CartScreen(accessToken: widget.accessToken);
+                                                     showDialog(
+                                                         context: context,
+                                                         builder: (BuildContext context) {
+                                                           return CustomDialogBox(
+                                                             message: "Product removed",
+                                                             icon: Icons.check,
+                                                           );
+                                                         });
+                                                     // Navigator.push(context,
+                                                     //     PageTransition(
+                                                     //         type: PageTransitionType.rightToLeft,
+                                                     //         child: CartScreen(accessToken: widget.accessToken)));
+                                                   } else {
+                                                     showDialog(
+                                                         context: context,
+                                                         builder: (BuildContext context) {
+                                                           return CustomDialogBox(
+                                                             message: _removeProduct.message,
+                                                             icon: Icons.error_outline,
+                                                           );
+                                                         });
+                                                   }
+                                                 },
+                                                 child: Container(
+                                                     child: Icon(
+                                                       Icons.close,
+                                                       color: Colors.white,
+                                                     )),
+                                               ),
                                              ),
                                            ],
                                          )),

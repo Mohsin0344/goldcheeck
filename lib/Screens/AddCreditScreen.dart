@@ -67,8 +67,12 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Center(
-          child: Text(
+          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null? Text(
             'Add Credit From Credit Card',
+            style: CustomFonts.googleBodyFont(color: Colors.white),
+          ):
+          Text(
+            'إضافة رصيد من بطاقة الائتمان',
             style: CustomFonts.googleBodyFont(color: Colors.white),
           ),
         ),
@@ -104,7 +108,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Amount',
+                      hintText:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Amount': 'كمية',
                       suffixIcon: Icon(
                         Icons.attach_money,
                         color: Colors.grey,
@@ -131,7 +136,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Card Number',
+                      hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Card Number': 'رقم البطاقة',
                       suffixIcon: Icon(
                         Icons.credit_card,
                         color: Colors.grey,
@@ -157,7 +163,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Card Name',
+                      hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      'Card Name': 'اسم البطاقة',
                       suffixIcon: Icon(
                         Icons.account_box,
                         color: Colors.grey,
@@ -223,7 +230,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'MM',
+                        hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        'MM': 'شهر' ,
                         suffixIcon: Icon(
                           Icons.calendar_today,
                           color: Colors.grey,
@@ -250,7 +258,8 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              hintText: 'YY',
+                              hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'YY' : 'عام',
                               suffixIcon: Icon(
                                 Icons.calendar_today,
                                 color: Colors.grey,
@@ -313,10 +322,16 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                       Expanded(
                           flex: 6,
                           child: Container(
-                            child: Text(
+                            child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                            Text(
                               'Your Payment information is safe with '
                               'us. We use ssecure transmission and'
                               'encrypted storage',
+                              style: CustomFonts.googleBodyFont(
+                                  color: Colors.grey),
+                            ):
+                            Text(
+                              'معلومات الدفع الخاصة بك في أمان معنا. نحن نستخدم النقل الآمن والتخزين المشفر',
                               style: CustomFonts.googleBodyFont(
                                   color: Colors.grey),
                             ),
@@ -387,8 +402,14 @@ class _AddCreditFromCreditCarddState extends State<AddCreditFromCreditCardd> {
                             flex: 4,
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(
+                              child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              Text(
                                 'Add To Wallet',
+                                style: CustomFonts.googleBodyFont(
+                                    color: Colors.white,
+                                    fontSize: SizeConfig.textMultiplier * 2.5),
+                              ):    Text(
+                                'أضف إلى المحفظة',
                                 style: CustomFonts.googleBodyFont(
                                     color: Colors.white,
                                     fontSize: SizeConfig.textMultiplier * 2.5),
