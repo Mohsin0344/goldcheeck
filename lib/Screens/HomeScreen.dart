@@ -7,6 +7,8 @@ import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'AppointmentScreen.dart';
 import 'CartScreen.dart';
+import 'package:gold/Constants/ConstantColors.dart';
+import 'package:gold/Screens/test.dart';
 
 class HomeScreen extends StatefulWidget {
   var firstName;
@@ -52,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.black,
+        backgroundColor: ConstantColors.mainBackground,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           child: BottomAppBar(
-            color: Colors.black,
+            color: ConstantColors.backgroundColor,
             shape: CircularNotchedRectangle(),
             notchMargin: 0,
             child: Container(
@@ -78,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: IconButton(
                                 iconSize: 30.0,
                                 icon: Icon(Icons.home),
-                                color: butVisibility1 == true ? Color(0xff00A9A5) : Colors.white,
+                                color: butVisibility1 == true ? ConstantColors.buttonColor : Colors.white,
                                 onPressed: () {
                                   setState(() {
                                     _myPage.jumpToPage(0);
@@ -99,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: EdgeInsets.symmetric(
                                   horizontal: padding * 2
                                 ),
-                                color: Color(0xff00A9A5),
+                                color: ConstantColors.buttonColor,
                               ),
                             ),
                           ),
@@ -120,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: IconButton(
                                 iconSize: 30.0,
                                 icon: Icon(Icons.location_on),
-                                color: butVisibility2 == true ? Color(0xff00A9A5): Colors.white,
+                                color: butVisibility2 == true ? ConstantColors.buttonColor: Colors.white,
                                 onPressed: () {
                                   setState(() {
                                     _myPage.jumpToPage(1);
@@ -141,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: padding * 2
                                 ),
-                                color: Color(0xff00A9A5),
+                                color: ConstantColors.buttonColor,
                               ),
                             ),
                           ),
@@ -162,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: IconButton(
                                 iconSize: 30.0,
                                 icon: Icon(Icons.shopping_cart_rounded),
-                                color: butVisibility3 == true ? Color(0xff00A9A5): Colors.white,
+                                color: butVisibility3 == true ? ConstantColors.buttonColor: Colors.white,
                                 onPressed: () {
                                   setState(() {
                                     _myPage.jumpToPage(2);
@@ -183,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: padding * 2
                                 ),
-                                color:Color(0xff00A9A5),
+                                color: ConstantColors.buttonColor,
                               ),
                             ),
                           ),
@@ -204,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: IconButton(
                                 iconSize: 30.0,
                                 icon: Icon(Icons.account_box),
-                                color: butVisibility4 == true ? Color(0xff00A9A5): Colors.white,
+                                color: butVisibility4 == true ? ConstantColors.buttonColor: Colors.white,
                                 onPressed: () {
                                   setState(() {
                                     _myPage.jumpToPage(3);
@@ -225,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: padding * 2
                                 ),
-                                color:Color(0xff00A9A5),
+                                color: ConstantColors.buttonColor,
                               ),
                             ),
                           ),
@@ -283,8 +285,8 @@ class _HomeScreenState extends State<HomeScreen> {
               accessToken: widget.accessToken,
               myPage: _myPage,
             ),
-            LocationScreen(
-              myPage: _myPage,
+            Testing(
+              mypage: _myPage
             ),
             CartScreen(
               firstName: widget.firstName,
@@ -303,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
               myPage: _myPage,
             ),
           ],
-          //physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+          physics: NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
         ),
         floatingActionButton: InkWell(
           onTap: (){
@@ -321,10 +323,10 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 65.0,
             width: 65.0,
             decoration: BoxDecoration(
-              color: Color(0xff00A9A5),
+              color: ConstantColors.buttonColor,
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.white,
+                color: ConstantColors.backgroundColor,
                 width: 3
               )
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gold/Screens/SplashScreenn.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class NewSplashScreen extends StatefulWidget {
   @override
@@ -18,12 +19,13 @@ class _NewSplashScreenState extends State<NewSplashScreen> {
       //       fontWeight: FontWeight.bold,
       //       fontSize: 20.0
       //   ),),
-      image: new Image.asset('images/logoy.png'),
-      backgroundColor: Color(0xff272b33),
+      image: new Image.asset('images/LOGO.gif'),
+      backgroundColor: ConstantColors.mainBackground,
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: 150.0,
       onClick: () => print("Flutter Egypt"),
-      loaderColor: Color(0xffddc654),
+      // loaderColor: ConstantColors.backgroundColor,
+      useLoader: false,
       // gradientBackground: LinearGradient(
       //   begin: Alignment.topCenter,
       //   end: Alignment.bottomCenter,

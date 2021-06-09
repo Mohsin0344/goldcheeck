@@ -8,6 +8,8 @@ import 'package:gold/Screens/CustomDialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:gold/Constants/ConstantColors.dart';
+import 'package:gold/Models/GetStylistModel.dart';
 
 class CalendarScreen extends StatefulWidget {
   var accessToken;
@@ -21,9 +23,12 @@ class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
+String stylistName;
+String stylistId;
+var _radioValue = 0;
 var dateForAPI = "0";
 var timeForAPI= "0";
-Color checkedColor = Color(0xff00A9A5);
+Color checkedColor = ConstantColors.buttonColor;
 var height = SizeConfig.heightMultiplier * 50;
 var width = SizeConfig.widthMultiplier * 100;
 class _CalendarScreenState extends State<CalendarScreen> {
@@ -73,6 +78,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       "date": "$dateForAPI",
       "time": "${timeForAPI.substring(0,timeForAPI.indexOf(" "))}",
       "lang": App.localStorage.getString("lang"),
+      "stylist": "$stylistId"
+      ,
     });
     if (response.statusCode == 200) {
       final String responseString = response.body;
@@ -82,6 +89,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       print(response.statusCode);
     }
   }
+
   List<bool> _selections = List.generate(26, (_) => false);
   Color color = Colors.transparent;
   var counter = 0;
@@ -89,7 +97,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   final List<Color> colors = <Color>[Colors.transparent];
 
   var padding = CustomSizes.padding;
-  DateTime startDate = DateTime.now().subtract(Duration(days: 2));
+  DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(Duration(days: 10));
   DateTime selectedDate = DateTime.now().subtract(Duration(days: 0));
   List<DateTime> markedDates = [
@@ -121,7 +129,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         style: TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w600,
-          color: Colors.white,
+          color: Colors.black,
           fontStyle: FontStyle.italic,
         ),
       ),
@@ -138,30 +146,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
     print(dateForAPI);
     // print(timeForAPI.substring(0,timeForAPI.indexOf(" ")));
 
-
-
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ConstantColors.mainBackground,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        centerTitle: true,
+        backgroundColor: ConstantColors.mainBackground,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: ConstantColors.textColor,
           ),
         ),
-        title: Center(
-          child: Text(
-            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-            'Book an appointment':'احجز موعدًا',
-            style: CustomFonts.googleHeaderFont(
-                color: Colors.white,
-              height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                  1.5:1.0
-            ),
+        title: Text(
+          App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+          'Book an appointment':'احجز موعدًا',
+          style: CustomFonts.googleHeaderFont(
+              color: ConstantColors.textColor,
+            height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                1.5:1.0
           ),
         ),
       ),
@@ -174,7 +179,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 EdgeInsets.only(top: padding, left: padding, right: padding),
             decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(color: Color(0xff3B3F52), width: 1))),
+                    bottom: BorderSide(color: ConstantColors.buttonColor, width: 1))),
             child: Column(
               children: [
                 Expanded(
@@ -187,12 +192,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xff3B3F52),
+                                  color: ConstantColors.buttonColor,
                                 ),
                                 child: Text(
                                   '1',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.grey),
+                                      color: ConstantColors.textColor),
                                 )),
                           ),
                           Expanded(
@@ -204,13 +209,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        color: Color(0xff3B3F52),
+                                        color: ConstantColors.buttonColor,
                                       ),
                                     ),
                                     Expanded(
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Color(0xff3B3F52),
+                                          color: ConstantColors.buttonColor,
                                         ),
                                       ),
                                     )
@@ -222,12 +227,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xff3B3F52),
+                                  color: ConstantColors.buttonColor,
                                 ),
                                 child: Text(
                                   '2',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.grey),
+                                      color: ConstantColors.textColor),
                                 )),
                           ),
                           Expanded(
@@ -239,19 +244,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        color: Color(0xff3B3F52),
+                                        color: ConstantColors.buttonColor,
                                       ),
                                     ),
                                     Expanded(
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.grey,
+                                            color: ConstantColors.buttonColor,
                                             gradient: LinearGradient(
                                                 begin: Alignment.centerLeft,
                                                 end: Alignment.centerRight,
                                                 colors: [
-                                                  Color(0xff1D747B),
-                                                  Color(0xff3ABCB8)
+                                                  ConstantColors.buttonColor,
+                                                  ConstantColors.backgroundColor
                                                 ])),
                                       ),
                                     )
@@ -263,12 +268,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xff00A9A5),
+                                  color: ConstantColors.backgroundColor,
                                 ),
                                 child: Text(
                                   '3',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
+                                      color: ConstantColors.textColor),
                                 )),
                           ),
                           Expanded(
@@ -280,12 +285,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        color: Color(0xff3B3F52),
+                                        color: ConstantColors.buttonColor,
                                       ),
                                     ),
                                     Expanded(
                                       child: Container(
-                                        color: Color(0xff3B3F52),
+                                        color: ConstantColors.buttonColor,
                                       ),
                                     )
                                   ],
@@ -296,12 +301,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xff3B3F52),
+                                  color: ConstantColors.buttonColor,
                                 ),
                                 child: Text(
                                   '4',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.grey),
+                                      color: ConstantColors.textColor),
                                 )),
                           ),
                         ],
@@ -321,7 +326,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               style: CustomFonts.googleBodyFont(
                                 height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                   1.5:1.0,
-                                  color: Colors.grey,
+                                  color: ConstantColors.textColor,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
                             ))),
                     Expanded(
@@ -336,7 +341,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               style: CustomFonts.googleBodyFont(
                                 height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                   1.5:1.0,
-                                  color: Colors.grey,
+                                  color: ConstantColors.textColor,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
                             ))),
                     Expanded(
@@ -348,7 +353,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                               'Pick Time': 'اختر وقت',
                               style: CustomFonts.googleBodyFont(
-                                  color: Colors.white,
+                                  color: ConstantColors.textColor,
                                   fontSize: SizeConfig.textMultiplier * 1.65),
                             ))),
                     Expanded(
@@ -359,8 +364,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                               'Payment' : 'دفع',
                               style: CustomFonts.googleBodyFont(
-                                  color: Colors.grey,
-                                  fontSize: SizeConfig.textMultiplier * 1.8),
+                                  color: ConstantColors.textColor,
+                                  fontSize: SizeConfig.textMultiplier * 1.55),
                             ))),
                   ])),
                 ),
@@ -377,32 +382,37 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    child:  Container(
-                        child: calendarr.CalendarStrip(
-                          startDate: startDate,
-                          endDate: endDate,
-                          selectedDate: selectedDate,
-                          onDateSelected: onSelect,
-                          onWeekSelected: onWeekSelect,
-                          dateTileBuilder: dateTileBuilder,
-                          iconColor: Colors.white,
-                          monthNameWidget: _monthNameWidget,
-                          markedDates: markedDates,
-                          containerDecoration: BoxDecoration(color: Colors.black12),
-                          addSwipeGesture: true,
-                        )),
                     decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Color(0xff3B3F52), width: 1))),
-                  ),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xff3B3F52)
+                        )
+                      )
+                    ),
+                      child: calendarr.CalendarStrip(
+                        startDate: startDate,
+                        endDate: endDate,
+                        selectedDate: selectedDate,
+                        // weekStartsOnSunday: false,
+                        onDateSelected: onSelect,
+                        onWeekSelected: onWeekSelect,
+                        dateTileBuilder: dateTileBuilder,
+                        iconColor: ConstantColors.textColor,
+                        monthNameWidget: _monthNameWidget,
+                       // markedDates: markedDates,
+                        containerDecoration: BoxDecoration(color: Colors.white),
+                        addSwipeGesture: true,
+                      )),
                 ),
                 TimrForAppointment()
               ],
             ),
             decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(color: Color(0xff3B3F52), width: 1))),
+                    bottom: BorderSide(color: Color(0xff3B3F52), width: 1),
+
+                )
+            ),
           ),
           Container(
             height: height * 0.15,
@@ -410,58 +420,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
             child: Text(
               App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
               'Choose Stylist (Optional)' : 'اختر المصمم (اختياري)',
-              style: CustomFonts.googleHeaderFont(color: Colors.white),
+              style: CustomFonts.googleHeaderFont(color: ConstantColors.textColor),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: padding),
-            height: height * 0.25,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 4,
-              itemBuilder: (BuildContext context, index) {
-                return Container(
-                  height: height * 0.18,
-                  width: width * 0.40,
-                  decoration: BoxDecoration(
-                      color: Color(0xffddc654),
-                      borderRadius: BorderRadius.circular(padding)),
-                  margin: EdgeInsets.only(left: padding),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: EdgeInsets.all(padding * 0.5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage('images/face.jpg'),
-                                    fit: BoxFit.cover),
-                                border:
-                                    Border.all(color: Colors.white, width: 1)),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                            'Christia Frank' : 'كريستيا فرانك',
-                            style: CustomFonts.googleHeaderFont(
-                                color: Colors.white,
-                                fontSize: SizeConfig.textMultiplier * 1.8),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
+          Stylists(
+            accessToken: widget.accessToken,
           )
         ],
       ),
@@ -475,15 +438,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                      text: '\$ ${widget.price}',
+                      text: 'KD ${widget.price}',
                       style: CustomFonts.googleBodyFont(
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.buttonColor,
                       ),
                       children: [
                         TextSpan(
                           text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                           '   Total': 'مجموع   ',
-                          style: CustomFonts.googleBodyFont(color: Colors.grey),
+                          style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
                         )
                       ]),
                 ),
@@ -520,13 +483,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 price: widget.price,
                                 idCart: _bookingCreate.data.idCart,
                                 accessToken: widget.accessToken,
+                                stylistName: stylistName,
                               )));
                     } else {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return CustomDialogBox(
-                              message: 'Please select date and time',
+                              message: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Please select date and time': 'الرجاء تحديد التاريخ والوقت',
                               icon: Icons.error_outline,
                             );
                           });
@@ -535,7 +500,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(padding),
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.buttonColor,
                       ),
                       child: Row(
                         children: [
@@ -547,7 +512,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                 'Next' : 'التالي',
                                 style: CustomFonts.googleBodyFont(
-                                    color: Colors.white),
+                                    color: Colors.black),
                               ),
                             ),
                           ),
@@ -556,7 +521,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 alignment: Alignment.centerLeft,
                                 child: Icon(
                                   Icons.arrow_forward,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 )),
                           ),
                         ],
@@ -574,9 +539,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
       date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
     Color fontColor =
-        isDateOutOfRange ? Colors.white.withOpacity(0.3) : Colors.white;
+        isDateOutOfRange ? ConstantColors.textColor : ConstantColors.textColor;
     TextStyle normalStyle =
-        TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+        TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: ConstantColors.textColor);
     TextStyle selectedStyle = TextStyle(
         fontSize: 17, fontWeight: FontWeight.w800, color: Colors.white);
     TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
@@ -595,7 +560,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       alignment: Alignment.center,
       padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 5),
       decoration: BoxDecoration(
-        color: !isSelectedDate ? Color(0xff3B3F52) :  Color(0xff3ABCB8),
+        color: !isSelectedDate ? ConstantColors.buttonColor.withOpacity(0.4):  ConstantColors.buttonColor,
         borderRadius: BorderRadius.all(Radius.circular(60)),
         // shape: BoxShape.circle
       ),
@@ -657,58 +622,195 @@ class _TimrForAppointmentState extends State<TimrForAppointment> {
         .toList();
     return Expanded(
       flex: 2,
-      child: Container(
-        child: GridView.builder(
-          itemCount: times.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio:  width * 2/ height * 1.1,
-              crossAxisCount: (SizeConfig.isMobilePortrait) ? 4 : 3),
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              onTap:(){
-                if(check==true){
-                  print('trueeeeeeeeeeeeeeeeeeeeeeeee');
-                  setState(() {
-                    selectedIndex=index;
-                    check=false;
-                    timeForAPI = times[index];
-                  });
-                }
-                else{
-                  print('falseeeeeeeeeeeeeeeeeeeeeeeeeee');
-                  setState(() {
-                    selectedIndex=200;
-                    check=true;
-                  });
-                }
-              },
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: SizeConfig.widthMultiplier * 0.5,
+          right: SizeConfig.widthMultiplier * 1,
+          bottom: SizeConfig.heightMultiplier * 1,
+          top: SizeConfig.heightMultiplier * 0.25
+        ),
+        child: Container(
+          child: GridView.builder(
+            itemCount: times.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio:  width * 2/ height * 1.1,
+                crossAxisCount: (SizeConfig.isMobilePortrait) ? 4 : 3),
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap:(){
+                  if(check==true){
+                    print('trueeeeeeeeeeeeeeeeeeeeeeeee');
+                    setState(() {
+                      selectedIndex=index;
+                      check=false;
+                      timeForAPI = times[index];
+                    });
+                  }
+                  else{
+                    print('falseeeeeeeeeeeeeeeeeeeeeeeeeee');
+                    setState(() {
+                      selectedIndex=200;
+                      check=true;
+                    });
+                  }
+                },
 
-              child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.heightMultiplier * 0.9,
-                    left: SizeConfig.widthMultiplier * 1.2
-                ),
-                decoration: BoxDecoration(
-                    color: selectedIndex==index?checkedColor:Colors.transparent,
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1
-                    )
-                ),
-                child: Text('${times[index]}',
-                  style: CustomFonts.googleBodyFont(
-                      color: Colors.white
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.heightMultiplier * 0.9,
+                      left: SizeConfig.widthMultiplier * 1.2
                   ),
-                  textAlign: TextAlign.center,
+                  decoration: BoxDecoration(
+                      color: selectedIndex==index?checkedColor:Colors.transparent,
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                          color: ConstantColors.buttonColor,
+                          width: 1
+                      )
+                  ),
+                  child: Text('${times[index]}',
+                    style: CustomFonts.googleBodyFont(
+                        color: ConstantColors.textColor
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
+          // decoration: BoxDecoration(
+          //   border: Border(
+          //     top: BorderSide(
+          //       color: Color(0xff3B3F52)
+          //     )
+          //   )
+          // ),
         ),
       ),
     );
   }
 }
 
+class Stylists extends StatefulWidget {
+  var accessToken;
+  Stylists({this.accessToken});
+  @override
+  _StylistsState createState() => _StylistsState();
+}
+
+class _StylistsState extends State<Stylists> {
+  Future<GetStylists> getStylistList() async {
+    final String url = "http://15.185.204.189/webapi/server.php";
+    final response = await http.post(url, headers: {
+      "key": "542A9M87SDKL2M728WQIMC4DSQLU9LL3"
+    }, body: {
+      "accessToken": widget.accessToken,
+      "action": "booking/getSylistData",
+      "lang": App.localStorage.getString("lang")
+    });
+    if (response.statusCode == 200) {
+      final String responseString = response.body;
+      // print(responseString.toString());
+      return GetStylists.fromRawJson(responseString);
+    } else {
+      print(response.statusCode);
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _radioValue = null;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //padding: EdgeInsets.symmetric(vertical: padding),
+      height: height * 0.25,
+      child: FutureBuilder(
+          future: getStylistList(),
+          builder: (BuildContext context, snapshot){
+            if(snapshot.hasData){
+              return ListView.builder(
+                padding: EdgeInsets.only(right: SizeConfig.widthMultiplier * 2),
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data.data.stylistData.length,
+                itemBuilder: (BuildContext context, index) {
+                  return InkWell(
+                    onTap: (){
+                      setState(() {
+                        _radioValue = index;
+                        stylistId=snapshot.data.data.stylistData[index].idStylist;
+                      });
+                      print(stylistId);
+                    },
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: height * 0.13,
+                        width: width * 0.40,
+                        decoration: BoxDecoration(
+                            color:ConstantColors.backgroundColor,
+                            borderRadius: BorderRadius.circular(8.0)),
+                        margin: EdgeInsets.only(left: 8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0 * 0.5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: AssetImage('images/face.jpg'),
+                                          fit: BoxFit.cover),
+                                      border:
+                                      Border.all(color: Colors.white, width: 1)),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '${snapshot.data.data.stylistData[index].fullName}',
+                                  style: CustomFonts.googleHeaderFont(
+                                      color: ConstantColors.textColor,
+                                      fontSize: SizeConfig.textMultiplier * 1.8),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Radio(
+                                activeColor: ConstantColors.buttonColor,
+                                value: index,
+                                groupValue: _radioValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _radioValue = value;
+                                    stylistId=snapshot.data.data.stylistData[index].idStylist;
+                                    stylistName = snapshot.data.data.stylistData[index].fullName;
+                                  });
+                                  print(stylistId);
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else{
+              return Center(child: CircularProgressIndicator());
+            }
+          }
+
+      ),
+    );
+  }
+}

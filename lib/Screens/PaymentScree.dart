@@ -4,8 +4,10 @@ import 'package:gold/Constants/Constants.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/GreetingsScreen.dart';
+import 'package:gold/Screens/VisaService.dart';
 import 'package:gold/Screens/WebviewPayment.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class PaymentScreen extends StatefulWidget {
   var accessToken;
@@ -29,16 +31,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print(widget.idCart);
     print(widget.accessToken);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ConstantColors.mainBackground,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Center(
-          child: Text(
-            'Book an appointment',
-            style: CustomFonts.googleBodyFont(color: Colors.white),
-          ),
+        centerTitle: true,
+        backgroundColor: ConstantColors.mainBackground,
+        title: Text(
+          App.localStorage.getString('lang')== 'en'?'Book an appointment':
+          'حجز موعد',
+          style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
         ),
-        leading: Icon(Icons.arrow_back, color: Colors.white),
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back, color: ConstantColors.textColor)),
       ),
       body: ListView(
         children: [
@@ -59,7 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
-                                color: Color(0xff3B3F52), width: 1))),
+                                color: ConstantColors.buttonColor, width: 1))),
                     child: Column(
                       children: [
                         Expanded(
@@ -72,12 +78,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xff3B3F52),
+                                          color: ConstantColors.buttonColor,
                                         ),
                                         child: Text(
                                           '1',
                                           style: CustomFonts.googleBodyFont(
-                                              color: Colors.white),
+                                              color: ConstantColors.textColor),
                                         )),
                                   ),
                                   Flexible(
@@ -89,13 +95,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                color: Color(0xff3B3F52),
+                                                color: ConstantColors.buttonColor,
                                               ),
                                             ),
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: Color(0xff3B3F52),
+                                                  color: ConstantColors.buttonColor,
                                                 ),
                                               ),
                                             )
@@ -107,12 +113,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xff3B3F52),
+                                          color: ConstantColors.buttonColor,
                                         ),
                                         child: Text(
                                           '2',
                                           style: CustomFonts.googleBodyFont(
-                                              color: Colors.white),
+                                              color: ConstantColors.textColor),
                                         )),
                                   ),
                                   Flexible(
@@ -124,12 +130,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                color: Color(0xff3B3F52),
+                                                color: ConstantColors.buttonColor,
                                               ),
                                             ),
                                             Expanded(
                                               child: Container(
-                                                color: Color(0xff3B3F52),
+                                                color: ConstantColors.buttonColor,
                                               ),
                                             )
                                           ],
@@ -140,12 +146,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xff3B3F52),
+                                          color: ConstantColors.buttonColor,
                                         ),
                                         child: Text(
                                           '3',
                                           style: CustomFonts.googleBodyFont(
-                                              color: Colors.white),
+                                              color: ConstantColors.textColor),
                                         )),
                                   ),
                                   Flexible(
@@ -157,7 +163,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                color: Color(0xff3B3F52),
+                                                color: ConstantColors.buttonColor,
                                               ),
                                             ),
                                             Expanded(
@@ -170,8 +176,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                         end: Alignment
                                                             .centerRight,
                                                         colors: [
-                                                          Color(0xff1D747B),
-                                                          Color(0xff3ABCB8)
+                                                          ConstantColors.buttonColor,
+                                                          ConstantColors.backgroundColor
                                                         ])),
                                               ),
                                             )
@@ -183,12 +189,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xff00A9A5),
+                                          color: ConstantColors.backgroundColor,
                                         ),
                                         child: Text(
                                           '4',
                                           style: CustomFonts.googleBodyFont(
-                                              color: Colors.white),
+                                              color: ConstantColors.textColor),
                                         )),
                                   ),
                                 ],
@@ -209,9 +215,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       style: CustomFonts.googleBodyFont(
                                         height:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                           1.0:1.0,
-                                          color: Colors.grey,
+                                          color: ConstantColors.textColor,
                                           fontSize:
-                                              SizeConfig.textMultiplier * 1.65),
+                                              SizeConfig.textMultiplier * 1.40),
                                     ))),
                             Expanded(
                                 flex: 3,
@@ -225,9 +231,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       style: CustomFonts.googleBodyFont(
                                         height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                           1.0:1.0,
-                                          color: Colors.grey,
+                                          color: ConstantColors.textColor,
                                           fontSize:
-                                              SizeConfig.textMultiplier * 1.65),
+                                              SizeConfig.textMultiplier * 1.40),
                                     ))),
                             Expanded(
                                 flex: 2,
@@ -238,22 +244,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                       'Pick Time' : 'اختر وقت',
                                       style: CustomFonts.googleBodyFont(
-                                          color: Colors.grey,
+                                          color: ConstantColors.textColor,
                                           fontSize:
-                                              SizeConfig.textMultiplier * 1.65),
+                                              SizeConfig.textMultiplier * 1.40),
                                     ))),
                             Expanded(
                                 child: Container(
-                                    alignment: Alignment.topRight,
+                                    alignment:         App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    Alignment.topRight: Alignment.topCenter,
                                     padding:
-                                        EdgeInsets.only(right: padding * 0),
+                                        EdgeInsets.only(left:          App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        padding * 0: padding * 2),
                                     child: Text(
                                       App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                       'Summary' : 'ملخص',
                                       style: CustomFonts.googleBodyFont(
-                                          color: Colors.white,
+                                          color: ConstantColors.textColor,
                                           fontSize:
-                                              SizeConfig.textMultiplier * 1.65),
+                                              SizeConfig.textMultiplier * 1.40),
                                     ))),
                           ])),
                         ),
@@ -275,116 +283,130 @@ class _PaymentScreenState extends State<PaymentScreen> {
             margin: EdgeInsets.symmetric(horizontal: padding * 2),
             height: height * 0.35,
             decoration: BoxDecoration(
-                color: Color(0xff3F4457),
+                color: ConstantColors.buttonColor,
                 borderRadius: BorderRadius.circular(padding)),
             child: Column(
               children: [
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom:
-                                BorderSide(color: Colors.grey, width: 0.5))),
-                    child: Row(
-                      children: [
-                        Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        _radioValue =0;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: ConstantColors.buttonColor, width: 0.5))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Container(
+                            child: Radio(
+                              activeColor: ConstantColors.backgroundColor,
+                              value: 0,
+                              groupValue: _radioValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _radioValue = value;
+                                });
+                              },
+                            ),
+                          )),
+                          Expanded(
+                              flex: 6,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Knet',
+                                  style: CustomFonts.googleBodyFont(
+                                      color: ConstantColors.textColor),
+                                ),
+                              )),
+                          Expanded(
+                              child: Padding(
+                            padding: EdgeInsets.only(
+                                right: padding, top: padding, bottom: padding),
                             child: Container(
-                          child: Radio(
-                            activeColor: Color(0xff00A9A5),
-                            value: 0,
-                            groupValue: _radioValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _radioValue = value;
-                              });
-                            },
-                          ),
-                        )),
-                        Expanded(
-                            flex: 6,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Knet',
-                                style: CustomFonts.googleBodyFont(
-                                    color: Colors.white),
-                              ),
-                            )),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(
-                              right: padding, top: padding, bottom: padding),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage('images/knet.png'),
-                                    fit: BoxFit.cover)),
-                          ),
-                        )),
-                      ],
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('images/knet.png'),
+                                      fit: BoxFit.cover)),
+                            ),
+                          )),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom:
-                                BorderSide(color: Colors.grey, width: 0.5))),
-                    child: Row(
-                      children: [
-                        Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        _radioValue = 1;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: ConstantColors.buttonColor, width: 0.5))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Container(
+                            child: Radio(
+                              activeColor: ConstantColors.backgroundColor,
+                              value: 1,
+                              groupValue: _radioValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _radioValue = value;
+                                });
+                              },
+                            ),
+                          )),
+                          Expanded(
+                              flex: 6,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                  'VISA' : 'الدفع عن طريق البطاقة',
+                                  style: CustomFonts.googleBodyFont(
+                                    height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      0.0:1.0,
+                                      color: ConstantColors.textColor),
+                                ),
+                              )),
+                          Expanded(
+                              child: Padding(
+                            padding: EdgeInsets.only(
+                                right: padding, top: padding, bottom: padding),
                             child: Container(
-                          child: Radio(
-                            activeColor: Color(0xff00A9A5),
-                            value: 1,
-                            groupValue: _radioValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _radioValue = value;
-                              });
-                            },
-                          ),
-                        )),
-                        Expanded(
-                            flex: 6,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                'Pay By Card' : 'الدفع عن طريق البطاقة',
-                                style: CustomFonts.googleBodyFont(
-                                  height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                    0.0:1.0,
-                                    color: Colors.white),
-                              ),
-                            )),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(
-                              right: padding, top: padding, bottom: padding),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage('images/knet.png'),
-                                    fit: BoxFit.cover)),
-                          ),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(
-                              right: padding, top: padding, bottom: padding),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage('images/knet.png'),
-                                    fit: BoxFit.cover)),
-                          ),
-                        )),
-                      ],
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('images/visa.png'),
+                                      fit: BoxFit.cover)),
+                            ),
+                          )),
+                          // Expanded(
+                          //     child: Padding(
+                          //   padding: EdgeInsets.only(
+                          //       right: padding, top: padding, bottom: padding),
+                          //   child: Container(
+                          //     alignment: Alignment.center,
+                          //     decoration: BoxDecoration(
+                          //         image: DecorationImage(
+                          //             image: AssetImage('images/knet.png'),
+                          //             fit: BoxFit.cover)),
+                          //   ),
+                          // )),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -587,15 +609,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                      text: ' \$${widget.price}',
+                      text: ' KD ${widget.price}',
                       style: CustomFonts.googleBodyFont(
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.textColor,
                       ),
                       children: [
                         TextSpan(
                           text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                           '   Total' : 'مجموع   ',
-                          style: CustomFonts.googleBodyFont(color: Colors.grey),
+                          style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
                         )
                       ]),
                 ),
@@ -606,19 +628,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 padding: EdgeInsets.all(padding),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: WebviewPayment(
-                              idCart: widget.idCart,
-                              accessToken: widget.accessToken,
-                            )));
+                   if(_radioValue == 0){
+                     Navigator.push(
+                         context,
+                         PageTransition(
+                             type: PageTransitionType.rightToLeft,
+                             child: WebviewPayment(
+                               idCart: widget.idCart,
+                               accessToken: widget.accessToken,
+                             )));
+                   }else if(_radioValue == 1){
+                     Navigator.push(
+                         context,
+                         PageTransition(
+                             type: PageTransitionType.rightToLeft,
+                             child: VisaService(
+                               idCart: widget.idCart,
+                               accessToken: widget.accessToken,
+                             )));
+                   }
                   },
                   child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(padding),
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.buttonColor,
                       ),
                       child: Row(
                         children: [
@@ -630,7 +663,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                 'Next' : 'التالي',
                                 style: CustomFonts.googleBodyFont(
-                                    color: Colors.white),
+                                    color: ConstantColors.textColor),
                               ),
                             ),
                           ),
@@ -639,7 +672,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 alignment: Alignment.centerLeft,
                                 child: Icon(
                                   Icons.arrow_forward,
-                                  color: Colors.white,
+                                  color: ConstantColors.buttonColor,
                                 )),
                           ),
                         ],

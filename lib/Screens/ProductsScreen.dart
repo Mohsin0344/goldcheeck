@@ -6,6 +6,7 @@ import 'package:gold/Screens/ProductDetails.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class ProductsScreen extends StatefulWidget {
   var accessToken;
@@ -53,189 +54,144 @@ class _ProductsScreenState extends State<ProductsScreen> {
       );
       return false;
     }
-    return WillPopScope(
-      onWillPop:()=> Future.sync(onWillPop),
-      child: SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Container(
-                margin: EdgeInsets.only(left: SizeConfig.widthMultiplier * 21),
-                child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                Text(
-                  'Products',
-                  style: CustomFonts.googleBodyFont(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ):
-                Text(
-                  'منتجات',
-                  style: CustomFonts.googleBodyFont(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: ConstantColors.mainBackground,
+            title: Container(
+              margin: EdgeInsets.only(left: SizeConfig.widthMultiplier * 21),
+              child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+              Text(
+                'Products',
+                style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
+                textAlign: TextAlign.center,
+              ):
+              Text(
+                'منتجات',
+                style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
+                textAlign: TextAlign.center,
               ),
             ),
-            backgroundColor: Colors.black,
-            body: Container(
-              child: FutureBuilder(
-                future: getAllProducts(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<GetProducts> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data.data.list.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: ProductDetails(
-                                      name: snapshot.data.data.list[index].name,
-                                      image:
-                                          snapshot.data.data.list[index].photoUrl,
-                                      price: snapshot.data.data.list[index].price,
-                                      description: snapshot
-                                          .data.data.list[index].descriptionShort,
-                                      accessToken: widget.accessToken,
-                                      productID: snapshot
-                                          .data.data.list[index].idProduct,
-                                      cartLength: widget.cartLength,
-                                      firstName: widget.firstName,
-                                      lastName: widget.lastName
-                                    )));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                top: SizeConfig.heightMultiplier * 3),
-                            height: SizeConfig.heightMultiplier * 18,
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xff3D4051),
-                                      Color(0xff747683),
-                                      Color(0xffA4A5AB),
-                                      Color(0xffF0F0F0),
-                                    ]),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                )),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: SizeConfig.isMobilePortrait
-                                              ? SizeConfig.widthMultiplier * 4
-                                              : SizeConfig.widthMultiplier * 8,
-                                          vertical:
-                                              SizeConfig.heightMultiplier * 3),
-                                      child: Container(
-                                        child: Image.network(
-                                          snapshot.data.data.list[index].photoUrl,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          // image: DecorationImage(
-                                          //     image: Image.network('images/face.jpg'),
-                                          //     fit: BoxFit.cover
-                                          // )
-                                        ),
-                                      ),
-                                    )),
-                                Expanded(
-                                    flex: SizeConfig.isMobilePortrait ? 4 : 7,
-//flex: 4,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical:
-                                              SizeConfig.heightMultiplier * 2),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: Container(
-                                              alignment: Alignment.bottomLeft,
-                                              child: Text(
-                                                '${snapshot.data.data.list[index].name}',
-                                                style: CustomFonts.googleBodyFont(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                            .textMultiplier *
-                                                        3.5,
-                                                    fontWeight: FontWeight.w400),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  right:
-                                                      SizeConfig.widthMultiplier *
-                                                          2),
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                '${snapshot.data.data.list[index].descriptionShort}',
-                                                style: CustomFonts.googleBodyFont(
-                                                    color: Colors.black,
-                                                    fontSize: SizeConfig
-                                                            .textMultiplier *
-                                                        2.5,
-                                                    fontWeight: FontWeight.w300),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "\$ ${snapshot.data.data.list[index].price}",
-                                                style: CustomFonts.googleBodyFont(
-                                                    color: Color(0xff00A9A5),
-                                                    fontSize: SizeConfig
-                                                            .textMultiplier *
-                                                        3,
-                                                    fontWeight: FontWeight.w400),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
+            leading: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: ConstantColors.buttonColor,
               ),
-            )),
-      ),
+            ),
+          ),
+          backgroundColor: ConstantColors.mainBackground,
+          body: FutureBuilder(
+            future: getAllProducts(),
+            builder:
+                (BuildContext context, AsyncSnapshot<GetProducts> snapshot) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.data.list.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: SizeConfig.widthMultiplier * 8,
+                      mainAxisSpacing: SizeConfig.heightMultiplier * 0,
+                      childAspectRatio: 1/0.95,
+                      crossAxisCount: SizeConfig.isPortrait ? 2 : 3),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: ProductDetails(
+                                    name: snapshot.data.data.list[index].name,
+                                    image:
+                                    snapshot.data.data.list[index].photoUrl,
+                                    price: snapshot.data.data.list[index].price,
+                                    description: snapshot
+                                        .data.data.list[index].descriptionShort,
+                                    accessToken: widget.accessToken,
+                                    productID: snapshot
+                                        .data.data.list[index].idProduct,
+                                    cartLength: widget.cartLength,
+                                    firstName: widget.firstName,
+                                    lastName: widget.lastName
+                                )));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.widthMultiplier * 1.5,
+                          right: SizeConfig.widthMultiplier * 1.5
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.heightMultiplier * 2
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(snapshot.data.data.list[index].photoUrl,),
+                                      fit: BoxFit.fill
+                                    )
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                 // color: Colors.blue,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${snapshot.data.data.list[index].name}',
+                                            style: CustomFonts.googleBodyFont(
+                                              color: ConstantColors.textColor,
+                                              fontSize: SizeConfig.textMultiplier * 2
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            '\KD ${snapshot.data.data.list[index].price}',
+                                            style: CustomFonts.googleBodyFont(
+                                                color: ConstantColors.textColor,
+                                                fontSize: SizeConfig.textMultiplier * 1.5
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )),
     );
   }
 }

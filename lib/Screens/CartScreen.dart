@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Models/RemoveProduct.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class CartScreen extends StatefulWidget {
   var firstName;
@@ -89,7 +90,7 @@ class _CartScreenState extends State<CartScreen> {
    return WillPopScope(
      onWillPop: () => Future.sync(onWillPop),
      child: Scaffold(
-       backgroundColor: Colors.black,
+       backgroundColor: ConstantColors.mainBackground,
        body: ListView(
          //physics: NeverScrollableScrollPhysics(),
          children: [
@@ -99,7 +100,7 @@ class _CartScreenState extends State<CartScreen> {
              child:  Row(
                children: [
                  Expanded(
-                   flex: 2,
+                   flex: 3,
                    child: InkWell(
                      onTap: ()=> Navigator.pop(context),
                      child: Visibility(
@@ -111,29 +112,30 @@ class _CartScreenState extends State<CartScreen> {
                          alignment: Alignment.centerLeft,
                          child: Icon(
                            Icons.arrow_back,
-                           color: Colors.white,
+                           color: ConstantColors.textColor,
                          ),
                        ),
                      ),
                    ),
                  ),
                  Expanded(
-                   flex: 3,
+                   flex: 4,
                    child: Container(
+                     alignment: Alignment.centerLeft,
                      child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                      Text(
                        'Cart',
                        style: CustomFonts.googleHeaderFont(
-                           color: Colors.white,
-                           fontSize: 30,
+                           color: ConstantColors.textColor,
+                           fontSize: SizeConfig.textMultiplier * 2.3,
                            fontWeight: FontWeight.bold),
                        textAlign: TextAlign.left,
                      ):
                      Text(
                        'عربة التسوق',
                        style: CustomFonts.googleHeaderFont(
-                           color: Colors.white,
-                           fontSize: 30,
+                           color: ConstantColors.textColor,
+                           fontSize: SizeConfig.textMultiplier * 2.3,
                            fontWeight: FontWeight.bold),
                      ),
                    )
@@ -153,29 +155,29 @@ class _CartScreenState extends State<CartScreen> {
                      TextSpan(
                          text: '${snapshot.data.data.cartProducts.length}',
                          style: CustomFonts.googleHeaderFont(
-                             color: Colors.white,
-                             fontSize: 30,
+                             color: ConstantColors.textColor,
+                             fontSize: SizeConfig.textMultiplier * 2.2,
                              fontWeight: FontWeight.w300),
                          children: [
                            TextSpan(
                              text: ' Items into your Cart',
                              style: CustomFonts.googleHeaderFont(
-                                 color: Colors.white,
-                                 fontSize: 28,
+                                 color: ConstantColors.textColor,
+                                 fontSize: SizeConfig.textMultiplier * 2.2,
                                  fontWeight: FontWeight.w300),
                            )
                          ]) :TextSpan(
                          text: "العناصر في عربة التسوق الخاصة بك  ",
                          style: CustomFonts.googleHeaderFont(
-                             color: Colors.white,
-                             fontSize: SizeConfig.textMultiplier * 2.5,
+                             color: ConstantColors.textColor,
+                             fontSize: SizeConfig.textMultiplier * 2.2,
                              fontWeight: FontWeight.w300),
                          children: [
                            TextSpan(
                              text: '${snapshot.data.data.cartProducts.length}',
                              style: CustomFonts.googleHeaderFont(
-                                 color: Colors.white,
-                                 fontSize: 28,
+                                 color: ConstantColors.textColor,
+                                 fontSize: SizeConfig.textMultiplier * 2.2,
                                  fontWeight: FontWeight.w300),
                            )
                          ]),
@@ -191,15 +193,15 @@ class _CartScreenState extends State<CartScreen> {
                      text: TextSpan(
                          text: '0',
                          style: CustomFonts.googleHeaderFont(
-                             color: Colors.white,
-                             fontSize: 30,
+                             color: Colors.transparent,
+                             fontSize: SizeConfig.textMultiplier * 2.2,
                              fontWeight: FontWeight.w300),
                          children: [
                            TextSpan(
                              text: ' Items into your Cart',
                              style: CustomFonts.googleHeaderFont(
-                                 color: Colors.white,
-                                 fontSize: 28,
+                                 color: Colors.transparent,
+                                 fontSize: SizeConfig.textMultiplier * 2.2,
                                  fontWeight: FontWeight.w300),
                            )
                          ]),
@@ -213,29 +215,29 @@ class _CartScreenState extends State<CartScreen> {
                        TextSpan(
                            text: '${snapshot.data.data.cartProducts.length}',
                            style: CustomFonts.googleHeaderFont(
-                               color: Colors.white,
-                               fontSize: 30,
+                               color: ConstantColors.textColor,
+                               fontSize: SizeConfig.textMultiplier * 2.2,
                                fontWeight: FontWeight.w300),
                            children: [
                              TextSpan(
                                text: ' Items into your Cart',
                                style: CustomFonts.googleHeaderFont(
-                                   color: Colors.white,
-                                   fontSize: 28,
+                                   color: ConstantColors.textColor,
+                                   fontSize: SizeConfig.textMultiplier * 2.2,
                                    fontWeight: FontWeight.w300),
                              )
                            ]) :TextSpan(
                            text: "العناصر في عربة التسوق الخاصة بك  ",
                            style: CustomFonts.googleHeaderFont(
-                               color: Colors.white,
-                               fontSize: SizeConfig.textMultiplier * 2.5,
+                               color: ConstantColors.textColor,
+                               fontSize: SizeConfig.textMultiplier * 2.2,
                                fontWeight: FontWeight.w300),
                            children: [
                              TextSpan(
                                text: '0',
                                style: CustomFonts.googleHeaderFont(
-                                   color: Colors.white,
-                                   fontSize: 28,
+                                   color: ConstantColors.textColor,
+                                   fontSize: SizeConfig.textMultiplier * 2.2,
                                    fontWeight: FontWeight.w300),
                              )
                            ]),
@@ -258,8 +260,8 @@ class _CartScreenState extends State<CartScreen> {
                        padding: EdgeInsets.symmetric(vertical: padding),
                        decoration: BoxDecoration(
                          border: Border(
-                             bottom: BorderSide(color: Colors.white, width: 0.1),
-                             top: BorderSide(color: Colors.white, width: 0.1)),
+                             bottom: BorderSide(color: ConstantColors.buttonColor, width: 0.1),
+                             top: BorderSide(color: ConstantColors.buttonColor, width: 0.1)),
                        ),
                        height: height * 0.25,
                        child: Row(
@@ -270,7 +272,7 @@ class _CartScreenState extends State<CartScreen> {
                                EdgeInsets.symmetric(horizontal: padding),
                                child: Container(
                                  decoration: BoxDecoration(
-                                   color: Colors.yellow.withOpacity(0.8),
+                                   color: ConstantColors.backgroundColor.withOpacity(0.8),
                                    borderRadius: BorderRadius.circular(padding),
                                    // image: DecorationImage(
                                    //     image: AssetImage('images/face.jpg'),
@@ -303,8 +305,8 @@ class _CartScreenState extends State<CartScreen> {
                                                    '${snapshot.data.data.cartProducts[index].name}',
                                                    style: CustomFonts
                                                        .googleHeaderFont(
-                                                       color: Colors.white,
-                                                       fontSize: 24,
+                                                       color: ConstantColors.textColor,
+                                                       fontSize: SizeConfig.textMultiplier * 2.2,
                                                        fontWeight:
                                                        FontWeight.w300),
                                                  ),
@@ -350,7 +352,7 @@ class _CartScreenState extends State<CartScreen> {
                                                  child: Container(
                                                      child: Icon(
                                                        Icons.close,
-                                                       color: Colors.white,
+                                                       color: ConstantColors.textColor,
                                                      )),
                                                ),
                                              ),
@@ -365,8 +367,8 @@ class _CartScreenState extends State<CartScreen> {
                                                text: 'Quantity:',
                                                style:
                                                CustomFonts.googleHeaderFont(
-                                                   color: Colors.white,
-                                                   fontSize: 16,
+                                                   color: ConstantColors.textColor,
+                                                   fontSize: SizeConfig.textMultiplier * 2.2,
                                                    fontWeight:
                                                    FontWeight.w300),
                                                children: [
@@ -375,8 +377,8 @@ class _CartScreenState extends State<CartScreen> {
                                                    ' ${snapshot.data.data.cartProducts[index].quantity}',
                                                    style: CustomFonts
                                                        .googleHeaderFont(
-                                                       color: Colors.white,
-                                                       fontSize: 16,
+                                                       color: ConstantColors.textColor,
+                                                       fontSize: SizeConfig.textMultiplier * 2.2,
                                                        fontWeight:
                                                        FontWeight.w300),
                                                  )
@@ -397,8 +399,8 @@ class _CartScreenState extends State<CartScreen> {
                                                        style: CustomFonts
                                                            .googleHeaderFont(
                                                            color:
-                                                           Colors.white,
-                                                           fontSize: 16,
+                                                           ConstantColors.textColor,
+                                                           fontSize: SizeConfig.textMultiplier * 2.2,
                                                            fontWeight:
                                                            FontWeight
                                                                .w300),
@@ -409,7 +411,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                .googleHeaderFont(
                                                                color: Colors
                                                                    .white,
-                                                               fontSize: 16,
+                                                               fontSize: SizeConfig.textMultiplier * 2.2,
                                                                fontWeight:
                                                                FontWeight
                                                                    .w300),
@@ -418,18 +420,23 @@ class _CartScreenState extends State<CartScreen> {
                                                  )),
                                            ),
                                            Expanded(
-                                             flex: 2,
-                                             child: Container(
-                                               child: Text(
-                                                 "\$ ${(snapshot.data.data.cartProducts[index].price) * snapshot.data.data.cartProducts[index].quantity}",
-                                                 style: CustomFonts
-                                                     .googleHeaderFont(
-                                                     color: Colors.yellow
-                                                         .withOpacity(0.8),
-                                                     fontSize: 16,
-                                                     fontWeight:
-                                                     FontWeight.w300),
-                                                 textAlign: TextAlign.right,
+                                             flex: 3,
+                                             child: Padding(
+                                               padding: EdgeInsets.only(
+                                                 right: padding * 2
+                                               ),
+                                               child: Container(
+                                                 child: Text(
+                                                   "\KD ${(snapshot.data.data.cartProducts[index].price) * snapshot.data.data.cartProducts[index].quantity}",
+                                                   style: CustomFonts
+                                                       .googleHeaderFont(
+                                                       color: ConstantColors.textColor
+                                                           .withOpacity(0.8),
+                                                       fontSize: SizeConfig.textMultiplier * 2,
+                                                       fontWeight:
+                                                       FontWeight.w300),
+                                                   textAlign: TextAlign.right,
+                                                 ),
                                                ),
                                              ),
                                            ),
@@ -493,20 +500,20 @@ class _CartScreenState extends State<CartScreen> {
                                      child: Text(
                                        'Total',
                                        style: CustomFonts.googleBodyFont(
-                                           color: Colors.white,
-                                           fontSize: SizeConfig.textMultiplier * 3),
+                                           color: Colors.black,
+                                           fontSize: SizeConfig.textMultiplier * 2.2),
                                      )),
                                ),
                                Expanded(
                                    child: Container(
                                        alignment: Alignment.centerRight,
                                        child: Text(
-                                         '\$ $totalBill',
+                                         '\KD $totalBill',
                                          style: CustomFonts.googleBodyFont(
                                              color:
-                                             Colors.yellow.withOpacity(0.8),
+                                             ConstantColors.textColor.withOpacity(0.8),
                                              fontSize:
-                                             SizeConfig.textMultiplier * 3),
+                                             SizeConfig.textMultiplier * 2.2),
                                        )))
                              ],
                            ): Row(
@@ -518,9 +525,9 @@ class _CartScreenState extends State<CartScreen> {
                                          '\$ $totalBill',
                                          style: CustomFonts.googleBodyFont(
                                              color:
-                                             Colors.yellow.withOpacity(0.8),
+                                             ConstantColors.backgroundColor.withOpacity(0.8),
                                              fontSize:
-                                             SizeConfig.textMultiplier * 3),
+                                             SizeConfig.textMultiplier * 2.2),
                                        ))),
                                Expanded(
                                  child: Container(
@@ -529,7 +536,7 @@ class _CartScreenState extends State<CartScreen> {
                                        'مجموع',
                                        style: CustomFonts.googleBodyFont(
                                            color: Colors.white,
-                                           fontSize: SizeConfig.textMultiplier * 3),
+                                           fontSize: SizeConfig.textMultiplier * 2.2),
                                      )),
                                ),
                              ],
@@ -571,7 +578,7 @@ class _CartScreenState extends State<CartScreen> {
                          height: height * 0.15,
                          decoration: BoxDecoration(
                              borderRadius: BorderRadius.circular(padding),
-                             color: Color(0xff00A9A5)),
+                             color: ConstantColors.buttonColor),
                          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                          Row(
                              children: [
@@ -581,7 +588,7 @@ class _CartScreenState extends State<CartScreen> {
                                  alignment: Alignment.center,
                                  child: Text('Proceed to Checkout',
                                      style: CustomFonts.googleBodyFont(
-                                         color: Colors.white, fontSize: 22)
+                                         color: Colors.white, fontSize: SizeConfig.textMultiplier * 2.2)
                                  ),
                                )
                            ),
@@ -603,7 +610,7 @@ class _CartScreenState extends State<CartScreen> {
                                      alignment: Alignment.center,
                                      child: Text('الشروع في الخروج',
                                          style: CustomFonts.googleBodyFont(
-                                             color: Colors.white, fontSize: 22)
+                                             color: Colors.white, fontSize: SizeConfig.textMultiplier * 2.2)
                                      ),
                                    )
                                ),

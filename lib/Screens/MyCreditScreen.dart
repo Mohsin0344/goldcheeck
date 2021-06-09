@@ -5,6 +5,7 @@ import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/MyCredit.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class MyCreditScreen extends StatefulWidget {
   var accessToken;
@@ -53,16 +54,25 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: ConstantColors.mainBackground,
           appBar: AppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: ConstantColors.mainBackground,
+            leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: ConstantColors.buttonColor
+              ),
+            ),
             title: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
             Text(
               'My Credit',
-              style: CustomFonts.googleBodyFont(color: Colors.white),
+              style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
             ):Text(
               'رصيدي',
-              style: CustomFonts.googleBodyFont(color: Colors.white),
+              style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
             ),
             centerTitle: true,
           ),
@@ -79,11 +89,11 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                     return Container(
                       padding: EdgeInsets.only(
                           top: SizeConfig.heightMultiplier * 2,
-                          bottom: SizeConfig.heightMultiplier * 0,
+                          bottom: SizeConfig.heightMultiplier ,
                           left: SizeConfig.widthMultiplier * 2,
                           right: SizeConfig.widthMultiplier * 2),
                       decoration: BoxDecoration(
-                          color: Color(0xff3B3F52),
+                          color: ConstantColors.buttonColor,
                           borderRadius: BorderRadius.circular(12)),
                       margin:
                           EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
@@ -99,7 +109,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         'Transaction ID',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -111,7 +121,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         '${_myCredit.data[index].idTrans}',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
@@ -132,7 +142,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         'Customer ID',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -144,7 +154,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         '${_myCredit.data[index].idCustomer}',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
@@ -165,7 +175,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         'Transaction Date',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -177,11 +187,11 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         '${_myCredit.data[index].txnDate}',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
-                                                    2.5),
+                                                    1.8),
                                       ),
                                     ),
                                   ),
@@ -198,7 +208,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         'Credit',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -210,7 +220,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         '${_myCredit.data[index].credit}',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
@@ -231,7 +241,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         'Debit',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -243,7 +253,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                                       child: Text(
                                         '${_myCredit.data[index].debit}',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
@@ -258,13 +268,13 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                           Expanded(
                             child: Container(
                                 decoration: BoxDecoration(
-                                    color: Color(0xff00A9A5),
+                                    color: ConstantColors.backgroundColor,
                                     borderRadius: BorderRadius.circular(12)),
                                 alignment: Alignment.center,
                                 child: Text(
                                   '${_myCredit.data[index].comments}',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white,
+                                      color: ConstantColors.textColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           SizeConfig.textMultiplier * 2.5),
@@ -280,7 +290,7 @@ class _MyCreditScreenState extends State<MyCreditScreen> {
                   child: Text(
                     'No Transactions Yet',
                     style: CustomFonts.googleBodyFont(
-                        color: Colors.white,
+                        color: ConstantColors.textColor,
                         fontSize: SizeConfig.textMultiplier * 4),
                   ),
                 );

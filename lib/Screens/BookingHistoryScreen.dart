@@ -5,6 +5,7 @@ import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Models/BookingHistory.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class BookingHistoryScreen extends StatefulWidget {
   var accessToken;
@@ -52,19 +53,28 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: ConstantColors.mainBackground,
           appBar: AppBar(
-            backgroundColor: Colors.black,
+            leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: ConstantColors.buttonColor,
+              ),
+            ),
+            backgroundColor: ConstantColors.mainBackground,
             title: Text(
               App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
               'Booking History': 'سجل الحجز',
-              style: CustomFonts.googleBodyFont(color: Colors.white),
+              style: CustomFonts.googleBodyFont(color: ConstantColors.textColor),
             ),
             centerTitle: true,
           ),
           body: FutureBuilder(
             future: fetchData(),
-            builder: (context, snapshot) {
+            builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                   padding: EdgeInsets.only(
@@ -75,11 +85,11 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                     return Container(
                       padding: EdgeInsets.only(
                           top: SizeConfig.heightMultiplier * 2,
-                          bottom: SizeConfig.heightMultiplier * 0,
+                          bottom: SizeConfig.heightMultiplier ,
                           left: SizeConfig.widthMultiplier * 2,
                           right: SizeConfig.widthMultiplier * 2),
                       decoration: BoxDecoration(
-                          color: Color(0xff3B3F52),
+                          color: ConstantColors.buttonColor,
                           borderRadius: BorderRadius.circular(12)),
                       margin:
                       EdgeInsets.only(top: SizeConfig.heightMultiplier * 2),
@@ -96,7 +106,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                         App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                         'ID Bookings' : 'حجوزات الهوية',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                             SizeConfig.textMultiplier *
                                                 2.5),
@@ -106,9 +116,9 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                   Expanded(
                                     child: Container(
                                       child: Text(
-                                        '${_bookingHistory.data.bookings[index].idBookings} ',
+                                        '${snapshot.data.data.bookings[index].idBookings} ',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                             SizeConfig.textMultiplier *
@@ -130,7 +140,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                         App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                         'Booking Date': 'تاريخ الحجز',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                             SizeConfig.textMultiplier *
                                                 2.5),
@@ -142,7 +152,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                       child: Text(
                                          "${_bookingHistory.data.bookings[index].bookingDate} ",
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                             SizeConfig.textMultiplier *
@@ -164,7 +174,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                         App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                         'Booking Time': 'وقت الحجز',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                             SizeConfig.textMultiplier *
                                                 2.5),
@@ -176,7 +186,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                                       child: Text(
                                         '${_bookingHistory.data.bookings[index].bookingTime} ',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Color(0xff00A9A5),
+                                            color: ConstantColors.textColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize:
                                             SizeConfig.textMultiplier *
@@ -191,13 +201,13 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                           Expanded(
                             child: Container(
                                 decoration: BoxDecoration(
-                                    color: Color(0xff00A9A5),
+                                    color: ConstantColors.backgroundColor,
                                     borderRadius: BorderRadius.circular(12)),
                                 alignment: Alignment.center,
                                 child: Text(
                                   '${_bookingHistory.data.bookings[index].services[0].fullDescription} ',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white,
+                                      color: ConstantColors.textColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                       SizeConfig.textMultiplier * 2.5),
@@ -216,7 +226,7 @@ class _BookingHistoryScreenState extends State<BookingHistoryScreen> {
                     style: CustomFonts.googleBodyFont(
                       height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                         1.5:1.0,
-                        color: Colors.white,
+                        color: ConstantColors.textColor,
                         fontSize: SizeConfig.textMultiplier * 4),
                   ),
                 );

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final bookingHistory = bookingHistoryFromJson(jsonString);
+
 import 'dart:convert';
 
 class BookingHistory {
@@ -61,7 +65,7 @@ class Booking {
   String idBookings;
   DateTime bookingDate;
   String bookingTime;
-  String note;
+  Note note;
   String status;
   List<Service> services;
 
@@ -73,20 +77,26 @@ class Booking {
     idBookings: json["id_bookings"],
     bookingDate: DateTime.parse(json["bookingDate"]),
     bookingTime: json["bookingTime"],
-    note: json["note"],
+    note: noteValues.map[json["note"]],
     status: json["status"],
-    services: List<Service>.from(json["services"].map((x) => Service.fromJson(x))),
+    services: json["services"] == null ? null : List<Service>.from(json["services"].map((x) => Service.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id_bookings": idBookings,
     "bookingDate": "${bookingDate.year.toString().padLeft(4, '0')}-${bookingDate.month.toString().padLeft(2, '0')}-${bookingDate.day.toString().padLeft(2, '0')}",
     "bookingTime": bookingTime,
-    "note": note,
+    "note": noteValues.reverse[note],
     "status": status,
-    "services": List<dynamic>.from(services.map((x) => x.toJson())),
+    "services": services == null ? null : List<dynamic>.from(services.map((x) => x.toJson())),
   };
 }
+
+enum Note { TEST }
+
+final noteValues = EnumValues({
+  "test": Note.TEST
+});
 
 class Service {
   Service({
@@ -126,4 +136,18 @@ class Service {
     "shortDescription": shortDescription,
     "fullDescription": fullDescription,
   };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

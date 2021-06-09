@@ -5,6 +5,7 @@ import 'package:gold/Screens/LoginInWithPhone.dart';
 import 'package:gold/Screens/LoginScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class SplashScreenn extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _SplashScreennState extends State<SplashScreenn> {
                   end: Alignment.bottomCenter,
                   colors: [
                 Color(0xff272b33),
-                Color(0xffddc654),
+                    ConstantColors.backgroundColor
               ])),
           child: Padding(
             padding: EdgeInsets.only(
@@ -212,7 +213,7 @@ class _SplashScreennState extends State<SplashScreenn> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(padding),
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.buttonColor,
                       ),
                       margin: EdgeInsets.symmetric(
                           horizontal: padding * 5, vertical: padding),

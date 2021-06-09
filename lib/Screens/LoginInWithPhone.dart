@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:gold/Models/createUserWithMobile.dart';
 import 'package:gold/Constants/Globals.dart';
 import 'CustomDialog.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class LogInWitPhone extends StatefulWidget {
   @override
@@ -47,188 +48,240 @@ class _LogInWitPhoneState extends State<LogInWitPhone> {
           resizeToAvoidBottomInset: false,
           body: Container(
             width: double.infinity,
-            padding: EdgeInsets.only(left: padding, right: padding),
+           // padding: EdgeInsets.only(left: padding, right: padding),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
                   Color(0xff2B2921),
-                  Color(0xffC1A035),
+                      ConstantColors.backgroundColor,
                 ])),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding),
-              child: Container(
-                child: Column(
-                  children: [
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Container(
-                        height: height * 0.15,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                  ),
+            child: Container(
+              child: Column(
+                children: [
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      color: ConstantColors.backgroundColor.withOpacity(0.5),
+                      height: height * 0.15,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: ConstantColors.textColor,
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                padding: EdgeInsets.only(left: padding * 2),
-                                alignment: Alignment.centerLeft,
-                                child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                Text(
-                                  'Enter your phone number',
-                                  style: CustomFonts.googleHeaderFont(
-                                      color: Colors.white, fontSize: 20),
-                                ):   Text(
-                                  'أدخل رقم هاتفك',
-                                  style: CustomFonts.googleHeaderFont(
-                                      color: Colors.white, fontSize: 20),
-                                )
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    ),
-                    SizedBox(
-                      height: SizeConfig.heightMultiplier * 10,
-                    ),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: padding * 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(padding),
-                          color: Colors.white,
-                        ),
-                        height: height * 0.15,
-                        child: Padding(
-                          padding: EdgeInsets.all(padding),
-                          child: IntlPhoneField(
-                            controller: phoneNumber,
-                            decoration: InputDecoration(
-                                labelText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                'Phone Number': 'رقم الهاتف',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Color(0xff00A9A5),
-                                  width: 1,
-                                ))),
-                            onChanged: (phone) {
-                              print(phone.completeNumber);
-                              setState(() {
-                                pNumber = phone.completeNumber;
-                              });
-                            },
                           ),
+                          Expanded(
+                            flex: 6,
+                            child: Container(
+                              padding: EdgeInsets.only(left: padding * 4),
+                              alignment: Alignment.centerLeft,
+                              child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              Text(
+                                'Enter your phone number',
+                                style: CustomFonts.googleHeaderFont(
+                                    color:ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
+                              ):   Text(
+                                'أدخل رقم هاتفك',
+                                style: CustomFonts.googleHeaderFont(
+                                    color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
+                              )
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  ),
+                  SizedBox(
+                    height: SizeConfig.heightMultiplier * 10,
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: padding * 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(padding),
+                        color: Colors.white,
+                      ),
+                      height: height * 0.15,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top:padding,
+                          left: padding,
+                          right: padding,
+                          bottom: padding
+                        ),
+                        child: IntlPhoneField(
+                          controller: phoneNumber,
+                          decoration: InputDecoration(
+                              labelText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                              'Phone Number': 'رقم الهاتف',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: ConstantColors.buttonColor,
+                                width: 1,
+                              ))),
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                            setState(() {
+                              pNumber = phone.completeNumber;
+                            });
+                          },
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: height * 0.09,
+                  ),
+                  SizedBox(
+                    height: height * 0.09,
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: padding * 2),
+                      height: height * 0.15,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          //color: Colors.green,
+                          borderRadius: BorderRadius.circular(padding)),
+                      child: RaisedButton(
+                          color: ConstantColors.buttonColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(padding),
+                          ),
+                          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                          Text(
+                            'Send Verification Code',
+                            style: CustomFonts.googleBodyFont(
+                                color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
+                          ):
+                          Text(
+                            'أرسل رمز التحقق',
+                            style: CustomFonts.googleBodyFont(
+                                color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
+                          ),
+                          onPressed: () async {
+                            // print(" this is ---------- :$pNumber");
+                            final CreateUserWithMobile createuserwithmobile =
+                                await createUser(pNumber);
+                            setState(() {
+                              _createUserWithMobile = createuserwithmobile;
+                            });
+                            if (_createUserWithMobile.status == 1) {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: PhoneVerification(
+                                        mobileNumber: pNumber,
+                                        accessToken: _createUserWithMobile
+                                            .data.accessToken,
+                                      )));
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialogBox(
+                                      message: _createUserWithMobile.message,
+                                      icon: Icons.error_outline,
+                                    );
+                                  });
+                            }
+                          }),
                     ),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: padding * 2),
-                        height: height * 0.15,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            //color: Colors.green,
-                            borderRadius: BorderRadius.circular(padding)),
-                        child: RaisedButton(
-                            color: Color(0xff00A9A5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(padding),
-                            ),
-                            child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                            Text(
-                              'Send Verification Code',
-                              style: CustomFonts.googleBodyFont(
-                                  color: Colors.white, fontSize: 20),
-                            ):
-                            Text(
-                              'أرسل رمز التحقق',
-                              style: CustomFonts.googleBodyFont(
-                                  color: Colors.white, fontSize: 20),
-                            ),
-                            onPressed: () async {
-                              // print(" this is ---------- :$pNumber");
-                              final CreateUserWithMobile createuserwithmobile =
-                                  await createUser(pNumber);
-                              setState(() {
-                                _createUserWithMobile = createuserwithmobile;
-                              });
-                              if (_createUserWithMobile.status == 1) {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: PhoneVerification(
-                                          mobileNumber: pNumber,
-                                          accessToken: _createUserWithMobile
-                                              .data.accessToken,
-                                        )));
-                              } else {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomDialogBox(
-                                        message: _createUserWithMobile.message,
-                                        icon: Icons.error_outline,
-                                      );
-                                    });
-                              }
-                            }),
-                      ),
+                  ),
+                  SizedBox(
+                    height: height * 0.10,
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: padding * 3),
+                      margin: EdgeInsets.symmetric(horizontal: padding * 2),
+                      height: height * 0.07,
+                      child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                      Text(
+                        'We will send a code to your',
+                        style: CustomFonts.googleBodyFont(
+                            color: ConstantColors.textColor.withOpacity(0.7),
+                            fontSize: SizeConfig.textMultiplier * 2.2),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 5,
+                      ):   Text(
+                        'سوف نرسل رمز إلى الخاص بك',
+                        style: CustomFonts.googleBodyFont(
+                            color: ConstantColors.textColor.withOpacity(0.7),
+                            fontSize: SizeConfig.textMultiplier * 2.2),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        textAlign: TextAlign.right,
+                      )
                     ),
-                    SizedBox(
-                      height: height * 0.10,
-                    ),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Container(
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
                         padding: EdgeInsets.symmetric(horizontal: padding * 3),
                         margin: EdgeInsets.symmetric(horizontal: padding * 2),
-                        height: height * 0.25,
+                        height: height * 0.07,
                         child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                         Text(
-                          r'    We will send a code to your number. Standard data '
-                          'charges \t \t \t \t \t  \t \t \t \t  may apply.',
+                          'number. Standard data',
                           style: CustomFonts.googleBodyFont(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 20),
+                              color: ConstantColors.textColor.withOpacity(0.7),
+                              fontSize: SizeConfig.textMultiplier * 2.2),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
+                          maxLines: 5,
                         ):   Text(
-                          r'سنرسل رمزًا إلى رقمك. قد يتم تطبيق رسوم البيانات القياسية.',
+                          'رقم البيانات القياسية',
                           style: CustomFonts.googleBodyFont(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 20),
+                              color: ConstantColors.textColor.withOpacity(0.7),
+                              fontSize: SizeConfig.textMultiplier * 2.2),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           textAlign: TextAlign.right,
                         )
-                      ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: padding * 3),
+                        margin: EdgeInsets.symmetric(horizontal: padding * 2),
+                        height: height * 0.07,
+                        child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                        Text(
+                          'charges may apply',
+                          style: CustomFonts.googleBodyFont(
+                              color: ConstantColors.textColor.withOpacity(0.7),
+                              fontSize: SizeConfig.textMultiplier * 2.2),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 5,
+                        ):   Text(
+                          'قد يتم تطبيق رسوم',
+                          style: CustomFonts.googleBodyFont(
+                              color: ConstantColors.textColor.withOpacity(0.7),
+                              fontSize: SizeConfig.textMultiplier * 2.2),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          textAlign: TextAlign.right,
+                        )
+                    ),
+                  ),
+                ],
               ),
             ),
           )),

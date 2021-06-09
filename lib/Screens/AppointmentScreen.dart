@@ -8,11 +8,13 @@ import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'CalendarScreen.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class AppointmentScreen extends StatefulWidget {
   var accessToken;
-
-  AppointmentScreen({this.accessToken});
+  var idServicess;
+  var price;
+  AppointmentScreen({this.accessToken, this.idServicess,this.price});
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -59,7 +61,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     super.initState();
     checkedIndex.clear();
     fetchData();
-
     // checkedIndex = List<bool>.filled(_getServiceList.data.length, false);
   }
 
@@ -68,11 +69,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     print('At appointment screen **************** ${widget.accessToken}');
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: ConstantColors.mainBackground,
         body: Container(
           height: double.infinity,
           decoration: BoxDecoration(
-              color: Color(0xffddc654),
+              color: ConstantColors.mainBackground,
               // color: Colors.red,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20))),
@@ -88,7 +89,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   height: SizeConfig.heightMultiplier * 26,
                   width: width,
                   decoration: BoxDecoration(
-                      color: Color(0xffD4AF37),
+                      color: ConstantColors.mainBackground,
                       // color: Colors.red,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(padding * 3),
@@ -113,22 +114,27 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                     },
                                     child: Icon(
                                       Icons.clear,
-                                      color: Colors.white,
+                                      color: ConstantColors.buttonColor,
                                     ),
                                   ),
                                 ),
                               ),
                               Expanded(
                                 flex: 8,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                    'Book an appointment' : 'حجز موعد',
-                                    style: CustomFonts.googleBodyFont(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: SizeConfig.widthMultiplier * 6
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                      'Book an appointment' : 'حجز موعد',
+                                      style: CustomFonts.googleBodyFont(
+                                          color: ConstantColors.textColor,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -147,7 +153,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
-                                      color: Colors.black, width: 2))),
+                                      color: ConstantColors.buttonColor, width: 2))),
                           child: Column(
                             children: [
                               Expanded(
@@ -160,12 +166,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Colors.black),
+                                                  color: ConstantColors.buttonColor
+                                              ),
                                               child: Text(
                                                 '1',
                                                 style:
                                                     CustomFonts.googleBodyFont(
-                                                        color: Colors.grey,
+                                                        color: ConstantColors.textColor,
                                                         fontSize: SizeConfig
                                                                 .textMultiplier *
                                                             2),
@@ -180,13 +187,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: Container(
-                                                      color: Colors.black,
+                                                      color: ConstantColors.buttonColor,
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                          color: Colors.black,
+                                                          color: ConstantColors.buttonColor,
                                                           gradient: LinearGradient(
                                                               begin: Alignment
                                                                   .centerLeft,
@@ -194,10 +201,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                   .centerRight,
                                                               colors: [
                                                                 // Color(0xffffffff),
-                                                                Color(
-                                                                    0xff1D747B),
-                                                                Color(
-                                                                    0xff3ABCB8),
+                                                                ConstantColors.buttonColor,
+                                                                ConstantColors.mainBackground
                                                               ])),
                                                     ),
                                                   )
@@ -209,12 +214,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Color(0xff3ABCB8)),
+                                                  color: ConstantColors.backgroundColor
+                                              ),
                                               child: Text(
                                                 '2',
                                                 style:
                                                     CustomFonts.googleBodyFont(
-                                                        color: Colors.white),
+                                                        color: ConstantColors.textColor),
                                               )),
                                         ),
                                         Flexible(
@@ -226,12 +232,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: Container(
-                                                      color: Colors.black,
+                                                      color: ConstantColors.buttonColor,
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: Container(
-                                                      color: Colors.black,
+                                                      color: ConstantColors.buttonColor,
                                                     ),
                                                   )
                                                 ],
@@ -242,12 +248,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Colors.black),
+                                                  color: ConstantColors.buttonColor),
                                               child: Text(
                                                 '3',
                                                 style:
                                                     CustomFonts.googleBodyFont(
-                                                        color: Colors.grey),
+                                                        color: ConstantColors.textColor),
                                               )),
                                         ),
                                         Flexible(
@@ -259,12 +265,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: Container(
-                                                      color: Colors.black,
+                                                      color: ConstantColors.buttonColor,
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: Container(
-                                                      color: Colors.black,
+                                                      color: ConstantColors.buttonColor,
                                                     ),
                                                   )
                                                 ],
@@ -275,12 +281,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Colors.black),
+                                                  color: ConstantColors.buttonColor),
                                               child: Text(
                                                 '4',
                                                 style:
                                                     CustomFonts.googleBodyFont(
-                                                        color: Colors.grey),
+                                                        color: ConstantColors.textColor),
                                               )),
                                         ),
                                       ],
@@ -301,10 +307,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             style: CustomFonts.googleBodyFont(
                                               height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                                 1.5:1.0,
-                                                color: Colors.grey,
+                                                color: ConstantColors.textColor,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
-                                                        1.8),
+                                                        1.65),
                                           ))),
                                   Expanded(
                                       flex: 3,
@@ -320,10 +326,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             style: CustomFonts.googleBodyFont(
                                               height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                                 1.5:1.0,
-                                                color: Colors.white,
+                                                color: ConstantColors.textColor,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
-                                                        1.8),
+                                                        1.65),
                                           ))),
                                   Expanded(
                                       flex: 2,
@@ -337,24 +343,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                             style: CustomFonts.googleBodyFont(
                                                 height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                                 1.5:1.0,
-                                                color: Colors.grey,
+                                                color: ConstantColors.textColor,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
-                                                        1.8),
+                                                        1.65),
                                           ))),
                                   Expanded(
                                       child: Container(
-                                          alignment: Alignment.topRight,
+                                          alignment: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                          Alignment.topLeft: Alignment.topCenter,
                                           padding: EdgeInsets.only(
-                                              right: padding * 0),
+                                              left: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                              padding * 0 : padding * 2),
                                           child: Text(
                                             App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                             'Payment': 'دفع',
                                             style: CustomFonts.googleBodyFont(
-                                                color: Colors.grey,
+                                                color: ConstantColors.textColor,
                                                 fontSize:
                                                     SizeConfig.textMultiplier *
-                                                        1.8),
+                                                        1.50),
                                           ))),
                                 ])),
                               ),
@@ -396,7 +404,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(padding),
-                                  color: Colors.black),
+                                  color: ConstantColors.backgroundColor),
                               child: Column(
                                 children: [
                                   Expanded(
@@ -427,23 +435,24 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                   .circular(
                                                                       padding *
                                                                           0.5),
-                                                          border: Border.all(
-                                                            // color: Colors.grey,
-                                                            width: 1,
-                                                          ),
+                                                          // border: Border.all(
+                                                          //   // color: Colors.grey,
+                                                          //   width: 1,
+                                                          // ),
                                                         ),
                                                         child: Theme(
                                                           data: ThemeData(
                                                               unselectedWidgetColor:
-                                                                  Colors.grey),
+                                                              ConstantColors.buttonColor),
                                                           child: Checkbox(
+                                                            // value: widget.idServicess == null?checkedIndex[index]
+                                                            // : widget.idServicess == snapshot.data.data[index].idServices? true: checkedIndex[index],
                                                             value: checkedIndex[index],
                                                             checkColor:
                                                                 Colors.white,
-                                                            activeColor: Color(
-                                                                0xff00A9A5),
+                                                            activeColor: ConstantColors.buttonColor,
                                                             focusColor:
-                                                                Colors.grey,
+                                                                Colors.transparent,
                                                             hoverColor:
                                                                 Colors.white,
                                                             onChanged:
@@ -458,8 +467,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                 grandtotal = grandtotal + int.parse(snapshot.data.data[index].charges).toDouble();
 
                                                               }else{
-                                                                totalPrice[index]="0.0";
-                                                                grandtotal =grandtotal - int.parse(snapshot.data.data[index].charges).toDouble();
+                                                             if(grandtotal > 0){
+                                                               totalPrice[index]="0.0";
+                                                               grandtotal =grandtotal - int.parse(snapshot.data.data[index].charges).toDouble();
+                                                             }
                                                               }
                                                             },
                                                           ),
@@ -476,8 +487,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                         "${snapshot.data.data[index].title}",
                                                         style: CustomFonts
                                                             .googleBodyFont(
-                                                                color: Colors
-                                                                    .white),
+                                                                color: ConstantColors.textColor),
                                                       ),
                                                     ),
                                                   ),
@@ -492,7 +502,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                         style: CustomFonts
                                                             .googleBodyFont(
                                                                 color:
-                                                                    Colors.grey,
+                                                                ConstantColors.textColor,
                                                                 fontSize: SizeConfig
                                                                         .textMultiplier *
                                                                     1.8),
@@ -507,11 +517,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                       alignment:
                                                           Alignment.centerRight,
                                                       child: Text(
-                                                        '\$ ${snapshot.data.data[index].charges}',
+                                                        '\KD ${snapshot.data.data[index].charges}',
                                                         style: CustomFonts
                                                             .googleBodyFont(
                                                           color:
-                                                              Color(0xff00A9A5),
+                                                          ConstantColors.textColor,
                                                         ),
                                                       ),
                                                     ),
@@ -522,7 +532,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                               child: Container(
                                             margin: EdgeInsets.symmetric(
                                                 horizontal: padding * 6),
-                                            color: Colors.white,
+                                            color: ConstantColors.buttonColor,
                                           )),
                                         ],
                                       ),
@@ -540,7 +550,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           '${snapshot.data.data[index].fullDescription}',
                                           style: CustomFonts.googleBodyFont(
                                             color:
-                                                Colors.white.withOpacity(0.6),
+                                            ConstantColors.textColor.withOpacity(0.6),
                                             fontWeight: FontWeight.w300,
                                             fontSize: 16,
                                           ),
@@ -573,16 +583,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   alignment: Alignment.center,
                   child: RichText(
                     text: TextSpan(
-                        text: '\$${grandtotal}',
+                        text: 'KD ${grandtotal}',
                         style: CustomFonts.googleBodyFont(
-                          color: Color(0xff00A9A5),
+                          color: ConstantColors.buttonColor,
                         ),
                         children: [
                           TextSpan(
                             text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                             '   Total' : 'مجموع   ',
                             style:
-                                CustomFonts.googleBodyFont(color: Colors.grey),
+                                CustomFonts.googleBodyFont(color: ConstantColors.textColor),
                           )
                         ]),
                   ),
@@ -618,7 +628,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(padding),
-                          color: Color(0xff00A9A5),
+                          color: ConstantColors.buttonColor,
                         ),
                         child: Row(
                           children: [
@@ -630,7 +640,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                   'Next' : 'التالي',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
+                                      color: ConstantColors.textColor),
                                 ),
                               ),
                             ),
@@ -639,7 +649,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
                                     Icons.arrow_forward,
-                                    color: Colors.white,
+                                    color: ConstantColors.textColor,
                                   )),
                             ),
                           ],

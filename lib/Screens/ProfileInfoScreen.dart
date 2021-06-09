@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'LoginScreen.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class ProfileInfo extends StatefulWidget {
   var accessToken;
@@ -65,7 +66,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                Color(0xffC1A035),
+                    ConstantColors.backgroundColor,
                 Color(0xff2B2921),
               ])),
           child: Container(
@@ -93,7 +94,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
                       App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                       'Sign Up' : 'اشتراك',
                       style: CustomFonts.googleBodyFont(
-                          color: Colors.white,
+                          color: ConstantColors.textColor,
                           fontSize: SizeConfig.textMultiplier * 4,
                           fontWeight: FontWeight.w800),
                       textAlign: TextAlign.left,
@@ -126,14 +127,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
                                 text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                 'Already a member?' : 'عضوا فعلا؟',
                                 style: CustomFonts.googleBodyFont(
-                                    color: Colors.white,
+                                    color: ConstantColors.textColor,
                                     fontSize: SizeConfig.textMultiplier * 2.5),
                                 children: [
                                   TextSpan(
                                       text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                       '  Login' : 'تسجيل الدخول  ',
                                       style: CustomFonts.googleBodyFont(
-                                        color: Color(0xff00A9A5),
+                                        color: ConstantColors.textColor,
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
@@ -195,12 +196,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                               });
                         }
                       },
-                      color: Color(0xff00A9A5),
+                      color: ConstantColors.buttonColor,
                       child: Text(
                         App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                         'Finish': 'ينهي',
                         style: CustomFonts.googleBodyFont(
-                            color: Colors.white, fontSize: 20),
+                            color: ConstantColors.textColor, fontSize: 20),
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(padding)),
@@ -229,25 +230,25 @@ class _ProfileInfoState extends State<ProfileInfo> {
         style: CustomFonts.googleBodyFont(
           color: Colors.black,
         ),
-        cursorColor: Color(0xff00A9A5),
+        cursorColor: ConstantColors.buttonColor,
         obscureText: val,
         decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(padding * 0.5),
-              borderSide: BorderSide(color: Color(0xff00A9A5), width: 1),
+              borderSide: BorderSide(color: ConstantColors.buttonColor, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(padding * 0.5),
-              borderSide: BorderSide(color: Color(0xff00A9A5), width: 2),
+              borderSide: BorderSide(color: ConstantColors.buttonColor, width: 2),
             ),
             suffixIcon: Icon(
               icon,
               color: Colors.grey,
             ),
             hintText: '$labell',
-            hintStyle: CustomFonts.googleBodyFont(color: Color(0xff00A9A5))),
+            hintStyle: CustomFonts.googleBodyFont(color: ConstantColors.buttonColor)),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'CustomDialog.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class ProductDetails extends StatefulWidget {
   var name;
@@ -97,7 +98,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Material(
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: ConstantColors.mainBackground,
           body: ListView(
             children: [
               Container(
@@ -115,7 +116,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           alignment: Alignment.centerLeft,
                           child: Icon(
                             Icons.arrow_back,
-                            color: Colors.white,
+                            color: ConstantColors.buttonColor,
                           ),
                         ),
                       ),
@@ -131,15 +132,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                         Text(
                           'Product Details',
                           style: CustomFonts.googleBodyFont(
-                              color: Colors.white,
-                              fontSize: SizeConfig.textMultiplier * 3.2),
+                              color: ConstantColors.textColor,
+                              fontSize: SizeConfig.textMultiplier * 2),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ):   Text(
                           'تفاصيل المنتج',
                           style: CustomFonts.googleBodyFont(
-                              color: Colors.white,
-                              fontSize: SizeConfig.textMultiplier * 3.2),
+                              color: ConstantColors.textColor,
+                              fontSize: SizeConfig.textMultiplier * 2),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         )
@@ -164,7 +165,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child: IconButton(
                                           iconSize: 30.0,
                                           icon: Icon(Icons.shopping_cart),
-                                          color:  Colors.white,
+                                          color:  ConstantColors.buttonColor,
                                           onPressed: () {
                                             Navigator.push(context,
                                                 PageTransition(
@@ -201,12 +202,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           width: SizeConfig.widthMultiplier * 5,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Color(0xff00A9A5)
+                                              color: ConstantColors.buttonColor
                                           ),
                                           child: Text(
                                             '${snapshot.data.data.cartProducts.length}',
                                             style: CustomFonts.googleBodyFont(
-                                                color: Colors.white
+                                                color: ConstantColors.textColor
                                             ),
                                             textAlign: TextAlign.center,
                                           ),
@@ -252,7 +253,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         child: Text(
                           '${widget.name}',
                           style: CustomFonts.googleBodyFont(
-                            color: Colors.white,
+                            color: ConstantColors.textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: SizeConfig.textMultiplier * 4,
                           ),
@@ -266,9 +267,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                             child: Container(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '\$ ${widget.price}',
+                                '\KD ${widget.price}',
                                 style: CustomFonts.googleBodyFont(
-                                  color: Colors.white,
+                                  color: ConstantColors.textColor,
                                   fontWeight: FontWeight.w400,
                                   fontSize: SizeConfig.textMultiplier * 2.5,
                                 ),
@@ -279,7 +280,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color(0xff00A9A5), width: 1),
+                                      color: ConstantColors.buttonColor, width: 1),
                                   borderRadius: BorderRadius.circular(20)),
                               child: Row(
                                 children: [
@@ -296,10 +297,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Color(0xff00A9A5)),
+                                              color: ConstantColors.buttonColor),
                                           child: Icon(
                                             Icons.add,
-                                            color: Colors.white,
+                                            color: ConstantColors.backgroundColor,
                                           ),
                                         ),
                                       ),
@@ -311,7 +312,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       child: Text(
                                         '$quantity',
                                         style: CustomFonts.googleBodyFont(
-                                            color: Colors.white,
+                                            color: ConstantColors.textColor,
                                             fontSize:
                                                 SizeConfig.textMultiplier *
                                                     2.5),
@@ -333,10 +334,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Color(0xff00A9A5)),
+                                              color: ConstantColors.buttonColor),
                                           child: Icon(
                                             Icons.remove,
-                                            color: Colors.white,
+                                            color: ConstantColors.backgroundColor,
                                           ),
                                         ),
                                       ),
@@ -355,7 +356,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           Text(
                             r'Description',
                             style: CustomFonts.googleBodyFont(
-                              color: Colors.white,
+                              color: ConstantColors.textColor,
                               fontWeight: FontWeight.w400,
                               fontSize: SizeConfig.textMultiplier * 2.5,
                             ),
@@ -363,7 +364,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           Text(
                             r'وصف',
                             style: CustomFonts.googleBodyFont(
-                              color: Colors.white,
+                              color: ConstantColors.textColor,
                               fontWeight: FontWeight.w400,
                               fontSize: SizeConfig.textMultiplier * 2.5,
                             ),
@@ -377,8 +378,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Text(
                             " ${widget.description}",
                             style: CustomFonts.googleBodyFont(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
+                              color: ConstantColors.textColor,
+                              fontWeight: FontWeight.w500,
                               fontSize: SizeConfig.textMultiplier * 2.5,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -398,26 +399,27 @@ class _ProductDetailsState extends State<ProductDetails> {
                 right: SizeConfig.widthMultiplier,
                 bottom: SizeConfig.heightMultiplier),
             child: Container(
-              height: SizeConfig.heightMultiplier * 8,
+              height: SizeConfig.heightMultiplier * 7,
               decoration: BoxDecoration(
-                  color: Color(0xff00A9A5),
+                  color: ConstantColors.buttonColor,
                   borderRadius: BorderRadius.circular(8.0)),
               child: RaisedButton(
                 child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                 Text(
                   'Add to Cart',
                   style: CustomFonts.googleBodyFont(
-                      color: Colors.white,
+                      color: ConstantColors.textColor,
                       fontSize: SizeConfig.textMultiplier * 2),
                 ):
                 Text(
                   'أضف إلى السلة',
                   style: CustomFonts.googleBodyFont(
-                      color: Colors.white,
+                      color: ConstantColors.textColor,
                       fontSize: SizeConfig.textMultiplier * 2),
                 ),
-                color: Color(0xff00A9A5),
+                color: ConstantColors.buttonColor,
                 onPressed: () async {
+                  print("im here");
                   final AddToCart addToCart = await addToCartNow(quantity);
                   setState(() {
                     _addToCart = addToCart;
@@ -448,6 +450,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                           );
                         });
                   }
+                  setState(() {
+                    quantity = 1;
+                  });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),

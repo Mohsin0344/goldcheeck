@@ -4,6 +4,7 @@ import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'ProfileInfoScreen.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class VerificationSuccess extends StatefulWidget {
   var accessToken;
@@ -32,8 +33,8 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                     end: Alignment.bottomCenter,
                     colors: [
                   Color(0xffF7F1DB),
-                  Color(0xffE8D596),
-                  Color(0xffDABB56)
+                      ConstantColors.buttonColor,
+                      ConstantColors.backgroundColor
                 ])),
             child: ListView(
               padding: EdgeInsets.only(
@@ -62,7 +63,7 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                     App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                     'Verified!' : 'تم التحقق!',
                     style: CustomFonts.googleBodyFont(
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.mainBackground,
                         fontSize: SizeConfig.textMultiplier * 3.5,
                         fontWeight: FontWeight.bold),
                   ),
@@ -81,7 +82,7 @@ class _VerificationSuccessState extends State<VerificationSuccess> {
                                 accessToken: widget.accessToken,
                               )));
                     },
-                    color: Color(0xff00A9A5),
+                    color: ConstantColors.buttonColor,
                     child: Text(
                       App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                       'Complete your Profile' : 'أكمل ملفك الشخصي',

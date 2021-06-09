@@ -3,6 +3,7 @@ import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:gold/Screens/HomeScreen.dart';
 import 'package:gold/Screens/NewSplashScreen.dart';
+import 'package:gold/Screens/TestScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
                   phoneNumber: App.localStorage.getString("phoneNumber"),
                 )
             );
+            // return MaterialApp(home:GetAllProducts());
           },
         );
       },

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../Constants/SizeConfig.dart';
 import 'CustomDialog.dart';
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class EditProfileScreen extends StatefulWidget {
   var firstName;
@@ -62,26 +63,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     print(widget.accessToken);
     return Material(
         child: Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ConstantColors.mainBackground,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Container(
-          padding: EdgeInsets.only(left: SizeConfig.widthMultiplier * 12),
-          child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-          Text(
-            'Edit Profile',
-            style: CustomFonts.googleHeaderFont(
-                color: Colors.white,
-                fontSize: SizeConfig.textMultiplier * 4,
-                fontWeight: FontWeight.bold),
-          ):
-          Text(
-            'تعديل الملف الشخصي',
-            style: CustomFonts.googleHeaderFont(
-                color: Colors.white,
-                fontSize: SizeConfig.textMultiplier * 4,
-                fontWeight: FontWeight.bold),
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Icon(
+              Icons.arrow_back,
+              color: ConstantColors.buttonColor
           ),
+        ),
+        backgroundColor: ConstantColors.mainBackground,
+        centerTitle: true,
+        title: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+        Text(
+          'Edit Profile',
+          style: CustomFonts.googleHeaderFont(
+              color: ConstantColors.textColor,
+              fontSize: SizeConfig.textMultiplier * 2,
+              fontWeight: FontWeight.bold),
+        ):
+        Text(
+          'تعديل الملف الشخصي',
+          style: CustomFonts.googleHeaderFont(
+              color: ConstantColors.textColor,
+              fontSize: SizeConfig.textMultiplier * 2,
+              fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
@@ -101,14 +109,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: SizeConfig.heightMultiplier * 10,
+        height: SizeConfig.heightMultiplier * 7,
         width: double.infinity,
         margin: EdgeInsets.only(
             left: SizeConfig.widthMultiplier * 2,
             right: SizeConfig.widthMultiplier * 2,
             bottom: SizeConfig.heightMultiplier * 2),
         child: RaisedButton(
-          color: Color(0xff00A9A5),
+          color: ConstantColors.buttonColor,
           onPressed: () async {
             final EditProfile editProfile = await updateProfileNow(
                 firstName: firstName.text,
@@ -141,11 +149,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Text(
             'Update',
             style: CustomFonts.googleBodyFont(
-                color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
+                color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2),
           ):   Text(
             'تحديث',
             style: CustomFonts.googleBodyFont(
-                color: Colors.white, fontSize: SizeConfig.textMultiplier * 3),
+                color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2),
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -173,25 +181,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         style: CustomFonts.googleBodyFont(
           color: Colors.black,
         ),
-        cursorColor: Color(0xff00A9A5),
+        cursorColor: ConstantColors.buttonColor,
         obscureText: val,
         decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(padding * 0.5),
-              borderSide: BorderSide(color: Color(0xff00A9A5), width: 1),
+              borderSide: BorderSide(color: ConstantColors.buttonColor, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(padding * 0.5),
-              borderSide: BorderSide(color: Color(0xff00A9A5), width: 2),
+              borderSide: BorderSide(color: ConstantColors.buttonColor, width: 2),
             ),
             suffixIcon: Icon(
               icon,
-              color: Colors.grey,
+              color: ConstantColors.buttonColor,
             ),
             hintText: '$labell',
-            hintStyle: CustomFonts.googleBodyFont(color: Color(0xff00A9A5))),
+            hintStyle: CustomFonts.googleBodyFont(color: ConstantColors.textColor)),
       ),
     );
   }

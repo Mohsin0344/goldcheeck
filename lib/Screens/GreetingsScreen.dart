@@ -4,6 +4,7 @@ import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Constants/SizeConfig.dart';
 import 'package:page_transition/page_transition.dart';
 import 'HomeScreen.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class GreetingsScreen extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Color(0xff00A9A5)),
+                            shape: BoxShape.circle, color: ConstantColors.buttonColor),
                         child: Icon(
                           Icons.check,
                           color: Colors.white,
@@ -129,14 +130,14 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                                     Text(
                                       '50 Minute From Now',
                                       style: CustomFonts.googleBodyFont(
-                                          color: Color(0xff00A9A5)),
+                                          color: ConstantColors.buttonColor),
                                     ):
                                     Text(
                                       '50 دقيقة من الآن',
                                       style: CustomFonts.googleBodyFont(
                                         height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                           0.0:1.0,
-                                          color: Color(0xff00A9A5)),
+                                          color: ConstantColors.buttonColor),
                                     ),
                                   ),
                                 ),
@@ -255,7 +256,7 @@ class _GreetingsScreenState extends State<GreetingsScreen> {
                   style: CustomFonts.googleBodyFont(
                       color: Colors.white, fontSize: 18),
                 ),
-                color: Color(0xff00A9A5),
+                color: ConstantColors.buttonColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(padding),
                 ),

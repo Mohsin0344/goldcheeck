@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
 import 'CustomDialog.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class PhoneVerification extends StatefulWidget {
   var mobileNumber;
@@ -29,7 +30,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
     //color: const Color.fromRGBO(43, 46, 66, 1),
     color: Colors.white,
     borderRadius: BorderRadius.circular(10.0),
-    border: Border.all(color: Color(0xff00A9A5)),
+    border: Border.all(color: ConstantColors.buttonColor),
   );
 
   VerificationOtp _verificationOTP;
@@ -69,7 +70,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                   end: Alignment.bottomCenter,
                   colors: [
                 Color(0xff2B2921),
-                Color(0xffC1A035),
+                    ConstantColors.backgroundColor,
               ])),
           child: Container(
             child: Column(
@@ -89,7 +90,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                               },
                               child: Icon(
                                 Icons.arrow_back,
-                                color: Colors.white,
+                                color: ConstantColors.textColor,
                               ),
                             ),
                           ),
@@ -97,17 +98,17 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                         Expanded(
                           flex: 6,
                           child: Container(
-                            padding: EdgeInsets.only(left: padding * 2),
+                            padding: EdgeInsets.only(left: padding * 10),
                             alignment: Alignment.centerLeft,
                             child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                             Text(
                               'Phone Verification',
                               style: CustomFonts.googleHeaderFont(
-                                  color: Colors.white, fontSize: 20),
+                                  color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
                             ):  Text(
                               'التحقق من الهاتف',
                               style: CustomFonts.googleHeaderFont(
-                                  color: Colors.white, fontSize: 20),
+                                  color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
                             )
                           ),
                         ),
@@ -125,12 +126,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                     Text(
                       'A verification code is sent to your number',
                       style: CustomFonts.googleBodyFont(
-                          color: Colors.white.withOpacity(0.7), fontSize: 16),
+                          color: ConstantColors.textColor.withOpacity(0.7), fontSize: 16),
                     ):
                     Text(
                       'يتم إرسال رمز التحقق إلى رقمك',
                       style: CustomFonts.googleBodyFont(
-                          color: Colors.white.withOpacity(0.7), fontSize: 16),
+                          color: ConstantColors.textColor.withOpacity(0.7), fontSize: 16),
                     ),
                   ),
                 ),
@@ -144,15 +145,15 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                             text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                             'provided': 'قدمت',
                             style: CustomFonts.googleBodyFont(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 16),
+                                color: ConstantColors.textColor.withOpacity(0.7),
+                                fontSize: SizeConfig.textMultiplier * 2.2),
                             children: [
                               TextSpan(
                                   text: '    ${widget.mobileNumber}',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white,
+                                      color: ConstantColors.textColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18))
+                                      fontSize: SizeConfig.textMultiplier * 2.2))
                             ]),
                       )),
                 ),
@@ -172,7 +173,7 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                       child: PinPut(
                         fieldsCount: 6,
                         textStyle: const TextStyle(
-                            fontSize: 25.0, color: Color(0xff00A9A5)),
+                            fontSize: 25.0, color: Colors.brown),
                         eachFieldWidth: 40.0,
                         eachFieldHeight: 55.0,
                         focusNode: _pinPutFocusNode,
@@ -220,16 +221,16 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(padding)),
-                      color: Color(0xff00A9A5),
+                      color: ConstantColors.buttonColor,
                       child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                       Text(
                         'Verify Number',
                         style: CustomFonts.googleBodyFont(
-                            color: Colors.white, fontSize: 20),
+                            color: ConstantColors.textColor, fontSize: SizeConfig.textMultiplier * 2.2),
                       ): Text(
                         'تحقق من الرقم',
                         style: CustomFonts.googleBodyFont(
-                            color: Colors.white, fontSize: 20),
+                            color: ConstantColors.textColor, fontSize: 20),
                       ) ,
                     ),
                   ),
@@ -242,12 +243,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                     Text(
                       'Resend code',
                       style: CustomFonts.googleBodyFont(
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.textColor,
                       ),
                     ):  Text(
                       'أعد إرسال الرمز',
                       style: CustomFonts.googleBodyFont(
-                        color: Color(0xff00A9A5),
+                        color: ConstantColors.textColor,
                       ),
                     ),
                   ),
@@ -261,7 +262,8 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                         text:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                         'By topping Verify number above you agree to the': 'بتصدر رقم التحقق أعلاه ، فإنك توافق على',
                         style: CustomFonts.googleBodyFont(
-                          color: Color(0xff00A9A5),
+                          color: ConstantColors.textColor,
+                          fontSize:  SizeConfig.textMultiplier * 1.6
                         ),
                         // children: [
                         //   TextSpan(
@@ -292,13 +294,17 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                             text:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?''
                                 ' Term of Service Privacy Policy' : 'سياسة خصوصية شروط الخدمة',
                             style:
-                                CustomFonts.googleBodyFont(color: Colors.white),
+                                CustomFonts.googleBodyFont(color: ConstantColors.textColor,
+                                  fontSize:  SizeConfig.textMultiplier * 1.6
+                                ),
                             children: [
                               TextSpan(
                                 text: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                 ' or' : ' أو',
                                 style: CustomFonts.googleBodyFont(
-                                    color: Colors.white.withOpacity(0.7)),
+                                    color: ConstantColors.textColor.withOpacity(0.7),
+                                    fontSize:  SizeConfig.textMultiplier * 1.6
+                                ),
                               )
                             ]),
                       )),
@@ -312,11 +318,15 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                     child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                     Text(
                       'Cookies Policy',
-                      style: CustomFonts.googleBodyFont(color: Colors.white),
+                      style: CustomFonts.googleBodyFont(color: ConstantColors.textColor,
+                          fontSize:  SizeConfig.textMultiplier * 1.6
+                      ),
                     ):
                     Text(
                       'اتفاقية ملفات تعريف الارتباط',
-                      style: CustomFonts.googleBodyFont(color: Colors.white),
+                      style: CustomFonts.googleBodyFont(color: ConstantColors.textColor,
+                          fontSize:  SizeConfig.textMultiplier * 1.6
+                      ),
                     ),
                   ),
                 ),

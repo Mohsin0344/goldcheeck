@@ -8,6 +8,8 @@ import 'package:gold/Constants/Globals.dart';
 import 'package:gold/Screens/HomeScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:gold/Screens/WebviewPayment.dart';
+import 'package:gold/Constants/ConstantColors.dart';
+import 'package:gold/Screens/VisaWeb.dart';
 
 class DeliveryTypeScreen extends StatefulWidget {
   var idCart;
@@ -90,124 +92,204 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: ConstantColors.mainBackground,
+          leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: ConstantColors.buttonColor
+            ),
+          ),
           title: Text(
             App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
             'Select Delivery Type' : 'حدد نوع التسليم',
                 style: CustomFonts.googleBodyFont(
                   height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                    0.0:1.0,
-              color: Colors.white
+                    null:1.0,
+              color: ConstantColors.textColor
           ),
           ),
           centerTitle: true,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: ConstantColors.mainBackground,
         body: ListView(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0 * 2),
-              height: SizeConfig.heightMultiplier * 20,
+              margin: EdgeInsets.symmetric(horizontal: 8.0 * 2,
+              vertical: 16
+              ),
+              height: SizeConfig.heightMultiplier * 25,
               decoration: BoxDecoration(
-                  color: Color(0xff3F4457),
+                  color: ConstantColors.buttonColor,
                   borderRadius: BorderRadius.circular(8.0)),
               child: Column(
                 children: [
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom:
-                              BorderSide(color: Colors.grey, width: 0.5))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                                child: Radio(
-                                  activeColor: Color(0xff00A9A5),
-                                  value: 0,
-                                  groupValue: _radioValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _radioValue = value;
-                                    });
-                                  },
-                                ),
-                              )),
-                          Expanded(
-                              flex: 6,
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                  'Cash On Delivery': 'الدفع عند الاستلام',
-                                  style: CustomFonts.googleBodyFont(
-                                    height:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                      0.0:1.0,
-                                      color: Colors.white),
-                                ),
-                              )),
-                          Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    right: 8, top: 8, bottom: 8),
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          _radioValue = 0;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                BorderSide(color: Colors.grey, width: 0.5))),
+                        child: Row(
+                          children: [
+                            Expanded(
                                 child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('images/cash-on-delivery.png'),
-                                          fit: BoxFit.cover)),
-                                ),
-                              )),
-                        ],
+                                  child: Radio(
+                                    activeColor: ConstantColors.backgroundColor,
+                                    value: 0,
+                                    groupValue: _radioValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _radioValue = value;
+                                      });
+                                    },
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 6,
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'Cash On Delivery': 'الدفع عند الاستلام',
+                                    style: CustomFonts.googleBodyFont(
+                                      height:  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                        0.0:1.0,
+                                        color: ConstantColors.textColor),
+                                  ),
+                                )),
+                            Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 8, top: 8, bottom: 8),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage('images/cash-on-delivery.png'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom:
-                              BorderSide(color: Colors.grey, width: 0.5))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                                child: Radio(
-                                  activeColor: Color(0xff00A9A5),
-                                  value: 1,
-                                  groupValue: _radioValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _radioValue = value;
-                                    });
-                                  },
-                                ),
-                              )),
-                          Expanded(
-                              flex: 6,
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                  'Self Pick Up': 'النفس التقاط',
-                                  style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
-                                ),
-                              )),
-                          Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    right: 8.0, top: 8.0, bottom: 8.0),
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          _radioValue = 1;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                BorderSide(color: Colors.grey, width: 0.5))),
+                        child: Row(
+                          children: [
+                            Expanded(
                                 child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('images/payment-method.png'),
-                                          fit: BoxFit.cover)),
-                                ),
-                              )),
-                        ],
+                                  child: Radio(
+                                    activeColor: ConstantColors.backgroundColor,
+                                    value: 1,
+                                    groupValue: _radioValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _radioValue = value;
+                                      });
+                                    },
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 6,
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'KNET': 'النفس التقاط',
+                                    style: CustomFonts.googleBodyFont(
+                                        color: ConstantColors.textColor),
+                                  ),
+                                )),
+                            Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 8.0, top: 8.0, bottom: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage('images/payment-method.png'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          _radioValue = 2;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                BorderSide(color: Colors.grey, width: 0.5))),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Container(
+                                  child: Radio(
+                                    activeColor: ConstantColors.backgroundColor,
+                                    value: 2,
+                                    groupValue: _radioValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _radioValue = value;
+                                      });
+                                    },
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 6,
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
+                                    'VISA': 'VISA',
+                                    style: CustomFonts.googleBodyFont(
+                                        color: ConstantColors.textColor),
+                                  ),
+                                )),
+                            Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 8.0, top: 8.0, bottom: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage('images/payment-method.png'),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -216,15 +298,15 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
             ),
             LayoutBuilder(
               builder: (context,constraints){
-                if(_radioValue==1){
+                if(_radioValue==1 || _radioValue ==2){
                   return Container(
                     padding: EdgeInsets.only(
                         left: padding, right: padding, top: padding * 2),
                     margin: EdgeInsets.only(
                         top: padding * 2, left: padding * 2, right: padding * 2),
-                    height: SizeConfig.heightMultiplier * 60,
+                    height: SizeConfig.heightMultiplier * 20,
                     decoration: BoxDecoration(
-                        color: Color(0xff3F4457),
+                        color: ConstantColors.buttonColor,
                         borderRadius: BorderRadius.circular(padding)),
                     child: Column(
                       children: [
@@ -243,166 +325,19 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                   hintText: '${widget.totalBill}',
                                   suffixIcon: Icon(
                                     Icons.attach_money,
-                                    color: Colors.grey,
+                                    color: ConstantColors.buttonColor,
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(padding),
                                       borderSide:
-                                      BorderSide(color: Colors.white, width: 1)),
+                                      BorderSide(color: ConstantColors.buttonColor, width: 1)),
                                   focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(padding),
                                       borderSide:
-                                      BorderSide(color: Colors.green, width: 1)),
+                                      BorderSide(color: ConstantColors.buttonColor, width: 1)),
                                 ),
                               ),
                             )),
-                        Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: padding),
-                              child: TextField(
-                                controller: cardNumber,
-                                style: CustomFonts.googleBodyFont(
-                                    color: Colors.grey, height: 2.0),
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                  'Card Number': 'رقم البطاقة',
-                                  suffixIcon: Icon(
-                                    Icons.credit_card,
-                                    color: Colors.grey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.white, width: 1)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.green, width: 1)),
-                                ),
-                              ),
-                            )),
-                        Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: padding),
-                              child: TextField(
-                                controller: cardHolderName,
-                                style: CustomFonts.googleBodyFont(
-                                    color: Colors.grey, height: 2.0),
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                  'Card Name': 'اسم البطاقة',
-                                  suffixIcon: Icon(
-                                    Icons.account_box,
-                                    color: Colors.grey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.white, width: 1)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.green, width: 1)),
-                                ),
-                              ),
-                            )),
-                        Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                bottom: padding,
-                              ),
-                              child: Row(children: [
-                                Expanded(
-                                    child: Container(
-                                        child: TextField(
-                                          controller: cardExpireMonth,
-                                          style: CustomFonts.googleBodyFont(
-                                              color: Colors.grey, height: 2.0),
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                            'MM': 'شهر',
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today,
-                                              color: Colors.grey,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(padding),
-                                                borderSide:
-                                                BorderSide(color: Colors.white, width: 1)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(padding),
-                                                borderSide:
-                                                BorderSide(color: Colors.green, width: 1)),
-                                          ),
-                                        ))),
-                                Expanded(
-                                  child: Container(
-                                      alignment: Alignment.centerRight,
-                                      margin: EdgeInsets.only(left: padding),
-                                      child: TextField(
-                                        controller: cardExpireYear,
-                                        style: CustomFonts.googleBodyFont(
-                                            color: Colors.grey, height: 2.0),
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          hintText: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
-                                          'YY': 'عام',
-                                          suffixIcon: Icon(
-                                            Icons.calendar_today,
-                                            color: Colors.grey,
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(padding),
-                                              borderSide: BorderSide(
-                                                  color: Colors.white, width: 1)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(padding),
-                                              borderSide: BorderSide(
-                                                  color: Colors.green, width: 1)),
-                                        ),
-                                      )),
-                                ),
-                              ]),
-                            )),
-                        Expanded(
-                          child: Container(
-                            // margin: EdgeInsets.only(
-                            //     left: padding
-                            // ),
-                              child: TextField(
-                                controller: CCV,
-                                style: CustomFonts.googleBodyFont(
-                                    color: Colors.grey, height: 2.0),
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: 'CVV',
-                                  suffixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.grey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.white, width: 1)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(padding),
-                                      borderSide:
-                                      BorderSide(color: Colors.green, width: 1)),
-                                ),
-                              )),
-                        ),
                         Expanded(
                             child: Container(
                               margin: EdgeInsets.only(bottom: padding),
@@ -413,7 +348,7 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                         alignment: Alignment.centerLeft,
                                         child: Icon(
                                           Icons.lock,
-                                          color: Colors.grey,
+                                          color: ConstantColors.buttonColor
                                         ),
                                       )),
                                   Expanded(
@@ -425,14 +360,14 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                               'us. We use ssecure transmission and'
                                               'encrypted storage',
                                           style: CustomFonts.googleBodyFont(
-                                              color: Colors.grey),
+                                              color: ConstantColors.textColor),
                                         ):
                                         Text(
                                           'معلومات الدفع الخاصة بك في أمان معنا. نحن نستخدم النقل الآمن والتخزين المشفر',
                                           style: CustomFonts.googleBodyFont(
                                             height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                               0.0:1.0,
-                                              color: Colors.grey),
+                                              color: ConstantColors.textColor),
                                         ),
                                       )),
                                 ],
@@ -448,8 +383,8 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
             )
           ],
         ),
-        bottomNavigationBar: _radioValue==1?Container(
-          height: SizeConfig.heightMultiplier * 10,
+        bottomNavigationBar: _radioValue==1 || _radioValue == 2?Container(
+          height: SizeConfig.heightMultiplier * 8,
           child: Row(
             children: [
               Expanded(
@@ -490,15 +425,22 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                     },
                     child: InkWell(
                       onTap: (){
+                      if(_radioValue == 1){
                         Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: WebviewPayment(
                           accessToken: widget.accessToken,
                           idCart: widget.idCart,
                         )));
+                      } else if(_radioValue == 2){
+                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: VisaWeb(
+                          accessToken: widget.accessToken,
+                          idCart: widget.idCart,
+                        )));
+                      }
                       },
                       child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(padding),
-                            color: Color(0xff00A9A5),
+                            borderRadius: BorderRadius.circular(20),
+                            color: ConstantColors.buttonColor,
                           ),
                           child: Row(
                             children: [
@@ -510,7 +452,7 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                     App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                     'Confirm Order': 'أكد الطلب',
                                     style: CustomFonts.googleBodyFont(
-                                        color: Colors.white),
+                                        color: Colors.black),
                                   ),
                                 ),
                               ),
@@ -519,7 +461,7 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: Icon(
                                       Icons.arrow_forward,
-                                      color: Colors.white,
+                                      color: ConstantColors.textColor,
                                     )),
                               ),
                             ],
@@ -532,7 +474,7 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
           ),
         )
         :Container(
-          height: SizeConfig.heightMultiplier * 10,
+          height: SizeConfig.heightMultiplier * 8,
           child: Row(
             children: [
               Expanded(
@@ -567,26 +509,27 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                     },
                     child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(padding),
-                          color: Color(0xff00A9A5),
+                          borderRadius: BorderRadius.circular(20),
+                          color: ConstantColors.buttonColor,
                         ),
                         child: Row(
                           children: [
                             Expanded(
                               flex: 4,
                               child: Container(
+
                                 alignment: Alignment.center,
                                 child: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                 Text(
                                   'Confirm Cash on Delivery',
                                   style: CustomFonts.googleBodyFont(
-                                      color: Colors.white),
+                                      color: ConstantColors.textColor),
                                 ):   Text(
                                   'تأكيد الدفع عند الاستلام',
                                   style: CustomFonts.googleBodyFont(
                                     height: App.localStorage.getString("lang") == "en"|| App.localStorage.getString("lang") == null?
                                       0.0:1.0,
-                                      color: Colors.white),
+                                      color: ConstantColors.textColor),
                                 ),
                               ),
                             ),
@@ -595,7 +538,7 @@ class _DeliveryTypeScreenState extends State<DeliveryTypeScreen> {
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
                                     Icons.arrow_forward,
-                                    color: Colors.white,
+                                    color: ConstantColors.textColor,
                                   )),
                             ),
                           ],
@@ -650,7 +593,7 @@ class _CustomDialogBoxxxState extends State<CustomDialogBoxxx> {
                 alignment: Alignment.center,
                 child: Icon(
                   widget.icon,
-                  color: Color(0xff00A9A5),
+                  color: ConstantColors.buttonColor,
                   size: SizeConfig.textMultiplier * 10,
                 ),
               ),
@@ -660,7 +603,7 @@ class _CustomDialogBoxxxState extends State<CustomDialogBoxxx> {
                 alignment: Alignment.center,
                 child: Text(widget.message,
                   style: CustomFonts.googleBodyFont(
-                    color: Color(0xff00A9A5),
+                    color: ConstantColors.buttonColor,
                   ),
                 ),
               ),
@@ -683,7 +626,7 @@ class _CustomDialogBoxxxState extends State<CustomDialogBoxxx> {
                 child: Container(
                   width: SizeConfig.widthMultiplier * 20,
                   decoration: BoxDecoration(
-                      color: Color(0xff00A9A5),
+                      color: ConstantColors.buttonColor,
                       borderRadius: BorderRadius.circular(12)
                   ),
                   // padding: EdgeInsets.only(

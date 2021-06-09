@@ -6,6 +6,7 @@ import 'package:gold/Screens/CartScreen.dart';
 import 'package:gold/Screens/ProductsScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:gold/Constants/Globals.dart';
+import 'package:gold/Constants/ConstantColors.dart';
 
 class ProductNavigationScreen extends StatefulWidget {
   var accessToken;
@@ -70,13 +71,13 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.black,
+        backgroundColor: ConstantColors.mainBackground,
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           child: Container(
             height: 75,
             decoration: BoxDecoration(
-                color: Colors.black,
+                color: ConstantColors.backgroundColor,
                 boxShadow: [
                   BoxShadow(
                       spreadRadius: 0.1,
@@ -102,7 +103,7 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
                             child: IconButton(
                               iconSize: 30.0,
                               icon: Icon(Icons.shop_outlined),
-                              color: butVisibility1 == true ? Color(0xff00A9A5) : Colors.white,
+                              color: butVisibility1 == true ? ConstantColors.buttonColor : Colors.white,
                               onPressed: () {
                                 setState(() {
                                   _myPage.jumpToPage(0);
@@ -121,7 +122,7 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
                               margin: EdgeInsets.symmetric(
                                   horizontal: padding * 2
                               ),
-                              color: Color(0xff00A9A5),
+                              color: ConstantColors.buttonColor,
                             ),
                           ),
                         ),
@@ -146,7 +147,7 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
                                 child: IconButton(
                                   iconSize: 30.0,
                                   icon: Icon(Icons.shopping_cart),
-                                  color: butVisibility2 == true ? Color(0xff00A9A5): Colors.white,
+                                  color: butVisibility2 == true ? ConstantColors.buttonColor: Colors.white,
                                   onPressed: () {
                                     setState(() {
                                       _myPage.jumpToPage(1);
@@ -165,7 +166,7 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
                                   margin: EdgeInsets.symmetric(
                                       horizontal: padding * 2
                                   ),
-                                  color: Color(0xff00A9A5),
+                                  color: ConstantColors.buttonColor,
                                 ),
                               ),
                             ),
@@ -187,7 +188,7 @@ class _ProductNavigationScreenState extends State<ProductNavigationScreen> {
                                   width: SizeConfig.widthMultiplier * 7,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Color(0xff00A9A5)
+                                      color: ConstantColors.buttonColor
                                   ),
                                   child: Text(
                                     '${snapshot.data.data.cartProducts.length}',
